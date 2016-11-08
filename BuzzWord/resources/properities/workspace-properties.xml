@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This XML file allows us to easily customize the look and language used
+    in our program's user interface. Note that this properties file is only
+    for the workspace controls, which are custom for each application
+-->
+<properties>
+    <property_list>
+        <property name="WINDOWS_WIDTH" value="1280"/>
+        <property name="WINDOWS_HEIGHT" value="720"/>
+        <property name="GAME_WIDTH" value="800"/>
+        <property name="GAME_HEIGHT" value="640"/>
+        <property name="GAME_LEFT_OFFSET" value="40"/>
+        <property name="GAME_TOP_OFFSET" value="200"/>
+        <property name="GAME_RIGHT_OFFSET" value="40"/>
+        <property name="GMAE_BOTTON_OFFSET" value="280"/>
+        <property name="PATH_IMG" value="./images"/>
+        <property name="PATH_LOGIN" value="../logs"/>
+    </property_list>
+    <property_options_list>
+    </property_options_list>
+</properties>

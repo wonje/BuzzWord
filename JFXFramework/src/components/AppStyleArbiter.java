@@ -10,7 +10,7 @@ package components;
  */
 public interface AppStyleArbiter {
 
-    String CLASS_BORDERED_PANE = "bordered_pane";
+    String CLASS_STACKED_PANE = "stacked_pane";
 
     enum BUTTON_TYPE {
         NEW, SAVE, LOAD, EXIT;

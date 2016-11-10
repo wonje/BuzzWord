@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import propertymanager.PropertyManager;
 
@@ -42,7 +43,7 @@ public class AppGUI implements AppStyleArbiter {
     protected FileController fileController;   // to react to file-related controls
     protected Stage          primaryStage;     // the application window
     protected Scene          primaryScene;     // the scene graph
-    protected BorderPane     appPane;          // the root node in the scene graph, to organize the containers
+    protected StackPane      appPane;          // the root node in the scene graph, to organize the containers
     protected FlowPane       toolbarPane;      // the top toolbar
     protected Button         newButton;        // button to create a new instance of the application
     protected Button         saveButton;       // button to save progress on application
@@ -82,7 +83,7 @@ public class AppGUI implements AppStyleArbiter {
 
     public FlowPane getToolbarPane() { return toolbarPane; }
 
-    public BorderPane getAppPane() { return appPane; }
+    public StackPane getAppPane() { return appPane; }
     
     /**
      * Accessor method for getting this application's primary stage's,
@@ -180,8 +181,8 @@ public class AppGUI implements AppStyleArbiter {
         primaryStage.setTitle(applicationTitle);
 
         // add the toolbar to the constructed workspace
-        appPane = new BorderPane();
-        appPane.setTop(toolbarPane);
+        appPane = new StackPane();
+//        appPane.setTop(toolbarPane);
         primaryScene = appWindowWidth < 1 || appWindowHeight < 1 ? new Scene(appPane)
                                                                  : new Scene(appPane,
                                                                              appWindowWidth,

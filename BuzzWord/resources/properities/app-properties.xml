@@ -8,21 +8,28 @@
 -->
 <properties>
     <property_list>
-        <property name="APP_WINDOW_WIDTH" value="800"/>
-        <property name="APP_WINDOW_HEIGHT" value="550"/>
-        <property name="APP_TITLE" value="Hangman"/>
+        <property name="APP_WINDOW_WIDTH" value="1024"/>
+        <property name="APP_WINDOW_HEIGHT" value="768"/>
+        <property name="APP_TITLE" value="BuzzWord"/>
         <property name="APP_LOGO" value="Logo.png"/>
         <property name="APP_PATH_CSS" value="css"/>
-        <property name="APP_CSS" value="hangman_style.css"/>
+        <property name="APP_CSS" value="buzzword_style.css"/>
         <property name="APP_SAVED_GAMES_PATH" value="work"/>
 
         <!-- WORKSPACE CSS PROPERTIES -->
-        <property name="ROOT_BORDERPANE_ID" value="background"/>
-        <property name="TOP_TOOLBAR_ID" value="toolbar"/>
-        <property name="SEGMENTED_BUTTON_BAR" value="segmented-button-bar"/>
-        <property name="FIRST_TOOLBAR_BUTTON" value="first-toolbar-button"/>
-        <property name="LAST_TOOLBAR_BUTTON" value="last-toolbar-button"/>
-        <property name="HEADING_LABEL" value="heading-label"/>
+        <property name="ROOT_STACKPANE_ID" value="background"/>
+        <property name="MENU_BUTTON_UNSELECTED" value="menu-button-unselected"/>
+        <property name="MENU_BUTTON_SELECTED" value="menu-button-selected"/>
+        <property name="MENU_BUTTON_MODE" value="menu-button-mode"/>
+        <property name="MENU_NUTTON_MODEDISPLAY" value="menu-button-modedisplay"/>
+
+        <!-- LABEL NAME PROPERTIES -->
+        <property name="CREATE_PROFILE_LABEL" value="Create New Profile"/>
+        <property name="LOGIN_LABEL" value="Login"/>
+        <property name="SELECT_MODE_LABEL" value="Select Mode"/>
+        <property name="START_PLAYING_LABEL" value="Start Playing"/>
+        <property name="HOME_LABEL" value="Home"/>
+        <property name="TITLE_LABEL" value="title-label"/>
 
         <!-- PROGRAM ICON FILES -->
         <property name="NEW_ICON" value="New.png"/>

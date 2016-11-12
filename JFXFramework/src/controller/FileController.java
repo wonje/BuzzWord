@@ -15,7 +15,7 @@ public interface FileController {
 
     void handleLevelSelectRequest();
 
-    void handlePlayRequest();
+    void handlePlayRequest(int level);
 
     void handleHelpRequest();
 

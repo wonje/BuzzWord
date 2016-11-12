@@ -203,7 +203,7 @@ public class AppFileController implements FileController {
     }
 
     @Override
-    public void handlePlayRequest() {
+    public void handlePlayRequest(int level) {
 
     }
 

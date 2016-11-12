@@ -47,24 +47,28 @@
     -fx-background-image: url("images/menu.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 #menu-id-image {
     -fx-background-image: url("images/menu_id.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 #menu-mode-image {
     -fx-background-image: url("images/menu_mode.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 #menu-modedisplay-image {
     -fx-background-image: url("images/menu_modedisplay.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 .grid {
@@ -88,24 +92,28 @@
     -fx-background-image: url("images/grid_openlevel.png");
     -fx-background-repeat: round;
     -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 #grid-unselected-image {
     -fx-background-image: url("images/grid_unselected.png");
     -fx-background-repeat: round;
     -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 #grid-selected-image {
     -fx-background-image: url("images/grid_selected.png");
     -fx-background-repeat: round;
     -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 #close-button-image {
     -fx-background-image: url("images/close.png");
     -fx-background-repeat: no-repeat;
-    /*-fx-background-position: center center;*/
+    -fx-background-position: center center;
+    -fx-opacity: 1;
 }
 
 #background {

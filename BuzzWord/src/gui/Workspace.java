@@ -102,10 +102,7 @@ public class Workspace extends AppWorkspaceComponent {
         layoutGUI();     // initialize all the workspace (GUI) components including the containers and their layout
     }
 
-    public void setModeLabel(GameState mode)
-    {
-        modeLabel.setText(PropertyManager.getManager().getPropertyValue(mode));
-    }
+    public Label getModeLabel() { return modeLabel; }
 
     private void layoutGUI() {
         PropertyManager propertyManager = PropertyManager.getManager();
@@ -149,8 +146,11 @@ public class Workspace extends AppWorkspaceComponent {
         // LOWER TOP PANE
         modeLabel = new Label(propertyManager.getPropertyValue(GameState.currentMode));
         modeLabel.getStyleClass().setAll(propertyManager.getPropertyValue(MODE_LABEL));
+        modeLabel.setVisible(false);
+
         remainingTime = new Label("REMAINING TIME : " + "60" + " seconds");
         remainingTime.getStyleClass().setAll(propertyManager.getPropertyValue(REMAINING_LABEL));
+        remainingTime.setVisible(false);
 
         topPane.getChildren().addAll(upperTopPane, lowerTopPane);
         topPane.setAlignment(Pos.CENTER);
@@ -273,7 +273,7 @@ public class Workspace extends AppWorkspaceComponent {
         }
     }
 
-    // SET HOME SCREEN MODE
+    // SET HOME SCREEN SCREEN
     public void setHomeScreen()
     {
         gui.getMenuBackground(0).setVisible(true);
@@ -283,6 +283,70 @@ public class Workspace extends AppWorkspaceComponent {
         // TODO Init Grid Elements
 
         return;
+    }
+
+    // SET LEVEL SELETION SCREEN
+    public void setLevelSelectionScreen()
+    {
+        modeLabel.setVisible(true);
+        gui.getPlayAndHomeButton().setText("Home");
+
+        // TODO Different level opend as CurrentState
+        for(int i = 0; i < 8; i++)
+            gridButtons[i].setText(Integer.toString(i));
+        for(int i = 8; i < gridButtons.length; i++)
+            gridStackPane[i].setVisible(false);
+
+        // TODO Load data from saved data file
+        int engData     = 1;
+        int placeData   = 2;
+        int scienceData = 3;
+        int famousData  = 4;
+
+        if(GameState.currentMode.equals(GameState.ENGLISH_DICTIONARY))
+        {
+            setOpenedGrid(engData);
+        }
+        else if(GameState.currentMode.equals(GameState.PLACES))
+        {
+            setOpenedGrid(placeData);
+        }
+        else if(GameState.currentMode.equals(GameState.SCIENCE))
+        {
+            setOpenedGrid(scienceData);
+        }
+        else if(GameState.currentMode.equals(GameState.FAMOUS_PEOPLE))
+        {
+            setOpenedGrid(famousData);
+        }
+
+
+    }
+
+    private void setOpenedGrid(int data)
+    {
+        PropertyManager propertyManager = PropertyManager.getManager();
+        for(int i=0; i < data; i++)
+        {
+            gridStackPane[i].setId(propertyManager.getPropertyValue(GRID_OPENLEVEL_IMAGE));
+            gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_OPENLEVEL));
+            int level = i+1;
+            gridButtons[i].addEventHandler(MouseEvent.MOUSE_CLICKED,
+                    new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            // TODO GAMEDATA SET
+                            // #################
+                            gui.getFileController().handlePlayRequest(level);
+                        }
+                    });
+        }
+    }
+
+    // SET PLAYING GAME SCREEN
+    public void setGamePlayScreen()
+    {
+
     }
 
     @Override

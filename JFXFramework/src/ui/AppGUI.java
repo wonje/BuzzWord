@@ -160,6 +160,18 @@ public class AppGUI implements AppStyleArbiter {
                     }
                 });
 
+        playAndHomeButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        // IF GAMESTATE == LOGIN
+                        if(GameState.currentState.equals(GameState.LOGIN) || GameState.currentState.equals(GameState.LOGIN_MODE))
+                            fileController.handleLevelSelectRequest();
+                        else
+                            fileController.handleGoHomeRequest();
+                    }
+                });
+
         modeButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
@@ -340,14 +352,14 @@ public class AppGUI implements AppStyleArbiter {
         return button;
     }
 
-    public void setTextLoginID(String text)
+    public Button getLoginAndIDButton()
     {
-        loginAndIDButton.setText(text);
+        return loginAndIDButton;
     }
 
-    public void setTextModeHome(String text)
+    public Button getPlayAndHomeButton()
     {
-        modeButton.setText(text);
+        return playAndHomeButton;
     }
     
     /**

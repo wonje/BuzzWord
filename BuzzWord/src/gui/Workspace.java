@@ -1,36 +1,31 @@
 package gui;
 
 import static buzzword.BuzzWordProperties.*;
-import static settings.InitializationParameters.APP_IMAGEDIR_PATH;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import apptemplate.AppTemplate;
 import components.AppWorkspaceComponent;
 import controller.BuzzWordController;
+import controller.GameState;
 import controller.LoginController;
 import data.GameData;
 import data.UserData;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import propertymanager.PropertyManager;
 import ui.AppGUI;
@@ -59,7 +54,7 @@ public class Workspace extends AppWorkspaceComponent {
     ScrollPane          helpPane;           // container to display help screen
     VBox                topPane;            // container to display labels at top
     BorderPane          upperTopPane;
-    HBox                lowerTopPane;         // container to display remaining time
+    BorderPane          lowerTopPane;         // container to display remaining time
     VBox                bottomPane;         // container to display labels at bottom
     VBox                rightStatusPane;    // container to display status at right
     GridPane            mainStagePane;      // container to display all of grid elements
@@ -107,6 +102,11 @@ public class Workspace extends AppWorkspaceComponent {
         layoutGUI();     // initialize all the workspace (GUI) components including the containers and their layout
     }
 
+    public void setModeLabel(GameState mode)
+    {
+        modeLabel.setText(PropertyManager.getManager().getPropertyValue(mode));
+    }
+
     private void layoutGUI() {
         PropertyManager propertyManager = PropertyManager.getManager();
 
@@ -118,7 +118,7 @@ public class Workspace extends AppWorkspaceComponent {
         topPane.setSpacing(30);
 
         upperTopPane = new BorderPane();
-        lowerTopPane = new HBox();
+        lowerTopPane = new BorderPane();
 
         // UPPER TOP PANE
         titleLabel = new Label(propertyManager.getPropertyValue(WORKSPACE_TITLE_LABEL));
@@ -147,17 +147,19 @@ public class Workspace extends AppWorkspaceComponent {
         upperTopPane.setRight(closeButtonPane);
 
         // LOWER TOP PANE
-        modeLabel = new Label("MODE LABEL");
+        modeLabel = new Label(propertyManager.getPropertyValue(GameState.currentMode));
         modeLabel.getStyleClass().setAll(propertyManager.getPropertyValue(MODE_LABEL));
-        remainingTime = new Label("REMAINING TIME : " + "40" + " seconds");
+        remainingTime = new Label("REMAINING TIME : " + "60" + " seconds");
         remainingTime.getStyleClass().setAll(propertyManager.getPropertyValue(REMAINING_LABEL));
 
         topPane.getChildren().addAll(upperTopPane, lowerTopPane);
         topPane.setAlignment(Pos.CENTER);
 
-        lowerTopPane.getChildren().addAll(new Label("                                                            "), modeLabel, remainingTime);
-        lowerTopPane.setAlignment(Pos.CENTER);
-        lowerTopPane.setSpacing(140);
+        lowerTopPane.setLeft(new Label("                                                           "));
+        lowerTopPane.setCenter(modeLabel);
+        lowerTopPane.setRight(remainingTime);
+        lowerTopPane.setAlignment(modeLabel, Pos.CENTER);
+        lowerTopPane.setAlignment(remainingTime, Pos.CENTER);
         lowerTopPane.setPrefHeight(80);
 
         basePane.setTop(topPane);
@@ -166,7 +168,7 @@ public class Workspace extends AppWorkspaceComponent {
         // SET RIGHT
         rightStatusPane = new VBox();
         rightStatusPane.setPrefWidth(250);
-        rightStatusPane.getChildren().addAll(makeProgressPane());
+        rightStatusPane.getChildren().addAll(initProgressPane());
 
         basePane.setRight(rightStatusPane);
 
@@ -196,7 +198,7 @@ public class Workspace extends AppWorkspaceComponent {
 
     }
 
-    private GridPane makeProgressPane()
+    private GridPane initProgressPane()
     {
         progress = new Label[16];
         progressPane = new GridPane();
@@ -205,7 +207,7 @@ public class Workspace extends AppWorkspaceComponent {
             progress[i] = new Label("L");
             progress[i].setStyle("-fx-background-color: saddlebrown; -fx-font-family: 'Source Code Pro'; -fx-text-fill: antiquewhite; -fx-border-color: white");
             progress[i].setMinSize(30,30);
-            progress[i].setVisible(true);
+            progress[i].setVisible(false);
             progress[i].setAlignment(Pos.CENTER);
             progressPane.add(progress[i], i%8, i/8);
         }

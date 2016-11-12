@@ -21,11 +21,15 @@ public enum BuzzWordProperties {
     GRID_OPENLEVEL_IMAGE,
 
 
-
-
     TITLE_LABEL,
     REMAINING_LABEL,
-    MODE_LABEL;
+    MODE_LABEL,
+
+    // GAME OPTION
+    ENGLISH_DICTIONARY,
+    PLACES,
+    SCIENCE,
+    FAMOUS_PEOPLE;
 
 }
 

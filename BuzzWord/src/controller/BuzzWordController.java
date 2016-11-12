@@ -1,13 +1,10 @@
 package controller;
 
+import static settings.AppPropertyType.*;
+
 import apptemplate.AppTemplate;
 import gui.Workspace;
-import javafx.scene.control.Button;
 import propertymanager.PropertyManager;
-import ui.AppGUI;
-
-import static buzzword.BuzzWordProperties.*;
-import static settings.AppPropertyType.*;
 
 
 /**
@@ -15,12 +12,13 @@ import static settings.AppPropertyType.*;
  */
 public class BuzzWordController implements FileController {
 
-    private AppTemplate     appTemplate;
-    private Workspace       gameWorkspace;
+    private AppTemplate appTemplate;
+    private Workspace gameWorkspace;
 
     public BuzzWordController(AppTemplate appTemplate) {
         this.appTemplate = appTemplate;
         GameState.currentState = GameState.UNLOGIN;
+        GameState.currentMode = GameState.ENGLISH_DICTIONARY;
     }
 
 
@@ -90,11 +88,23 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleModeRequest() {
-
+        appTemplate.getGUI().getModeDisplayPane().setVisible(true);
+        GameState.currentState = GameState.LOGIN_MODE;
     }
 
     @Override
     public void handleModeCancelRequest() {
+        appTemplate.getGUI().getModeDisplayPane().setVisible(false);
+        GameState.currentState = GameState.LOGIN;
+    }
 
+    @Override
+    public void handleModeSetRequest(GameState mode) {
+        GameState.currentMode = mode;
+        gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
+        gameWorkspace.setModeLabel(mode);
+
+
+        appTemplate.getGUI().getModeDisplayPane().setVisible(true);
     }
 }

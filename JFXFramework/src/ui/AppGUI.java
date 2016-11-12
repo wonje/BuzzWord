@@ -1,20 +1,7 @@
 package ui;
 
-import apptemplate.AppTemplate;
-import components.AppStyleArbiter;
-import controller.FileController;
-import controller.LoginController;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
-import propertymanager.PropertyManager;
+import static settings.AppPropertyType.*;
+import static settings.InitializationParameters.APP_IMAGEDIR_PATH;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,12 +13,24 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Stack;
 
+import apptemplate.AppTemplate;
+import components.AppStyleArbiter;
+import controller.FileController;
 import controller.GameState;
-
-import static settings.AppPropertyType.*;
-import static settings.InitializationParameters.APP_IMAGEDIR_PATH;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import propertymanager.PropertyManager;
 
 /**
  * This class provides the basic user interface for this application, including all the file controls, but it does not
@@ -48,10 +47,17 @@ public class AppGUI implements AppStyleArbiter {
     protected VBox           menubarPane;      // the left menubar
     protected Button         createProfileButton;
     protected Button         loginAndIDButton;
-    protected Button         modeAndHomeButton;
-    protected Button         playingButton;
+    protected Button         modeButton;
+    protected Button         modeCancelButton;
+    protected Button         playAndHomeButton;
     protected String         applicationTitle; // the application title
     protected StackPane[]    menuBackgrounds;
+    protected VBox           modeDisplayPane;
+
+    protected Button         engDicMode;
+    protected Button         placeMode;
+    protected Button         scienceMode;
+    protected Button         famousPplMode;
 
     private int appWindowWidth;  // optional parameter for window width that can be set by the application
     private int appWindowHeight; // optional parameter for window height that can be set by the application
@@ -85,6 +91,8 @@ public class AppGUI implements AppStyleArbiter {
 
     public VBox getMenubarPane() { return menubarPane; }
 
+    public VBox getModeDisplayPane() { return modeDisplayPane; }
+
     public BorderPane getAppPane() { return appPane; }
     
     /**
@@ -115,8 +123,8 @@ public class AppGUI implements AppStyleArbiter {
         menuBackgrounds = new StackPane[4];
         createProfileButton     = initializeChildButton(0, menubarPane, MENU_IMAGE.toString(), CREATE_ID_TOOLTIP.toString(), true, "Create New Profile");
         loginAndIDButton        = initializeChildButton(1, menubarPane, MENU_IMAGE.toString(), LOGIN_TOOLTIP.toString(), true, "Login");
-        modeAndHomeButton       = initializeChildButton(2, menubarPane, MENU_MODE_IMAGE.toString(), SELECT_MODE_TOOLTIP.toString(), false, "Select Mode");
-        playingButton           = initializeChildButton(3, menubarPane, MENU_IMAGE.toString(), PLAYING_TOOLTIP.toString(), false, "Start Playing");
+        playAndHomeButton       = initializeChildButton(2, menubarPane, MENU_IMAGE.toString(), PLAYING_TOOLTIP.toString(), false, "Start Playing");
+        modeButton              = initializeChildButton(3, menubarPane, MENU_MODE_IMAGE.toString(), SELECT_MODE_TOOLTIP.toString(), false, "Select Mode");
     }
 
     private void initializeMenubarHandlers(AppTemplate app) throws InstantiationException {
@@ -152,19 +160,24 @@ public class AppGUI implements AppStyleArbiter {
                     }
                 });
 
-        modeAndHomeButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+        modeButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
                         // IF GAMESTATE == LOGIN
                         if (GameState.currentState.equals(GameState.LOGIN))
                             fileController.handleModeRequest();
-                        // IF GAMESTATE == LOGIN_MODE
-                        else if (GameState.currentState.equals(GameState.LOGIN_MODE))
-                            fileController.handleModeCancelRequest();
-                        // IF GAMESTATE != LOGIN OR LOGIN_MODE
                         else
                             fileController.handleGoHomeRequest();
+                    }
+                });
+        modeCancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        // IF GAMESTATE == LOGIN_MODE
+                        if (GameState.currentState.equals(GameState.LOGIN_MODE))
+                            fileController.handleModeCancelRequest();
                     }
                 });
 
@@ -213,12 +226,6 @@ public class AppGUI implements AppStyleArbiter {
     public Button initializeChildButton(int order, Pane menubarPane, String icon, String tooltip, boolean visible, String text) throws IOException {
         PropertyManager propertyManager = PropertyManager.getManager();
 
-        menuBackgrounds[order] = new StackPane();
-        menuBackgrounds[order].setPrefHeight(70);
-        menuBackgrounds[order].setPrefWidth(200);
-        menuBackgrounds[order].setId(propertyManager.getPropertyValue(icon));
-        menuBackgrounds[order].setVisible(visible);
-
         Button button = new Button(text);
         button.setPrefWidth(180);
         button.setPrefHeight(50);
@@ -227,10 +234,108 @@ public class AppGUI implements AppStyleArbiter {
         Tooltip buttonTooltip = new Tooltip(propertyManager.getPropertyValue(tooltip));
         button.setTooltip(buttonTooltip);
 
+        menuBackgrounds[order] = new StackPane();
+
+        // MODE MENU BUTTON
+        if(icon.equals(MENU_MODE_IMAGE.toString()))
+            return makeModeMenu(menuBackgrounds[order], (VBox)menubarPane, button);
+
+
+        menuBackgrounds[order].setPrefHeight(70);
+        menuBackgrounds[order].setPrefWidth(200);
+        menuBackgrounds[order].setId(propertyManager.getPropertyValue(icon));
+        menuBackgrounds[order].setVisible(visible);
+
         menuBackgrounds[order].getChildren().add(button);
         menuBackgrounds[order].setAlignment(Pos.TOP_CENTER);
 
         menubarPane.getChildren().add(menuBackgrounds[order]);
+
+        return button;
+    }
+
+    private Button makeModeMenu(StackPane background, VBox menubar, Button button)
+    {
+        PropertyManager propertyManager = PropertyManager.getManager();
+        // SET MODE DISPLAY PANE
+        background.setPrefHeight(300);
+        background.setPrefWidth(200);
+        background.setId(propertyManager.getPropertyValue(MENU_MODE_IMAGE));
+        background.setVisible(false);
+        background.setAlignment(Pos.TOP_CENTER);
+
+        modeCancelButton = new Button("Select Mode");
+        modeCancelButton.setPrefWidth(180);
+        modeCancelButton.setPrefHeight(50);
+        modeCancelButton.setAlignment(Pos.CENTER_LEFT);
+        modeCancelButton.getStyleClass().add(propertyManager.getPropertyValue(MENU_BUTTON));
+
+        modeDisplayPane = new VBox();
+//            modeDisplayPane.setStyle("-fx-background-color: red");
+        modeDisplayPane.setSpacing(25);
+        modeDisplayPane.setPrefHeight(300);
+        modeDisplayPane.setPrefWidth(200);
+        modeDisplayPane.setAlignment(Pos.TOP_CENTER);
+        modeDisplayPane.setId(propertyManager.getPropertyValue(MENU_MODEDISPLAY_IMAGE));
+
+        // SET MODE LIST BUTTONS
+        engDicMode = new Button("English Dictionary");
+        engDicMode.setPrefWidth(170);
+        engDicMode.setPrefHeight(30);
+        engDicMode.setAlignment(Pos.CENTER_LEFT);
+        engDicMode.getStyleClass().add(propertyManager.getPropertyValue(MODE_LIST));
+        engDicMode.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        fileController.handleModeSetRequest(GameState.ENGLISH_DICTIONARY);
+                    }
+                });
+
+        placeMode = new Button("Places");
+        placeMode.setPrefWidth(170);
+        placeMode.setPrefHeight(30);
+        placeMode.setAlignment(Pos.CENTER_LEFT);
+        placeMode.getStyleClass().add(propertyManager.getPropertyValue(MODE_LIST));
+        placeMode.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        fileController.handleModeSetRequest(GameState.PLACES);
+                    }
+                });
+
+        scienceMode = new Button("Science");
+        scienceMode.setPrefWidth(170);
+        scienceMode.setPrefHeight(30);
+        scienceMode.setAlignment(Pos.CENTER_LEFT);
+        scienceMode.getStyleClass().add(propertyManager.getPropertyValue(MODE_LIST));
+        scienceMode.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        fileController.handleModeSetRequest(GameState.SCIENCE);
+                    }
+                });
+
+        famousPplMode = new Button("Famous People");
+        famousPplMode.setPrefWidth(170);
+        famousPplMode.setPrefHeight(30);
+        famousPplMode.setAlignment(Pos.CENTER_LEFT);
+        famousPplMode.getStyleClass().add(propertyManager.getPropertyValue(MODE_LIST));
+        famousPplMode.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        fileController.handleModeSetRequest(GameState.FAMOUS_PEOPLE);
+                    }
+                });
+
+        modeDisplayPane.getChildren().addAll(modeCancelButton, engDicMode, placeMode, scienceMode, famousPplMode);
+        background.getChildren().addAll(button, modeDisplayPane);
+            modeDisplayPane.setVisible(false);
+
+        menubar.getChildren().add(background);
 
         return button;
     }
@@ -242,7 +347,7 @@ public class AppGUI implements AppStyleArbiter {
 
     public void setTextModeHome(String text)
     {
-        modeAndHomeButton.setText(text);
+        modeButton.setText(text);
     }
     
     /**

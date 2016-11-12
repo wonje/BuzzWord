@@ -5,6 +5,7 @@ package controller;
  */
 public enum GameState {
 
+    // GAME STATE OPTIONS
     UNLOGIN,
     LOGIN,
     LOGIN_MODE,
@@ -13,7 +14,14 @@ public enum GameState {
     LEVEL_SELECTION,
     PLAY,
     END_FAIL,
-    END_SUCCESS;
+    END_SUCCESS,
+
+    // GAME MODE OPTIONS
+    ENGLISH_DICTIONARY,
+    PLACES,
+    SCIENCE,
+    FAMOUS_PEOPLE;
 
     public static GameState currentState;
+    public static GameState currentMode;
 }

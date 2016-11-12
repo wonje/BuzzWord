@@ -98,6 +98,7 @@ public class LoginController extends Stage {
         // PUT IT IN THE WINDOW
         loginScene = new Scene(mainFrame, 300, 200);
         this.setScene(loginScene);
+        this.setResizable(false);
     }
 
     private void reset()

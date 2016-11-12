@@ -34,27 +34,36 @@
     -fx-background-color: transparent;
 }
 
+.mode-list {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Arial";
+    -fx-text-fill: grey;
+    -fx-font-weight: bolder;
+    -fx-opacity: 1;
+    -fx-background-color: transparent;
+}
+
 #menu-image {
     -fx-background-image: url("images/menu.png");
-    -fx-background-repeat: round;
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
 }
 
 #menu-id-image {
     -fx-background-image: url("images/menu_id.png");
-    -fx-background-repeat: round;
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
 }
 
 #menu-mode-image {
     -fx-background-image: url("images/menu_mode.png");
-    -fx-background-repeat: round;
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
 }
 
 #menu-modedisplay-image {
     -fx-background-image: url("images/menu_modedisplay.png");
-    -fx-background-repeat: round;
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
 }
 

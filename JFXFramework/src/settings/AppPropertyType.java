@@ -32,6 +32,7 @@ public enum AppPropertyType {
     MENU_ID_IMAGE,
     MENU_MODE_IMAGE,
     MENU_MODEDISPLAY_IMAGE,
+    MODE_LIST,
 
     // ERROR MESSAGES
     NEW_ERROR_MESSAGE,

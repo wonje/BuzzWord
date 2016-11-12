@@ -1,53 +1,105 @@
 .title-label {
-    -fx-font-size: 32pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 24pt;
+    -fx-font-family: "Source Code Pro Black";
     -fx-text-fill: antiquewhite;
+    -fx-font-weight: bold;
     -fx-opacity: 1;
 }
 
-.menu-button-unselected {
-    -fx-font-size: 12pt;
-    -fx-font-family: sans-serif;
+.mode-label {
+    -fx-font-size: 20pt;
+    -fx-font-family: "Source Code Pro";
     -fx-text-fill: antiquewhite;
+    -fx-font-weight: bold;
+    -fx-underline: true;
     -fx-opacity: 1;
-    -fx-background-image: url("images/menubutton_unselected.png");
 }
 
-.menu-button-selected {
-    -fx-font-size: 12pt;
-    -fx-font-family: sans-serif;
-    -fx-text-fill: antiquewhite;
+.remaining-label {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Source Code Pro";
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
     -fx-opacity: 1;
-    -fx-background-image: url("images/menubutton_selected.png");
+    -fx-background-image: url("images/remaining.png");
+    -fx-background-repeat: no-repeat;
 }
 
-.menu-button-mode {
-    -fx-font-size: 12pt;
-    -fx-font-family: sans-serif;
+.menu-button {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Arial";
     -fx-text-fill: antiquewhite;
+    -fx-font-weight: bolder;
     -fx-opacity: 1;
-    -fx-background-image: url("images/menubutton_mode.png");
+    -fx-background-color: transparent;
 }
 
-.menu-button-modedisplay {
+#menu-image {
+    -fx-background-image: url("images/menu.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
+}
+
+#menu-id-image {
+    -fx-background-image: url("images/menu_id.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
+}
+
+#menu-mode-image {
+    -fx-background-image: url("images/menu_mode.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
+}
+
+#menu-modedisplay-image {
+    -fx-background-image: url("images/menu_modedisplay.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
+}
+
+.grid {
+      -fx-font-size: 12pt;
+      -fx-font-family: "Arial";
+      -fx-text-fill: antiquewhite;
+      -fx-font-weight: bolder;
+      -fx-opacity: 1;
+      -fx-background-color: transparent;
+}
+
+.grid-openlevel {
     -fx-font-size: 12pt;
-    -fx-font-family: sans-serif;
-    -fx-text-fill: antiquewhite;
+    -fx-font-family: "Arial";
+    -fx-text-fill: black;
+    -fx-font-weight: bolder;
     -fx-opacity: 1;
-    -fx-background-image: url("images/menubutton_modedisplay.png");
+}
+
+#grid-openlevel-image {
+    -fx-background-image: url("images/grid_openlevel.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
+}
+
+#grid-unselected-image {
+    -fx-background-image: url("images/grid_unselected.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
+}
+
+#grid-selected-image {
+    -fx-background-image: url("images/grid_selected.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
+}
+
+#close-button-image {
+    -fx-background-image: url("images/close.png");
+    -fx-background-repeat: round;
+    -fx-background-position: center center;
 }
 
 #background {
     -fx-background-image: url("images/background.png");
-}
-
-#grid {
-    -fx-base: -dark-black;
-    -fx-font-size: 12pt;
-    -fx-background-color:
-            linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),
-            linear-gradient(to bottom, -light-black 2%, -dark-black 98%);
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: .9em 0.416667em .9em 0.416667em;
-    -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);
+    -fx-background-repeat: round;
 }

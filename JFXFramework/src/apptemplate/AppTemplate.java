@@ -4,6 +4,7 @@ import components.AppComponentsBuilder;
 import components.AppDataComponent;
 import components.AppFileComponent;
 import components.AppWorkspaceComponent;
+import controller.LoginController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import propertymanager.PropertyManager;
@@ -56,8 +57,11 @@ public abstract class AppTemplate extends Application {
     public void start(Stage primaryStage) {
         AppMessageDialogSingleton  messageDialog = AppMessageDialogSingleton.getSingleton();
         YesNoCancelDialogSingleton yesNoDialog   = YesNoCancelDialogSingleton.getSingleton();
+        LoginController loginController = LoginController.getSingleton();
+
         messageDialog.init(primaryStage);
         yesNoDialog.init(primaryStage);
+        loginController.init(primaryStage);
 
         try {
             if (loadProperties(APP_PROPERTIES_XML) && loadProperties(WORKSPACE_PROPERTIES_XML)) {
@@ -72,7 +76,7 @@ public abstract class AppTemplate extends Application {
                       : new AppGUI(primaryStage, propertyManager.getPropertyValue(APP_TITLE.toString()), this);
                 workspaceComponent = builder.buildWorkspaceComponent();
                 initStylesheet();
-//                gui.initStyle();
+                gui.initStyle();
                 workspaceComponent.initStyle();
             }
         } catch (Exception e) {

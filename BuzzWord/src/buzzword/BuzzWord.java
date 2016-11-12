@@ -19,7 +19,7 @@ public class BuzzWord extends AppTemplate{
     }
 
     public String getFileControllerClass() {
-        return "HangmanController";
+        return "BuzzWordController";
     }
 
     @Override
@@ -28,7 +28,7 @@ public class BuzzWord extends AppTemplate{
             @Override
             public AppDataComponent buildDataComponent() throws Exception {
 //                return new GameData(BuzzWord.this);
-                return new GameData();
+                return new GameData(BuzzWord.this);
             }
 
             @Override
@@ -39,7 +39,7 @@ public class BuzzWord extends AppTemplate{
             @Override
             public AppWorkspaceComponent buildWorkspaceComponent() throws Exception {
 //                return new Workspace(BuzzWord.this);
-                return new Workspace();
+                return new Workspace(BuzzWord.this);
             }
         };
     }

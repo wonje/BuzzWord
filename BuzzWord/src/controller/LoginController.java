@@ -79,8 +79,8 @@ public class LoginController extends Stage {
         cancel  = new Button("Cancel");
 
         loginFrame.add(idLabel, 0, 0);
-        loginFrame.add(idField, 0, 1);
-        loginFrame.add(pwLabel, 1, 0);
+        loginFrame.add(idField, 1, 0);
+        loginFrame.add(pwLabel, 0, 1);
         loginFrame.add(pwField, 1, 1);
 
         submit.setOnAction(e -> {
@@ -93,10 +93,10 @@ public class LoginController extends Stage {
         });
 
         buttonBox.getChildren().addAll(submit, cancel);
-        mainFrame.getChildren().addAll(loginFrame, buttonBox);
+        mainFrame.getChildren().addAll(messageLabel, loginFrame, buttonBox);
 
         // PUT IT IN THE WINDOW
-        loginScene = new Scene(mainFrame);
+        loginScene = new Scene(mainFrame, 300, 200);
         this.setScene(loginScene);
     }
 

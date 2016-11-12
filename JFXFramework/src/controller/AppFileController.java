@@ -100,11 +100,6 @@ public class AppFileController implements FileController {
             dialog.show(propertyManager.getPropertyValue(SAVE_ERROR_TITLE), propertyManager.getPropertyValue(SAVE_ERROR_MESSAGE));
         }
     }
-
-    @Override
-    public void handleLoadRequest() {
-
-    }
     
     /**
      * A helper method to save work. It saves the work, marks the current work file as saved, notifies the user, and
@@ -187,4 +182,63 @@ public class AppFileController implements FileController {
         return !yesNoCancelDialog.getSelection().equals(YesNoCancelDialogSingleton.CANCEL);
     }
 
+    @Override
+    public void handleNewProfileRequest() {
+
+    }
+
+    @Override
+    public void handleLoginRequest() {
+
+    }
+
+    @Override
+    public void handleGoHomeRequest() {
+
+    }
+
+    @Override
+    public void handleLevelSelectRequest() {
+
+    }
+
+    @Override
+    public void handlePlayRequest() {
+
+    }
+
+    @Override
+    public void handleHelpRequest() {
+
+    }
+
+    @Override
+    public void handlePauseRequest() {
+
+    }
+
+    @Override
+    public void handleResumeRequest() {
+
+    }
+
+    @Override
+    public void handleQuitRequest() {
+
+    }
+
+    @Override
+    public void handleRestartRequest() {
+
+    }
+
+    @Override
+    public void handleModeRequest() {
+
+    }
+
+    @Override
+    public void handleModeCancelRequest() {
+
+    }
 }

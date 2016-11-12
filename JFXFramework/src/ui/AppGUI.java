@@ -3,21 +3,19 @@ package ui;
 import apptemplate.AppTemplate;
 import components.AppStyleArbiter;
 import controller.FileController;
+import controller.LoginController;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import propertymanager.PropertyManager;
 
-import java.awt.event.MouseAdapter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +26,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Stack;
+
+import controller.GameState;
 
 import static settings.AppPropertyType.*;
 import static settings.InitializationParameters.APP_IMAGEDIR_PATH;
@@ -43,13 +44,14 @@ public class AppGUI implements AppStyleArbiter {
     protected FileController fileController;   // to react to file-related controls
     protected Stage          primaryStage;     // the application window
     protected Scene          primaryScene;     // the scene graph
-    protected StackPane      appPane;          // the root node in the scene graph, to organize the containers
-    protected FlowPane       toolbarPane;      // the top toolbar
-    protected Button         newButton;        // button to create a new instance of the application
-    protected Button         saveButton;       // button to save progress on application
-    protected Button         loadButton;       // button to load a saved game from (json) file
-    protected Button         exitButton;       // button to exit application
+    protected BorderPane     appPane;          // the root node in the scene graph, to organize the containers
+    protected VBox           menubarPane;      // the left menubar
+    protected Button         createProfileButton;
+    protected Button         loginAndIDButton;
+    protected Button         modeAndHomeButton;
+    protected Button         playingButton;
     protected String         applicationTitle; // the application title
+    protected StackPane[]    menuBackgrounds;
 
     private int appWindowWidth;  // optional parameter for window width that can be set by the application
     private int appWindowHeight; // optional parameter for window height that can be set by the application
@@ -71,8 +73,8 @@ public class AppGUI implements AppStyleArbiter {
         this.appWindowHeight = appWindowHeight;
         this.primaryStage = primaryStage;
         this.applicationTitle = applicationTitle;
-        initializeToolbar();                    // initialize the top toolbar
-        initializeToolbarHandlers(appTemplate); // set the toolbar button handlers
+        initializeMenubar();                    // initialize the left menu bar
+        initializeMenubarHandlers(appTemplate); // set the menu bar button handlers
         initializeWindow();                     // start the app window (without the application-specific workspace)
 
     }
@@ -81,9 +83,9 @@ public class AppGUI implements AppStyleArbiter {
         return this.fileController;
     }
 
-    public FlowPane getToolbarPane() { return toolbarPane; }
+    public VBox getMenubarPane() { return menubarPane; }
 
-    public StackPane getAppPane() { return appPane; }
+    public BorderPane getAppPane() { return appPane; }
     
     /**
      * Accessor method for getting this application's primary stage's,
@@ -92,6 +94,8 @@ public class AppGUI implements AppStyleArbiter {
      * @return This application's window's scene.
      */
     public Scene getPrimaryScene() { return primaryScene; }
+
+    public StackPane getMenuBackground(int order) { return menuBackgrounds[order]; }
     
     /**
      * Accessor method for getting this application's window,
@@ -105,20 +109,22 @@ public class AppGUI implements AppStyleArbiter {
      * This function initializes all the buttons in the toolbar at the top of
      * the application window. These are related to file management.
      */
-    private void initializeToolbar() throws IOException {
-        toolbarPane = new FlowPane();
-        newButton = initializeChildButton(toolbarPane, NEW_ICON.toString(), NEW_TOOLTIP.toString(), false);
-        loadButton = initializeChildButton(toolbarPane, LOAD_ICON.toString(), LOAD_TOOLTIP.toString(), false);
-        saveButton = initializeChildButton(toolbarPane, SAVE_ICON.toString(), SAVE_TOOLTIP.toString(), true);
-        exitButton = initializeChildButton(toolbarPane, EXIT_ICON.toString(), EXIT_TOOLTIP.toString(), false);
+    private void initializeMenubar() throws IOException {
+        menubarPane = new VBox();
+        menubarPane.setSpacing(10);
+        menuBackgrounds = new StackPane[4];
+        createProfileButton     = initializeChildButton(0, menubarPane, MENU_IMAGE.toString(), CREATE_ID_TOOLTIP.toString(), true, "Create New Profile");
+        loginAndIDButton        = initializeChildButton(1, menubarPane, MENU_IMAGE.toString(), LOGIN_TOOLTIP.toString(), true, "Login");
+        modeAndHomeButton       = initializeChildButton(2, menubarPane, MENU_MODE_IMAGE.toString(), SELECT_MODE_TOOLTIP.toString(), false, "Select Mode");
+        playingButton           = initializeChildButton(3, menubarPane, MENU_IMAGE.toString(), PLAYING_TOOLTIP.toString(), false, "Start Playing");
     }
 
-    private void initializeToolbarHandlers(AppTemplate app) throws InstantiationException {
+    private void initializeMenubarHandlers(AppTemplate app) throws InstantiationException {
         try {
-            Method         getFileControllerClassMethod = app.getClass().getMethod("getFileControllerClass");
-            String         fileControllerClassName      = (String) getFileControllerClassMethod.invoke(app);
-            Class<?>       klass                        = Class.forName("controller." + fileControllerClassName);
-            Constructor<?> constructor                  = klass.getConstructor(AppTemplate.class);
+            Method getFileControllerClassMethod = app.getClass().getMethod("getFileControllerClass");
+            String fileControllerClassName = (String) getFileControllerClassMethod.invoke(app);
+            Class<?> klass = Class.forName("controller." + fileControllerClassName);
+            Constructor<?> constructor = klass.getConstructor(AppTemplate.class);
             fileController = (FileController) constructor.newInstance(app);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -126,67 +132,58 @@ public class AppGUI implements AppStyleArbiter {
         }
 
         // TODO Get event only from MOUSE CLICK. --> IGNORE SPACE BAR INPUT
-        newButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+        createProfileButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        fileController.handleNewRequest();
+                        // TODO Save ID data from LoginController
+                        fileController.handleNewProfileRequest();
                     }
                 }
         );
-        saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+
+        loginAndIDButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        try {
-                            fileController.handleSaveRequest();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                            System.exit(1);
-                        }
-                    }
-                }
-        );
-        loadButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        try {
-                            fileController.handleLoadRequest();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+                        // IF GAMESTATE == UNLOGIN
+                        if (GameState.currentState.equals(GameState.UNLOGIN))
+                            fileController.handleLoginRequest();
                     }
                 });
-        exitButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+
+        modeAndHomeButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        fileController.handleExitRequest();
+                        // IF GAMESTATE == LOGIN
+                        if (GameState.currentState.equals(GameState.LOGIN))
+                            fileController.handleModeRequest();
+                        // IF GAMESTATE == LOGIN_MODE
+                        else if (GameState.currentState.equals(GameState.LOGIN_MODE))
+                            fileController.handleModeCancelRequest();
+                        // IF GAMESTATE != LOGIN OR LOGIN_MODE
+                        else
+                            fileController.handleGoHomeRequest();
                     }
-                }
-        );
-    }
+                });
 
-    public void updateWorkspaceToolbar(boolean savable) {
-        saveButton.setDisable(!savable);
-        newButton.setDisable(false);
-        exitButton.setDisable(false);
     }
-
     private void initializeWindow() throws IOException {
         PropertyManager propertyManager = PropertyManager.getManager();
 
         // SET THE WINDOW TITLE
         primaryStage.setTitle(applicationTitle);
 
-        // add the toolbar to the constructed workspace
-        appPane = new StackPane();
-//        appPane.setTop(toolbarPane);
+        // add the menubar to the constructed workspace
+        appPane = new BorderPane();
+        appPane.setLeft(menubarPane);
+        appPane.setAlignment(menubarPane, Pos.CENTER);
         primaryScene = appWindowWidth < 1 || appWindowHeight < 1 ? new Scene(appPane)
                                                                  : new Scene(appPane,
                                                                              appWindowWidth,
                                                                              appWindowHeight);
+
 
         URL imgDirURL = AppTemplate.class.getClassLoader().getResource(APP_IMAGEDIR_PATH.getParameter());
         if (imgDirURL == null)
@@ -200,39 +197,50 @@ public class AppGUI implements AppStyleArbiter {
         primaryStage.setScene(primaryScene);
         primaryStage.show();
     }
-    
+
     /**
      * This is a public helper method for initializing a simple button with
      * an icon and tooltip and placing it into a toolbar.
      *
-     * @param toolbarPane Toolbar pane into which to place this button.
-     * @param icon        Icon image file name for the button.
+     * @param menubarPane Menubar pane into which to place this button.
+     * @param icon        image name for the button.
      * @param tooltip     Tooltip to appear when the user mouses over the button.
-     * @param disabled    true if the button is to start off disabled, false otherwise.
+     * @param visible     true if the button is to start off visibled, false otherwise.
      * @return A constructed, fully initialized button placed into its appropriate
      * pane container.
      */
-    public Button initializeChildButton(Pane toolbarPane, String icon, String tooltip, boolean disabled) throws IOException {
+    public Button initializeChildButton(int order, Pane menubarPane, String icon, String tooltip, boolean visible, String text) throws IOException {
         PropertyManager propertyManager = PropertyManager.getManager();
 
-        URL imgDirURL = AppTemplate.class.getClassLoader().getResource(APP_IMAGEDIR_PATH.getParameter());
-        if (imgDirURL == null)
-            throw new FileNotFoundException("Image resources folder does not exist.");
+        menuBackgrounds[order] = new StackPane();
+        menuBackgrounds[order].setPrefHeight(70);
+        menuBackgrounds[order].setPrefWidth(200);
+        menuBackgrounds[order].setId(propertyManager.getPropertyValue(icon));
+        menuBackgrounds[order].setVisible(visible);
 
-        Button button = new Button();
-        try (InputStream imgInputStream = Files.newInputStream(Paths.get(imgDirURL.toURI()).resolve(propertyManager.getPropertyValue(icon)))) {
-            Image buttonImage = new Image(imgInputStream);
-            button.setDisable(disabled);
-            button.setGraphic(new ImageView(buttonImage));
-            Tooltip buttonTooltip = new Tooltip(propertyManager.getPropertyValue(tooltip));
-            button.setTooltip(buttonTooltip);
-            toolbarPane.getChildren().add(button);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        Button button = new Button(text);
+        button.setPrefWidth(180);
+        button.setPrefHeight(50);
+        button.setAlignment(Pos.CENTER_LEFT);
+        button.getStyleClass().add(propertyManager.getPropertyValue(MENU_BUTTON));
+        Tooltip buttonTooltip = new Tooltip(propertyManager.getPropertyValue(tooltip));
+        button.setTooltip(buttonTooltip);
+
+        menuBackgrounds[order].getChildren().add(button);
+
+        menubarPane.getChildren().add(menuBackgrounds[order]);
 
         return button;
+    }
+
+    public void setTextLoginID(String text)
+    {
+        loginAndIDButton.setText(text);
+    }
+
+    public void setTextModeHome(String text)
+    {
+        modeAndHomeButton.setText(text);
     }
     
     /**

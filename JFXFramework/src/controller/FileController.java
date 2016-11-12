@@ -7,11 +7,28 @@ import java.io.IOException;
  */
 public interface FileController {
 
-    void handleNewRequest();
+    void handleNewProfileRequest();
 
-    void handleSaveRequest() throws IOException;
+    void handleLoginRequest();
 
-    void handleLoadRequest() throws IOException;
+    void handleGoHomeRequest();
 
-    void handleExitRequest();
+    void handleLevelSelectRequest();
+
+    void handlePlayRequest();
+
+    void handleHelpRequest();
+
+    void handlePauseRequest();
+
+    void handleResumeRequest();
+
+    void handleQuitRequest();
+
+    void handleRestartRequest();
+
+    void handleModeRequest();
+
+    void handleModeCancelRequest();
+
 }

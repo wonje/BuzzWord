@@ -10,10 +10,8 @@ package components;
  */
 public interface AppStyleArbiter {
 
-    String CLASS_STACKED_PANE = "stacked_pane";
-
-    enum BUTTON_TYPE {
-        NEW, SAVE, LOAD, EXIT;
+    enum MENU_TYPE {
+        CREATE_PROFILE, LOGIN, ID_DISPLAY, SELECT_MODE, START_PLAYING, HOME
     }
     
     void initStyle();

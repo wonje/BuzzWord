@@ -195,6 +195,7 @@ public class AppGUI implements AppStyleArbiter {
         }
 
         primaryStage.setScene(primaryScene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -227,6 +228,7 @@ public class AppGUI implements AppStyleArbiter {
         button.setTooltip(buttonTooltip);
 
         menuBackgrounds[order].getChildren().add(button);
+        menuBackgrounds[order].setAlignment(Pos.TOP_CENTER);
 
         menubarPane.getChildren().add(menuBackgrounds[order]);
 

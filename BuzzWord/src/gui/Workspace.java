@@ -18,6 +18,7 @@ import controller.LoginController;
 import data.GameData;
 import data.UserData;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -26,6 +27,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -56,7 +58,8 @@ public class Workspace extends AppWorkspaceComponent {
     GraphicsContext     drawingFrame;       // drawing lines to display at mainStagePane
     ScrollPane          helpPane;           // container to display help screen
     VBox                topPane;            // container to display labels at top
-    HBox                subTopPane;         // container to display remaining time
+    BorderPane          upperTopPane;
+    HBox                lowerTopPane;         // container to display remaining time
     VBox                bottomPane;         // container to display labels at bottom
     VBox                rightStatusPane;    // container to display status at right
     GridPane            mainStagePane;      // container to display all of grid elements
@@ -114,28 +117,48 @@ public class Workspace extends AppWorkspaceComponent {
         topPane = new VBox();
         topPane.setSpacing(30);
 
+        upperTopPane = new BorderPane();
+        lowerTopPane = new HBox();
 
-        subTopPane = new HBox();
-
+        // UPPER TOP PANE
         titleLabel = new Label(propertyManager.getPropertyValue(WORKSPACE_TITLE_LABEL));
         titleLabel.getStyleClass().setAll(propertyManager.getPropertyValue(TITLE_LABEL));
-
+        
         closeButtonPane = new StackPane();
-
+        closeButtonPane.setPrefHeight(30);
+        closeButtonPane.setPrefWidth(30);
+        closeButtonPane.setId(propertyManager.getPropertyValue(CLOSE_BUTTON_IMAGE));
         closeButton = new Button();
+        closeButton.setPrefWidth(30);
+        closeButton.setPrefHeight(30);
+        closeButton.setStyle("-fx-background-color: transparent");
+        closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        // TODO Confirm again before terminating the game
+                        
+                        System.exit(0);
+                    }
+                });
+        closeButtonPane.getChildren().add(closeButton);
+        closeButtonPane.setAlignment(Pos.TOP_RIGHT);
+        upperTopPane.setCenter(titleLabel);
+        upperTopPane.setRight(closeButtonPane);
 
+        // LOWER TOP PANE
         modeLabel = new Label("MODE LABEL");
         modeLabel.getStyleClass().setAll(propertyManager.getPropertyValue(MODE_LABEL));
         remainingTime = new Label("REMAINING TIME : " + "40" + " seconds");
         remainingTime.getStyleClass().setAll(propertyManager.getPropertyValue(REMAINING_LABEL));
 
-        topPane.getChildren().addAll(titleLabel, subTopPane);
+        topPane.getChildren().addAll(upperTopPane, lowerTopPane);
         topPane.setAlignment(Pos.CENTER);
 
-        subTopPane.getChildren().addAll(new Label("                                                                  "), modeLabel, remainingTime);
-        subTopPane.setAlignment(Pos.CENTER);
-        subTopPane.setSpacing(140);
-        subTopPane.setPrefHeight(80);
+        lowerTopPane.getChildren().addAll(new Label("                                                            "), modeLabel, remainingTime);
+        lowerTopPane.setAlignment(Pos.CENTER);
+        lowerTopPane.setSpacing(140);
+        lowerTopPane.setPrefHeight(80);
 
         basePane.setTop(topPane);
         basePane.setAlignment(topPane, Pos.CENTER);

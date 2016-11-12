@@ -95,8 +95,8 @@
 
 #close-button-image {
     -fx-background-image: url("images/close.png");
-    -fx-background-repeat: round;
-    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    /*-fx-background-position: center center;*/
 }
 
 #background {

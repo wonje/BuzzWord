@@ -12,6 +12,7 @@ public enum BuzzWordProperties {
     HOME_LABEL,
 
     ROOT_BORDERPANE_ID,
+    CLOSE_BUTTON_IMAGE,
 
     GRID,
     GRID_OPENLEVEL,

@@ -3,6 +3,7 @@ package gui;
 import static buzzword.BuzzWordProperties.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import apptemplate.AppTemplate;
 import components.AppWorkspaceComponent;
@@ -52,7 +53,8 @@ public class Workspace extends AppWorkspaceComponent {
     ScrollPane          helpPane;           // container to display help screen
     VBox                topPane;            // container to display labels at top
     VBox                bottomPane;         // container to display labels at bottom
-    VBox                rightStatusPane;    // container to display status at right
+    VBox                rightPane;          // container to display status at right
+    VBox                rightStausPane;
     GridPane            mainStagePane;      // container to display all of grid elements
     GridPane            progressPane;
     VBox                modeDisplayPane;    // display mode selections
@@ -61,12 +63,11 @@ public class Workspace extends AppWorkspaceComponent {
     Label               modeLabel;          // label to display mode
     Label               remainingTime;      // label to display remaining time
     Label               levelLabel;         // label to display level
-    Label               totalPoint;         // label to display total points
     Label               targetPoint;        // label to display target point
 
     Label[]             progress;           // labels to display progressed words
-    Label[]             matches;            // labels to display matched words
-    Label[]             matchedPoints;      // labels to display points of matched words
+    ArrayList<Label>    matches;            // labels to display matched words
+    ArrayList<Label>    matchedPoints;      // labels to display points of matched words
 
     Button              pauseAndPlayButton;
     Button[]            gridButtons;         // shape to make grid button design
@@ -78,7 +79,16 @@ public class Workspace extends AppWorkspaceComponent {
     StackPane           pauseAndPlayButtonPane;
     GridPane            remainingTimePane;
 
+    VBox                matchedContainerPane;
+    ScrollPane          matchedScrollPane;
+    HBox                totalPointPane;
+    HBox                matchedPane;
+    VBox                matchedWordPane;
+    VBox                matchedPointPane;
+
+
     int                 time;
+    int                 totalPoint;
 
 
     /**
@@ -184,11 +194,14 @@ public class Workspace extends AppWorkspaceComponent {
 
         centerPane.setBottom(bottomPane);
 
-        // SET RIGHT###################################
-        rightStatusPane = new VBox();
-//        rightStatusPane.setStyle("-fx-background-color: green");
-        rightStatusPane.setPrefWidth(250);
-
+        // SET RIGHT##############################################
+        rightPane = new VBox();
+        rightPane.setPrefWidth(250);
+        rightPane.setSpacing(20);
+        rightStausPane = new VBox();
+        rightStausPane.setPrefWidth(250);
+        rightStausPane.setSpacing(20);
+        
         BorderPane closeButtonContainerPane = new BorderPane();
         closeButtonPane = new StackPane();
         closeButtonPane.setPrefHeight(30);
@@ -213,23 +226,92 @@ public class Workspace extends AppWorkspaceComponent {
 
         remainingTimePane = new GridPane();
         remainingTimePane.setVgap(10);
+        remainingTimePane.setPrefHeight(60);
         remainingTimePane.setAlignment(Pos.CENTER_LEFT);
+        remainingTimePane.setVisible(false);
 
         Label timeword = new Label("REMAING TIME : ");
-        timeword.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 14; -fx-text-fill: orangered; -fx-font-weight: bolder");
+        timeword.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18; -fx-text-fill: orangered; -fx-font-weight: bolder; -fx-underline: true");
         remainingTimePane.add(timeword, 0, 0);
-
+        time = 40;
         remainingTime = new Label(Integer.toString(time) + " seconds");
+        remainingTime.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 16; -fx-text-fill: orangered; -fx-font-weight: bolder");
+
+        BorderPane emptyPane = new BorderPane();
+        emptyPane.setPrefHeight(10);
 
         remainingTimePane.add(remainingTime, 0, 1);
+        remainingTimePane.getStyleClass().add(propertyManager.getPropertyValue(REMAINING_LABEL));
 
-//        remainingTime.getStyleClass().setAll(propertyManager.getPropertyValue(REMAINING_LABEL));
+        // MATCHED STATUS
+        matchedContainerPane = new VBox();
+
+        matchedScrollPane = new ScrollPane();
+        matchedScrollPane.setPrefHeight(280);
+        matchedScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        matchedScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        matchedScrollPane.getStyleClass().add(propertyManager.getPropertyValue(MATCHED_STATUS));
+
+        matchedPane = new HBox();
+
+        matchedWordPane = new VBox();
+        matchedWordPane.setPrefWidth(170);
+        matches         = new ArrayList<Label>();
+
+        matchedPointPane    = new VBox();
+        matchedPoints       = new ArrayList<Label>();
+
+        HBox borderline1 = new HBox();
+        borderline1.setPrefHeight(280);
+        borderline1.setPrefWidth(3);
+        borderline1.setStyle("-fx-background-color: black");
+
+        // FAKE DATA
+        matches.add(new Label("SUCCESS"));
+        matches.add(new Label("CSE219"));
+        matchedPoints.add(new Label("70"));
+        matchedPoints.add(new Label("60"));
+
+        matchedWordPane.getChildren().addAll(matches);
+
+        matchedPointPane.getChildren().addAll(matchedPoints);
+
+        // TOTAL POINT
+        totalPointPane = new HBox();
+        totalPointPane.setStyle("-fx-background-color: dimgray");
+        Label total = new Label("TOTAL");
+        total.setPrefWidth(171);
+        // FAKE DATA
+        HBox borderline2 = new HBox();
+        borderline2.setPrefWidth(3);
+        borderline2.setStyle("-fx-background-color: black");
+
+        totalPoint = 0;
+        for (int i = 0; i < matchedPoints.size(); i++)
+            totalPoint += Integer.parseInt(matchedPoints.get(i).getText());
+
+        totalPointPane.getChildren().addAll(total, borderline2, new Label(Integer.toString(totalPoint)));
 
 
 
-        rightStatusPane.getChildren().addAll(closeButtonContainerPane, remainingTimePane, initProgressPane());
-        basePane.setRight(rightStatusPane);
+        matchedContainerPane.setStyle("-fx-background-color: black");
+        matchedContainerPane.getChildren().addAll(matchedScrollPane, totalPointPane);
 
+        matchedPane.getChildren().addAll(matchedWordPane, borderline1, matchedPointPane);
+        matchedScrollPane.setContent(matchedPane);
+
+
+
+
+
+
+
+
+        rightStausPane.getChildren().addAll(initProgressPane(), matchedContainerPane);
+
+        rightPane.getChildren().addAll(closeButtonContainerPane, emptyPane, remainingTimePane, rightStausPane);
+
+        basePane.setRight(rightPane);
     }
 
     private GridPane initProgressPane()
@@ -239,7 +321,7 @@ public class Workspace extends AppWorkspaceComponent {
         for(int i = 0; i < progress.length; i++)
         {
             progress[i] = new Label("L");
-            progress[i].setStyle("-fx-background-color: saddlebrown; -fx-font-family: 'Source Code Pro'; -fx-text-fill: antiquewhite; -fx-border-color: white");
+            progress[i].setStyle("-fx-background-color: dimgray; -fx-font-family: 'Source Code Pro'; -fx-text-fill: antiquewhite");
             progress[i].setMinSize(30,30);
             progress[i].setVisible(false);
             progress[i].setAlignment(Pos.CENTER);
@@ -392,7 +474,11 @@ public class Workspace extends AppWorkspaceComponent {
         remainingTime.setVisible(true);
         levelLabel.setVisible(true);
         pauseAndPlayButtonPane.setVisible(true);
+        remainingTimePane.setVisible(true);
         levelLabel.setText("Level " + Integer.toString(GameState.currentLevel));
+        for (Label prog : progress)
+            prog.setVisible(true);
+
         for (int i = 0; i < gridButtons.length; i++) {
             gridButtons[i].setDisable(false);
             gridButtons[i].setVisible(true);

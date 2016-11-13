@@ -22,6 +22,8 @@ public enum BuzzWordProperties {
     GRID_OPENLEVEL,
     GRID_SELECTED,
 
+    MATCHED_STATUS,
+    MATCHED_STATUS_WORD,
 
     TITLE_LABEL,
     REMAINING_LABEL,

@@ -48,11 +48,9 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleGoHomeRequest() {
-        // TODO All of values should be reset.
-
-        // ###############################
-
+        setVisibleMenu(false, true, true, true);
         gameWorkspace.setHomeScreen();
+        GameState.currentState = GameState.LOGIN;
     }
 
     @Override
@@ -60,10 +58,14 @@ public class BuzzWordController implements FileController {
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         setVisibleMenu(false, true, true, false);
         gameWorkspace.setLevelSelectionScreen();
+        GameState.currentState = GameState.LEVEL_SELECTION;
     }
 
     @Override
     public void handlePlayRequest(int level) {
+        GameState.currentLevel = level;
+        gameWorkspace.setGamePlayScreen(level);
+        GameState.currentState = GameState.PLAY;
     }
 
     @Override

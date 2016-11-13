@@ -120,6 +120,7 @@ public class AppGUI implements AppStyleArbiter {
     private void initializeMenubar() throws IOException {
         menubarPane = new VBox();
         menubarPane.setSpacing(10);
+        menubarPane.setAlignment(Pos.CENTER);
         menuBackgrounds = new StackPane[4];
         createProfileButton     = initializeChildButton(0, menubarPane, MENU_IMAGE.toString(), CREATE_ID_TOOLTIP.toString(), true, "Create New Profile");
         loginAndIDButton        = initializeChildButton(1, menubarPane, MENU_IMAGE.toString(), LOGIN_TOOLTIP.toString(), true, "Login");

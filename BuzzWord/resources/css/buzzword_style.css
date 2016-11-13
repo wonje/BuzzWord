@@ -72,42 +72,66 @@
 }
 
 .grid {
-      -fx-font-size: 12pt;
-      -fx-font-family: "Arial";
-      -fx-text-fill: antiquewhite;
-      -fx-font-weight: bolder;
-      -fx-opacity: 1;
-      -fx-background-color: transparent;
+    -fx-font-size: 12pt;
+    -fx-font-family: "Arial";
+    -fx-text-fill: antiquewhite;
+    -fx-text-alignment:center;
+    -fx-font-weight: bolder;
+    -fx-opacity: 1;
+    -fx-background-color:
+    linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+    #9d4024,
+    #d86e0f,
+    radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+
+.grid-selected {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Arial";
+    -fx-text-fill: antiquewhite;
+    -fx-text-alignment:center;
+    -fx-font-weight: bolder;
+    -fx-opacity: 1;
+    -fx-border-color: yellow;
+    -fx-border-width: 3;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e0f,
+            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
 }
 
 .grid-openlevel {
     -fx-font-size: 12pt;
     -fx-font-family: "Arial";
     -fx-text-fill: black;
+    -fx-text-alignment:center;
     -fx-font-weight: bolder;
     -fx-opacity: 1;
+    -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #ffffff 0%, #ffffff 100%),
+            #ffffff,
+            #ffffff,
+            radial-gradient(center 50% 50%, radius 100%, #ffffff, #ffffff);
+    /*-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );*/
 }
 
-#grid-openlevel-image {
-    -fx-background-image: url("images/grid_openlevel.png");
-    -fx-background-repeat: round;
+#pause-button-image {
+    -fx-background-image: url("images/pause.png");
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-opacity: 1;
 }
 
-#grid-unselected-image {
-    -fx-background-image: url("images/grid_unselected.png");
-    -fx-background-repeat: round;
+#play-button-image {
+    -fx-background-image: url("images/play.png");
+    -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-opacity: 1;
 }
 
-#grid-selected-image {
-    -fx-background-image: url("images/grid_selected.png");
-    -fx-background-repeat: round;
-    -fx-background-position: center center;
-    -fx-opacity: 1;
-}
 
 #close-button-image {
     -fx-background-image: url("images/close.png");

@@ -13,6 +13,7 @@ public enum GameState {
     HOME,
     LEVEL_SELECTION,
     PLAY,
+    PAUSE,
     END_FAIL,
     END_SUCCESS,
 
@@ -24,4 +25,5 @@ public enum GameState {
 
     public static GameState currentState;
     public static GameState currentMode;
+    public static int       currentLevel;
 }

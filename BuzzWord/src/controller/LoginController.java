@@ -11,6 +11,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import propertymanager.PropertyManager;
+
+import static buzzword.BuzzWordProperties.*;
 
 /**
  * @author Jason Kang
@@ -53,6 +56,7 @@ public class LoginController extends Stage {
 
     public void init(Stage primaryStage)
     {
+        PropertyManager propertyManager = PropertyManager.getManager();
         // MAKE MODAL FOR THIS DIALOG
         initModality(Modality.WINDOW_MODAL);
         initOwner(primaryStage);
@@ -60,24 +64,36 @@ public class LoginController extends Stage {
         // DISPLAY LOGIN UI
         mainFrame = new VBox();
         mainFrame.setAlignment(Pos.CENTER);
-        mainFrame.setSpacing(10);
+        mainFrame.setSpacing(30);
+        mainFrame.setStyle("-fx-background-color: black");
         buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(10);
 
         loginFrame = new GridPane();
+        loginFrame.setAlignment(Pos.CENTER);
         loginFrame.setHgap(10);
         loginFrame.setVgap(10);
         loginFrame.setPadding(new Insets(0, 10, 0, 10));
 
         messageLabel = new Label();
+        messageLabel.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 22; -fx-font-weight: bolder");
         idLabel = new Label("ID : ");
+        idLabel.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 18; -fx-font-weight: bolder");
         pwLabel = new Label("PW : ");
+        pwLabel.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 18; -fx-font-weight: bolder");
         idField = new TextField();
+        idField.setStyle("-fx-background-color: wheat; -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder");
         pwField = new TextField();
+        pwField.setStyle("-fx-background-color: wheat; -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder");
         submit  = new Button("Submit");
+        submit.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         cancel  = new Button("Cancel");
-
+        cancel.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         loginFrame.add(idLabel, 0, 0);
         loginFrame.add(idField, 1, 0);
         loginFrame.add(pwLabel, 0, 1);
@@ -96,7 +112,7 @@ public class LoginController extends Stage {
         mainFrame.getChildren().addAll(messageLabel, loginFrame, buttonBox);
 
         // PUT IT IN THE WINDOW
-        loginScene = new Scene(mainFrame, 300, 200);
+        loginScene = new Scene(mainFrame,400, 300);
         this.setScene(loginScene);
         this.setResizable(false);
     }

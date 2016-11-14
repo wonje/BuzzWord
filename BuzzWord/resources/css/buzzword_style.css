@@ -44,34 +44,6 @@
     -fx-background-color: transparent;
 }
 
-#menu-image {
-    -fx-background-image: url("images/menu.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center center;
-    -fx-opacity: 1;
-}
-
-#menu-id-image {
-    -fx-background-image: url("images/menu_id.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center center;
-    -fx-opacity: 1;
-}
-
-#menu-mode-image {
-    -fx-background-image: url("images/menu_mode.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center center;
-    -fx-opacity: 1;
-}
-
-#menu-modedisplay-image {
-    -fx-background-image: url("images/menu_modedisplay.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center center;
-    -fx-opacity: 1;
-}
-
 .grid {
     -fx-font-size: 12pt;
     -fx-font-family: "Arial";
@@ -131,6 +103,26 @@
     -fx-background : dimgray;
 }
 
+.matched-status .increment-button, matched-status .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background : 2em;
+}
+
+.matched-status .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-background : derive(gray, 80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+.matched-status .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+
 #target-point {
     -fx-background-color: dimgray;
     -fx-background-radius: 10 10 10 10;
@@ -154,6 +146,34 @@
 
 #close-button-image {
     -fx-background-image: url("images/close.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-opacity: 1;
+}
+
+#menu-image {
+    -fx-background-image: url("images/menu.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-opacity: 1;
+}
+
+#menu-id-image {
+    -fx-background-image: url("images/menu_id.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-opacity: 1;
+}
+
+#menu-mode-image {
+    -fx-background-image: url("images/menu_mode.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-opacity: 1;
+}
+
+#menu-modedisplay-image {
+    -fx-background-image: url("images/menu_modedisplay.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center center;
     -fx-opacity: 1;

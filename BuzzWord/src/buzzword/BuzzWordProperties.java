@@ -11,6 +11,9 @@ public enum BuzzWordProperties {
     START_PLAYING_LABEL,
     HOME_LABEL,
 
+    // LOGIN CONTROLLER CSS
+    LOGIN_BUTTON,
+
     // BUTTON CSS
     ROOT_BORDERPANE_ID,
     CLOSE_BUTTON_IMAGE,
@@ -22,10 +25,12 @@ public enum BuzzWordProperties {
     GRID_OPENLEVEL,
     GRID_SELECTED,
 
+    // MATCHED STATUS CSS
     MATCHED_STATUS,
     MATCHED_STATUS_WORD,
     TARGET_POINT,
 
+    // LABELS CSS
     TITLE_LABEL,
     REMAINING_LABEL,
     MODE_LABEL,

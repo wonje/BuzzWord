@@ -86,6 +86,8 @@ public class Workspace extends AppWorkspaceComponent {
     VBox                matchedWordPane;
     VBox                matchedPointPane;
 
+    VBox                targetPointPane;
+
 
     int                 time;
     int                 totalPoint;
@@ -198,6 +200,7 @@ public class Workspace extends AppWorkspaceComponent {
         rightPane = new VBox();
         rightPane.setPrefWidth(250);
         rightPane.setSpacing(20);
+        rightPane.setVisible(false);
         rightStausPane = new VBox();
         rightStausPane.setPrefWidth(250);
         rightStausPane.setSpacing(20);
@@ -228,7 +231,6 @@ public class Workspace extends AppWorkspaceComponent {
         remainingTimePane.setVgap(10);
         remainingTimePane.setPrefHeight(60);
         remainingTimePane.setAlignment(Pos.CENTER_LEFT);
-        remainingTimePane.setVisible(false);
 
         Label timeword = new Label("REMAING TIME : ");
         timeword.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18; -fx-text-fill: orangered; -fx-font-weight: bolder; -fx-underline: true");
@@ -292,13 +294,25 @@ public class Workspace extends AppWorkspaceComponent {
 
         totalPointPane.getChildren().addAll(total, borderline2, new Label(Integer.toString(totalPoint)));
 
-
-
         matchedContainerPane.setStyle("-fx-background-color: black");
         matchedContainerPane.getChildren().addAll(matchedScrollPane, totalPointPane);
 
         matchedPane.getChildren().addAll(matchedWordPane, borderline1, matchedPointPane);
         matchedScrollPane.setContent(matchedPane);
+
+        // TARGET POINT LABEL
+        targetPointPane = new VBox();
+        targetPointPane.setId(propertyManager.getPropertyValue(TARGET_POINT));
+        targetPointPane.setPrefHeight(80);
+        targetPointPane.setAlignment(Pos.CENTER_LEFT);
+        targetPointPane.setSpacing(15);
+
+        Label targetDisplay = new Label("TARGET");
+        targetDisplay.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 20; -fx-underline: true; -fx-font-weight: bolder");
+        targetPoint = new Label("150");
+        targetPoint.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 18; -fx-font-weight: bolder");
+
+        targetPointPane.getChildren().addAll(targetDisplay, targetPoint);
 
 
 
@@ -308,8 +322,7 @@ public class Workspace extends AppWorkspaceComponent {
 
 
         rightStausPane.getChildren().addAll(initProgressPane(), matchedContainerPane);
-
-        rightPane.getChildren().addAll(closeButtonContainerPane, emptyPane, remainingTimePane, rightStausPane);
+        rightPane.getChildren().addAll(closeButtonContainerPane, emptyPane, remainingTimePane, rightStausPane, targetPointPane);
 
         basePane.setRight(rightPane);
     }
@@ -405,6 +418,7 @@ public class Workspace extends AppWorkspaceComponent {
         modeLabel.setVisible(false);
         pauseAndPlayButtonPane.setVisible(false);
         levelLabel.setVisible(false);
+        rightPane.setVisible(false);
     }
 
     // SET LEVEL SELETION SCREEN
@@ -470,12 +484,14 @@ public class Workspace extends AppWorkspaceComponent {
     // SET PLAYING GAME SCREEN
     public void setGamePlayScreen(int level) {
         PropertyManager propertyManager = PropertyManager.getManager();
+
+        // PANES DISPLAY SET
         canvas.setVisible(true);
-        remainingTime.setVisible(true);
+        rightPane.setVisible(true);
         levelLabel.setVisible(true);
         pauseAndPlayButtonPane.setVisible(true);
-        remainingTimePane.setVisible(true);
         levelLabel.setText("Level " + Integer.toString(GameState.currentLevel));
+        GameState.currentState = GameState.PLAY;
         for (Label prog : progress)
             prog.setVisible(true);
 

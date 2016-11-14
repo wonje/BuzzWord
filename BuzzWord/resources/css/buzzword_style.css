@@ -131,6 +131,12 @@
     -fx-background : dimgray;
 }
 
+#target-point {
+    -fx-background-color: dimgray;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-radius: 10 10 10 10;
+}
+
 #pause-button-image {
     -fx-background-image: url("images/pause.png");
     -fx-background-repeat: no-repeat;

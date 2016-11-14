@@ -24,6 +24,7 @@ public enum BuzzWordProperties {
 
     MATCHED_STATUS,
     MATCHED_STATUS_WORD,
+    TARGET_POINT,
 
     TITLE_LABEL,
     REMAINING_LABEL,

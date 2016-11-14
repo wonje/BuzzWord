@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import propertymanager.PropertyManager;
 
 /**
@@ -225,6 +226,7 @@ public class AppGUI implements AppStyleArbiter {
 
         primaryStage.setScene(primaryScene);
         primaryStage.setResizable(false);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
 

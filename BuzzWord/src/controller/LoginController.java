@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import propertymanager.PropertyManager;
 
 /**
@@ -114,6 +115,7 @@ public class LoginController extends Stage {
         loginScene = new Scene(mainFrame,400, 300);
         this.setScene(loginScene);
         this.setResizable(false);
+        this.initStyle(StageStyle.UNDECORATED);
     }
 
     private void reset()

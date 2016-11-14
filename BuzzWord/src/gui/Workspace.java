@@ -54,10 +54,10 @@ public class Workspace extends AppWorkspaceComponent {
     VBox                topPane;            // container to display labels at top
     VBox                bottomPane;         // container to display labels at bottom
     VBox                rightPane;          // container to display status at right
-    VBox                rightStausPane;
+    VBox                rightStatusPane;
+    BorderPane          pausePane;
     GridPane            mainStagePane;      // container to display all of grid elements
     GridPane            progressPane;
-    VBox                modeDisplayPane;    // display mode selections
 
     Label               titleLabel;         // label to display title
     Label               modeLabel;          // label to display mode
@@ -112,6 +112,13 @@ public class Workspace extends AppWorkspaceComponent {
 
     public Label getModeLabel() { return modeLabel; }
 
+    public void setPausePane(boolean visible)
+    {
+        pausePane.setVisible(visible);
+        canvas.setVisible(!visible);
+        mainStagePane.setVisible(!visible);
+    }
+
     private void layoutGUI() {
         PropertyManager propertyManager = PropertyManager.getManager();
 
@@ -145,13 +152,22 @@ public class Workspace extends AppWorkspaceComponent {
         mainStagePane.setVgap(10);
         mainStagePane.setPadding(new Insets(30, 0, 30, 80));
 
+        // INIT PAUSE PANE
+        pausePane = new BorderPane();
+        pausePane.setStyle("-fx-background-color: transparent");
+        pausePane.setVisible(false);
+        Label pause = new Label("PAUSE");
+        pause.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 30; -fx-font-weight: bolder; -fx-text-fill: antiquewhite; -fx-font-style: italic");
+        pausePane.setCenter(pause);
+        pausePane.setAlignment(pause, Pos.CENTER);
+
         // INIT DRAW CONNECTED LINES
         initGridLines();
 
         // INIT DISPLAY GRID ELEMENTS
         initGridButtons();
 
-        mainFramePane.getChildren().addAll(canvas, mainStagePane);
+        mainFramePane.getChildren().addAll(canvas, mainStagePane, pausePane);
         centerPane.setCenter(mainFramePane);
 
         // SET BOTTOM#########################################
@@ -180,11 +196,13 @@ public class Workspace extends AppWorkspaceComponent {
                         if(GameState.currentState.equals(GameState.PLAY)) {
                             GameState.currentState = GameState.PAUSE;
                             pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PAUSE_BUTTON_IMAGE));
+                            gui.getFileController().handlePauseRequest();
                         }
                         else if(GameState.currentState.equals(GameState.PAUSE))
                         {
                             GameState.currentState = GameState.PLAY;
                             pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PLAY_BUTTON_IMAGE));
+                            gui.getFileController().handleResumeRequest();
                         }
                     }
                 });
@@ -200,10 +218,10 @@ public class Workspace extends AppWorkspaceComponent {
         rightPane = new VBox();
         rightPane.setPrefWidth(250);
         rightPane.setSpacing(20);
-        rightPane.setVisible(false);
-        rightStausPane = new VBox();
-        rightStausPane.setPrefWidth(250);
-        rightStausPane.setSpacing(20);
+        rightStatusPane = new VBox();
+        rightStatusPane.setPrefWidth(250);
+        rightStatusPane.setSpacing(20);
+        rightStatusPane.setVisible(false);
         
         BorderPane closeButtonContainerPane = new BorderPane();
         closeButtonPane = new StackPane();
@@ -231,6 +249,7 @@ public class Workspace extends AppWorkspaceComponent {
         remainingTimePane.setVgap(10);
         remainingTimePane.setPrefHeight(60);
         remainingTimePane.setAlignment(Pos.CENTER_LEFT);
+        remainingTimePane.setVisible(false);
 
         Label timeword = new Label("REMAING TIME : ");
         timeword.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 18; -fx-text-fill: orangered; -fx-font-weight: bolder; -fx-underline: true");
@@ -270,9 +289,9 @@ public class Workspace extends AppWorkspaceComponent {
 
         // FAKE DATA
         matches.add(new Label("SUCCESS"));
-        matches.add(new Label("CSE219"));
+        matches.add(new Label("CSE"));
         matchedPoints.add(new Label("70"));
-        matchedPoints.add(new Label("60"));
+        matchedPoints.add(new Label("30"));
 
         matchedWordPane.getChildren().addAll(matches);
 
@@ -306,6 +325,7 @@ public class Workspace extends AppWorkspaceComponent {
         targetPointPane.setPrefHeight(80);
         targetPointPane.setAlignment(Pos.CENTER_LEFT);
         targetPointPane.setSpacing(15);
+        targetPointPane.setVisible(false);
 
         Label targetDisplay = new Label("TARGET");
         targetDisplay.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 20; -fx-underline: true; -fx-font-weight: bolder");
@@ -314,15 +334,8 @@ public class Workspace extends AppWorkspaceComponent {
 
         targetPointPane.getChildren().addAll(targetDisplay, targetPoint);
 
-
-
-
-
-
-
-
-        rightStausPane.getChildren().addAll(initProgressPane(), matchedContainerPane);
-        rightPane.getChildren().addAll(closeButtonContainerPane, emptyPane, remainingTimePane, rightStausPane, targetPointPane);
+        rightStatusPane.getChildren().addAll(initProgressPane(), matchedContainerPane);
+        rightPane.getChildren().addAll(closeButtonContainerPane, emptyPane, remainingTimePane, rightStatusPane, targetPointPane);
 
         basePane.setRight(rightPane);
     }
@@ -333,11 +346,31 @@ public class Workspace extends AppWorkspaceComponent {
         progressPane = new GridPane();
         for(int i = 0; i < progress.length; i++)
         {
-            progress[i] = new Label("L");
-            progress[i].setStyle("-fx-background-color: dimgray; -fx-font-family: 'Source Code Pro'; -fx-text-fill: antiquewhite");
+            progress[i] = new Label();
+            progress[i].setStyle("-fx-background-color: dimgray; -fx-font-family: 'Arial'; " +
+                    "-fx-text-fill: antiquewhite; -fx-font-weight: bolder; -fx-font-size: 14");
             progress[i].setMinSize(30,30);
             progress[i].setVisible(false);
             progress[i].setAlignment(Pos.CENTER);
+            switch (i)
+            {
+                case 0:
+                    progress[i].setText("S");
+                    break;
+                case 1:
+                    progress[i].setText("T");
+                    break;
+                case 2:
+                    progress[i].setText("O");
+                    break;
+                case 3:
+                    progress[i].setText("N");
+                    break;
+                case 4:
+                    progress[i].setText("Y");
+                    break;
+            }
+
             progressPane.add(progress[i], i%8, i/8);
         }
         return progressPane;
@@ -418,7 +451,12 @@ public class Workspace extends AppWorkspaceComponent {
         modeLabel.setVisible(false);
         pauseAndPlayButtonPane.setVisible(false);
         levelLabel.setVisible(false);
-        rightPane.setVisible(false);
+
+        // UNDISPLAY RIGHT STATUS PANE
+        rightStatusPane.setVisible(false);
+        remainingTimePane.setVisible(false);
+        targetPointPane.setVisible(false);
+
     }
 
     // SET LEVEL SELETION SCREEN
@@ -434,10 +472,10 @@ public class Workspace extends AppWorkspaceComponent {
             gridButtons[i].setVisible(false);
 
         // TODO Load data from saved data file
-        int engData     = 1;
-        int placeData   = 2;
-        int scienceData = 3;
-        int famousData  = 4;
+        int engData     = 4;
+        int placeData   = 5;
+        int scienceData = 6;
+        int famousData  = 7;
 
         if(GameState.currentMode.equals(GameState.ENGLISH_DICTIONARY))
         {
@@ -475,7 +513,8 @@ public class Workspace extends AppWorkspaceComponent {
                         public void handle(MouseEvent event) {
                             // TODO GAMEDATA SET
                             // #################
-                            gui.getFileController().handlePlayRequest(level);
+                            if(GameState.currentState.equals(GameState.LEVEL_SELECTION))
+                                gui.getFileController().handlePlayRequest(level);
                         }
                     });
         }
@@ -487,7 +526,11 @@ public class Workspace extends AppWorkspaceComponent {
 
         // PANES DISPLAY SET
         canvas.setVisible(true);
-        rightPane.setVisible(true);
+        // DISPLAY RIGHT STATUS
+        rightStatusPane.setVisible(true);
+        remainingTimePane.setVisible(true);
+        targetPointPane.setVisible(true);
+
         levelLabel.setVisible(true);
         pauseAndPlayButtonPane.setVisible(true);
         levelLabel.setText("Level " + Integer.toString(GameState.currentLevel));
@@ -520,6 +563,34 @@ public class Workspace extends AppWorkspaceComponent {
                 case 7:
                     gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
                     gridButtons[i].setText("Y");
+                    break;
+                case 8:
+                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                    gridButtons[i].setText("E");
+                    break;
+                case 9:
+                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                    gridButtons[i].setText("S");
+                    break;
+                case 10:
+                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                    gridButtons[i].setText("S");
+                    break;
+                case 12:
+                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                    gridButtons[i].setText("C");
+                    break;
+                case 13:
+                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                    gridButtons[i].setText("C");
+                    break;
+                case 14:
+                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                    gridButtons[i].setText("U");
+                    break;
+                case 15:
+                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                    gridButtons[i].setText("S");
                     break;
                 default:
                     gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));

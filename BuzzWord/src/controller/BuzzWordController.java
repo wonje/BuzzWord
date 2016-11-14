@@ -59,6 +59,8 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleGoHomeRequest() {
+        if(GameState.currentState.equals(GameState.PAUSE))
+            gameWorkspace.setPausePane(false);
         GameState.currentState = GameState.LOGIN;
         setVisibleMenu(false, true, true, true);
         gameWorkspace.setHomeScreen();
@@ -86,11 +88,18 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handlePauseRequest() {
-
+        GameState.currentState = GameState.PAUSE;
+        // TODO STOP TIMER
+        // ###############
+        gameWorkspace.setPausePane(true);
     }
 
     @Override
     public void handleResumeRequest() {
+        GameState.currentState = GameState.PLAY;
+        // TODO START TIMER AGAIN
+        // ######################
+        gameWorkspace.setPausePane(false);
 
     }
 

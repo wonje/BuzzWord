@@ -183,7 +183,7 @@ public class Workspace extends AppWorkspaceComponent {
         pauseAndPlayButtonPane = new StackPane();
         pauseAndPlayButtonPane.setPrefWidth(40);
         pauseAndPlayButtonPane.setPrefHeight(50);
-        pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PLAY_BUTTON_IMAGE));
+        pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PAUSE_BUTTON_IMAGE));
 
         pauseAndPlayButton = new Button();
         pauseAndPlayButton.setPrefHeight(45);
@@ -195,13 +195,13 @@ public class Workspace extends AppWorkspaceComponent {
                     public void handle(MouseEvent event) {
                         if(GameState.currentState.equals(GameState.PLAY)) {
                             GameState.currentState = GameState.PAUSE;
-                            pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PAUSE_BUTTON_IMAGE));
+                            pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PLAY_BUTTON_IMAGE));
                             gui.getFileController().handlePauseRequest();
                         }
                         else if(GameState.currentState.equals(GameState.PAUSE))
                         {
                             GameState.currentState = GameState.PLAY;
-                            pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PLAY_BUTTON_IMAGE));
+                            pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PAUSE_BUTTON_IMAGE));
                             gui.getFileController().handleResumeRequest();
                         }
                     }

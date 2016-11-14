@@ -158,6 +158,9 @@ public class AppGUI implements AppStyleArbiter {
                         // IF GAMESTATE == UNLOGIN
                         if (GameState.currentState.equals(GameState.UNLOGIN))
                             fileController.handleLoginRequest();
+                        else if (!(GameState.currentState.equals(GameState.PLAY) ||
+                                GameState.currentState.equals(GameState.PAUSE)))
+                            fileController.handleLogoutRequest();
                     }
                 });
 

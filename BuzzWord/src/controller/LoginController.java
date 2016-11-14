@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -13,27 +14,25 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import propertymanager.PropertyManager;
 
-import static buzzword.BuzzWordProperties.*;
-
 /**
  * @author Jason Kang
  */
 public class LoginController extends Stage {
     static LoginController singleton;
 
-    Scene       loginScene;
-    GridPane    loginFrame;
-    HBox        buttonBox;
-    VBox        mainFrame;
-    Label       messageLabel;
-    Label       idLabel;
-    Label       pwLabel;
-    TextField   idField;
-    TextField   pwField;
-    Button      submit;
-    Button      cancel;
-    String      id;
-    String      pw;
+    Scene           loginScene;
+    GridPane        loginFrame;
+    HBox            buttonBox;
+    VBox            mainFrame;
+    Label           messageLabel;
+    Label           idLabel;
+    Label           pwLabel;
+    TextField       idField;
+    PasswordField   pwField;
+    Button          submit;
+    Button          cancel;
+    String          id;
+    String          pw;
 
     private LoginController() {}
 
@@ -85,7 +84,7 @@ public class LoginController extends Stage {
         idField = new TextField();
         idField.setStyle("-fx-background-color: wheat; -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder");
-        pwField = new TextField();
+        pwField = new PasswordField();
         pwField.setStyle("-fx-background-color: wheat; -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder");
         submit  = new Button("Submit");

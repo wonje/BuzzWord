@@ -11,6 +11,8 @@ public interface FileController {
 
     void handleLoginRequest();
 
+    void handleLogoutRequest();
+
     void handleGoHomeRequest();
 
     void handleLevelSelectRequest();

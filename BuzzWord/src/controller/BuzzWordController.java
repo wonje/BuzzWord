@@ -31,6 +31,7 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleLoginRequest() {
+        GameState.currentState = GameState.LOGIN;
         PropertyManager propertyManager = PropertyManager.getManager();
         LoginController loginController = LoginController.getSingleton();
         gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
@@ -43,29 +44,39 @@ public class BuzzWordController implements FileController {
 
         appTemplate.getGUI().getLoginAndIDButton().setText("User ID");
         appTemplate.getGUI().getPlayAndHomeButton().setText("Start Playing");
-        GameState.currentState = GameState.LOGIN;
+    }
+
+    @Override
+    public void handleLogoutRequest() {
+        GameState.currentState = GameState.UNLOGIN;
+        // TODO DATA LOGOUT
+        // #################
+        setVisibleMenu(true, true, false, false);
+        appTemplate.getGUI().getMenuBackground(1).setId(PropertyManager.getManager().getPropertyValue(MENU_IMAGE));
+        appTemplate.getGUI().getLoginAndIDButton().setText("Login");
+        gameWorkspace.setHomeScreen();
     }
 
     @Override
     public void handleGoHomeRequest() {
+        GameState.currentState = GameState.LOGIN;
         setVisibleMenu(false, true, true, true);
         gameWorkspace.setHomeScreen();
-        GameState.currentState = GameState.LOGIN;
     }
 
     @Override
     public void handleLevelSelectRequest() {
+        GameState.currentState = GameState.LEVEL_SELECTION;
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         setVisibleMenu(false, true, true, false);
         gameWorkspace.setLevelSelectionScreen();
-        GameState.currentState = GameState.LEVEL_SELECTION;
     }
 
     @Override
     public void handlePlayRequest(int level) {
+        GameState.currentState = GameState.PLAY;
         GameState.currentLevel = level;
         gameWorkspace.setGamePlayScreen(level);
-        GameState.currentState = GameState.PLAY;
     }
 
     @Override
@@ -95,22 +106,22 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleModeRequest() {
-        appTemplate.getGUI().getModeDisplayPane().setVisible(true);
         GameState.currentState = GameState.LOGIN_MODE;
+        appTemplate.getGUI().getModeDisplayPane().setVisible(true);
     }
 
     @Override
     public void handleModeCancelRequest() {
-        appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         GameState.currentState = GameState.LOGIN;
+        appTemplate.getGUI().getModeDisplayPane().setVisible(false);
     }
 
     @Override
     public void handleModeSetRequest(GameState mode) {
+        GameState.currentState = GameState.LOGIN;
         GameState.currentMode = mode;
         gameWorkspace.getModeLabel().setText(PropertyManager.getManager().getPropertyValue(mode));
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
-        GameState.currentState = GameState.LOGIN;
     }
 
     private void setVisibleMenu(boolean first, boolean second, boolean third, boolean fourth)

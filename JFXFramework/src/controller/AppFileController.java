@@ -193,6 +193,11 @@ public class AppFileController implements FileController {
     }
 
     @Override
+    public void handleLogoutRequest() {
+
+    }
+
+    @Override
     public void handleGoHomeRequest() {
 
     }

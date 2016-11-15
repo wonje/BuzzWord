@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import propertymanager.PropertyManager;
 import ui.AppGUI;
 
@@ -88,6 +89,9 @@ public class Workspace extends AppWorkspaceComponent {
 
     VBox                targetPointPane;
 
+    Line[]              vLines;
+    Line[]              hLines;
+
 
     int                 time;
     int                 totalPoint;
@@ -148,8 +152,8 @@ public class Workspace extends AppWorkspaceComponent {
         // SET CENTER########################################
         mainFramePane = new StackPane();
         mainStagePane = new GridPane();
-        mainStagePane.setHgap(10);
-        mainStagePane.setVgap(10);
+//        mainStagePane.setHgap(10);
+//        mainStagePane.setVgap(10);
         mainStagePane.setPadding(new Insets(30, 0, 30, 80));
 
         // INIT PAUSE PANE
@@ -165,11 +169,11 @@ public class Workspace extends AppWorkspaceComponent {
         initGridLines();
 
         // INIT DISPLAY GRID ELEMENTS
-        initGridButtons();
+        initMainStage();
 
-        mainFramePane.getChildren().addAll(canvas, mainStagePane, pausePane);
+//        mainFramePane.getChildren().addAll(canvas, mainStagePane, pausePane);
+        mainFramePane.getChildren().addAll(mainStagePane, pausePane);
         centerPane.setCenter(mainFramePane);
-
         // SET BOTTOM#########################################
         bottomPane = new VBox();
         bottomPane.setAlignment(Pos.TOP_CENTER);
@@ -399,12 +403,32 @@ public class Workspace extends AppWorkspaceComponent {
         canvas.setVisible(false);
     }
 
-    private void initGridButtons() {
+    private void initMainStage() {
         PropertyManager propertyManager = PropertyManager.getManager();
 
-        gridButtons = new Button[16];
+        // INIT VLINE COMPONENTS
+        vLines = new Line[12];
+        for (int i = 0; i < vLines.length; i++) {
+            vLines[i] = new Line(0, 0, 0, 10);
+            vLines[i].setFill(Paint.valueOf("#000000"));
+            vLines[i].setStrokeWidth(3);
+            vLines[i].setSmooth(true);
+            vLines[i].setVisible(true);
+        }
 
-        for (int i = 0; i < gridButtons.length; i++)
+        // INIT HLINE COMPONENTS
+        hLines = new Line[12];
+        for (int i = 0; i < hLines.length; i++) {
+            hLines[i] = new Line(0, 0, 10, 0);
+            hLines[i].setFill(Paint.valueOf("#000000"));
+            hLines[i].setStrokeWidth(3);
+            hLines[i].setSmooth(true);
+            hLines[i].setVisible(true);
+        }
+
+        // INIT GRID BUTTON COMPONENTS
+        gridButtons = new Button[16];
+        for (int i = 0; i <gridButtons.length; i++)
         {
             gridButtons[i] = new Button();
             gridButtons[i].setShape(new Circle(50));
@@ -413,31 +437,58 @@ public class Workspace extends AppWorkspaceComponent {
             gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
             gridButtons[i].setVisible(true);
             gridButtons[i].setDisable(true);
-            mainStagePane.add(gridButtons[i], i%4, i/4);
+        }
 
-            switch (i)
+        int vLineCount = 0;
+        int hLineCount = 0;
+        int gridCount = 0;
+        StackPane tempStack;
+
+        for (int i = 0; i < 49; i++)
+        {
+            if(i < 7 || (i >= 14 && i < 21) || (i >= 28 && i < 35) || i >= 42) {
+                if (i % 2 == 0) {
+                    // CHECK GRID COMPONENT TRUN
+                    mainStagePane.add(gridButtons[gridCount++], i % 7, i / 7);
+                }
+                else {
+                    // CHECK HLINE COMPONENT TURN
+                    mainStagePane.add(hLines[hLineCount++], i % 7, i / 7);
+                    hLines[hLineCount - 1].setVisible(false);
+                }
+            }
+            // CHECK VLINE COMPONENT TURN
+            else if(i % 2 == 1) {
+                tempStack = new StackPane();
+                tempStack.setAlignment(Pos.CENTER);
+                tempStack.getChildren().add(vLines[vLineCount++]);
+                vLines[vLineCount - 1].setVisible(false);
+                mainStagePane.add(tempStack, i % 7, i / 7);
+            }
+
+            switch (gridCount - 1)
             {
                 case 0:
-                    gridButtons[i].setText("B");
+                    gridButtons[gridCount - 1].setText("B");
                     break;
                 case 1:
-                    gridButtons[i].setText("U");
+                    gridButtons[gridCount - 1].setText("U");
                     break;
                 case 4:
                 case 5:
-                    gridButtons[i].setText("Z");
+                    gridButtons[gridCount - 1].setText("Z");
                     break;
                 case 10:
-                    gridButtons[i].setText("W");
+                    gridButtons[gridCount - 1].setText("W");
                     break;
                 case 11:
-                    gridButtons[i].setText("O");
+                    gridButtons[gridCount - 1].setText("O");
                     break;
                 case 14:
-                    gridButtons[i].setText("R");
+                    gridButtons[gridCount - 1].setText("R");
                     break;
                 case 15:
-                    gridButtons[i].setText("D");
+                    gridButtons[gridCount - 1].setText("D");
                     break;
             }
         }
@@ -451,6 +502,12 @@ public class Workspace extends AppWorkspaceComponent {
         modeLabel.setVisible(false);
         pauseAndPlayButtonPane.setVisible(false);
         levelLabel.setVisible(false);
+
+        // LINE UNDISPLAY BY FAKE DATA
+        hLines[0].setVisible(false);
+        vLines[1].setVisible(false);
+        hLines[4].setVisible(false);
+        hLines[5].setVisible(false);
 
         // UNDISPLAY RIGHT STATUS PANE
         rightStatusPane.setVisible(false);
@@ -538,6 +595,13 @@ public class Workspace extends AppWorkspaceComponent {
         for (Label prog : progress)
             prog.setVisible(true);
 
+        // LINE DISPLAY BY FAKE DATA
+        hLines[0].setVisible(true);
+        vLines[1].setVisible(true);
+        hLines[4].setVisible(true);
+        hLines[5].setVisible(true);
+
+        // GRID DISPLAY
         for (int i = 0; i < gridButtons.length; i++) {
             gridButtons[i].setDisable(false);
             gridButtons[i].setVisible(true);

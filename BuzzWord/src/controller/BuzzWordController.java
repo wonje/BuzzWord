@@ -32,6 +32,7 @@ public class BuzzWordController implements FileController {
     @Override
     public void handleLoginRequest() {
         GameState.currentState = GameState.LOGIN;
+        appTemplate.getGUI().setTooltipLogintoID(true);
         PropertyManager propertyManager = PropertyManager.getManager();
         LoginController loginController = LoginController.getSingleton();
         gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
@@ -49,6 +50,7 @@ public class BuzzWordController implements FileController {
     @Override
     public void handleLogoutRequest() {
         GameState.currentState = GameState.UNLOGIN;
+        appTemplate.getGUI().setTooltipLogintoID(false);
         // TODO DATA LOGOUT
         // #################
         setVisibleMenu(true, true, false, false);
@@ -62,6 +64,7 @@ public class BuzzWordController implements FileController {
         if(GameState.currentState.equals(GameState.PAUSE))
             gameWorkspace.setPausePane(false);
         GameState.currentState = GameState.LOGIN;
+        appTemplate.getGUI().setTooltipPlaytoHome(false);
         setVisibleMenu(false, true, true, true);
         gameWorkspace.setHomeScreen();
     }
@@ -69,6 +72,7 @@ public class BuzzWordController implements FileController {
     @Override
     public void handleLevelSelectRequest() {
         GameState.currentState = GameState.LEVEL_SELECTION;
+        appTemplate.getGUI().setTooltipPlaytoHome(true);
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         setVisibleMenu(false, true, true, false);
         gameWorkspace.setLevelSelectionScreen();

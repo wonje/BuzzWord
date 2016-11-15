@@ -85,6 +85,22 @@ public class AppGUI implements AppStyleArbiter {
 
     }
 
+    public void setTooltipLogintoID(boolean choice)
+    {
+        if (choice)
+            loginAndIDButton.setTooltip(new Tooltip(PropertyManager.getManager().getPropertyValue(DISPLAY_ID_TOOLTIP)));
+        else
+            loginAndIDButton.setTooltip(new Tooltip(PropertyManager.getManager().getPropertyValue(LOGIN_TOOLTIP)));
+    }
+
+    public void setTooltipPlaytoHome(boolean choice)
+    {
+        if (choice)
+            playAndHomeButton.setTooltip(new Tooltip(PropertyManager.getManager().getPropertyValue(HOME_TOOLTIP)));
+        else
+            playAndHomeButton.setTooltip(new Tooltip(PropertyManager.getManager().getPropertyValue(PLAYING_TOOLTIP)));
+    }
+
     public FileController getFileController() {
         return this.fileController;
     }

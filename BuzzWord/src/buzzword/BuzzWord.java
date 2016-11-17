@@ -6,6 +6,7 @@ import components.AppDataComponent;
 import components.AppFileComponent;
 import components.AppWorkspaceComponent;
 import data.GameData;
+import data.UserData;
 import data.GameDataFile;
 import gui.Workspace;
 
@@ -14,9 +15,7 @@ import gui.Workspace;
  */
 
 public class BuzzWord extends AppTemplate{
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) { launch(args); }
 
     public String getFileControllerClass() {
         return "BuzzWordController";
@@ -27,8 +26,12 @@ public class BuzzWord extends AppTemplate{
         return new AppComponentsBuilder() {
             @Override
             public AppDataComponent buildDataComponent() throws Exception {
-//                return new GameData(BuzzWord.this);
                 return new GameData(BuzzWord.this);
+            }
+
+            @Override
+            public AppDataComponent buildUserComponent() throws Exception {
+                return new UserData(BuzzWord.this);
             }
 
             @Override
@@ -38,7 +41,6 @@ public class BuzzWord extends AppTemplate{
 
             @Override
             public AppWorkspaceComponent buildWorkspaceComponent() throws Exception {
-//                return new Workspace(BuzzWord.this);
                 return new Workspace(BuzzWord.this);
             }
         };

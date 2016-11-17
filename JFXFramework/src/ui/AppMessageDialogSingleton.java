@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import settings.InitializationParameters;
 
 //import static settings.InitializationParameters.ERROR_DIALOG_BUTTON_LABEL;
@@ -55,11 +56,15 @@ public class AppMessageDialogSingleton extends Stage {
         
         // LABEL TO DISPLAY THE CUSTOM MESSAGE
         messageLabel = new Label();
+        messageLabel.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 22; -fx-font-weight: bolder");
 
         Button closeButton = new Button(InitializationParameters.CLOSE_LABEL.getParameter());
+        closeButton.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         closeButton.setOnAction(e -> this.close());
 
         VBox messagePane = new VBox();
+        messagePane.setStyle("-fx-background-color: black; -fx-border-color: wheat");
         messagePane.setAlignment(Pos.CENTER);
         messagePane.getChildren().add(messageLabel);
         messagePane.getChildren().add(closeButton);
@@ -69,6 +74,8 @@ public class AppMessageDialogSingleton extends Stage {
 
         Scene messageScene = new Scene(messagePane);
         this.setScene(messageScene);
+        this.setResizable(false);
+        this.initStyle(StageStyle.UNDECORATED);
     }
 
     /**

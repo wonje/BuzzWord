@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * @author Jason Kang
@@ -63,11 +64,18 @@ public class YesNoCancelDialogSingleton extends Stage {
 
         // LABEL TO DISPLAY THE CUSTOM MESSAGE
         messageLabel = new Label();
+        messageLabel.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 22; -fx-font-weight: bolder");
 
         // YES, NO, AND CANCEL BUTTONS
         yesButton = new Button(YES);
+        yesButton.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         noButton = new Button(NO);
+        noButton.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         cancelButton = new Button(CANCEL);
+        cancelButton.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
+                "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
 
         // MAKE THE EVENT HANDLER FOR THESE BUTTONS
         EventHandler<ActionEvent> yesNoCancelHandler = event -> {
@@ -83,22 +91,27 @@ public class YesNoCancelDialogSingleton extends Stage {
 
         // NOW ORGANIZE OUR BUTTONS
         HBox buttonBox = new HBox();
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setSpacing(10);
         buttonBox.getChildren().add(yesButton);
         buttonBox.getChildren().add(noButton);
         buttonBox.getChildren().add(cancelButton);
 
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
+        messagePane.setSpacing(40);
+        messagePane.setStyle("-fx-background-color: black; -fx-border-color: wheat");
         messagePane.setAlignment(Pos.CENTER);
         messagePane.getChildren().add(messageLabel);
         messagePane.getChildren().add(buttonBox);
 
         // MAKE IT LOOK NICE
-        messagePane.setPadding(new Insets(10, 20, 20, 20));
+        messagePane.setPadding(new Insets(80, 60, 80, 60));
         messagePane.setSpacing(10);
 
         // AND PUT IT IN THE WINDOW
         messageScene = new Scene(messagePane);
+        this.initStyle(StageStyle.UNDECORATED);
         this.setScene(messageScene);
     }
 

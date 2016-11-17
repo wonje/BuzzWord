@@ -6,6 +6,8 @@ import apptemplate.AppTemplate;
 import gui.Workspace;
 import propertymanager.PropertyManager;
 
+import java.nio.file.Path;
+
 
 /**
  * @author Jason Kang
@@ -22,11 +24,17 @@ public class BuzzWordController implements FileController {
     }
 
 
+
     @Override
     public void handleNewProfileRequest() {
         PropertyManager propertyManager = PropertyManager.getManager();
-        LoginController loginController = LoginController.getSingleton();
+        LoginController loginController = LoginController.getSingleton(appTemplate);
         loginController.show(propertyManager.getPropertyValue(CREATE_PROFILE_TITLE), propertyManager.getPropertyValue(CREATE_PROFILE_MESSAGE));
+
+        // TODO CHECK WHETHER THE ID IS ALREADY EXIST OR NOT
+
+
+        // TODO CREATING NEW USER FILE
     }
 
     @Override
@@ -34,7 +42,7 @@ public class BuzzWordController implements FileController {
         GameState.currentState = GameState.LOGIN;
         appTemplate.getGUI().setTooltipLogintoID(true);
         PropertyManager propertyManager = PropertyManager.getManager();
-        LoginController loginController = LoginController.getSingleton();
+        LoginController loginController = LoginController.getSingleton(appTemplate);
         gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
 
         loginController.show(propertyManager.getPropertyValue(LOGIN_TITLE), propertyManager.getPropertyValue(LOGIN_MESSAGE));

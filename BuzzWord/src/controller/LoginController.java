@@ -1,5 +1,8 @@
 package controller;
 
+import apptemplate.AppTemplate;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,16 +13,34 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jdk.nashorn.internal.parser.JSONParser;
 import propertymanager.PropertyManager;
+import ui.AppMessageDialogSingleton;
+import ui.YesNoCancelDialogSingleton;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static settings.AppPropertyType.*;
+import static settings.InitializationParameters.APP_WORKDIR_PATH;
 
 /**
  * @author Jason Kang
  */
 public class LoginController extends Stage {
     static LoginController singleton;
+
+    AppTemplate     appTemplate;
 
     Scene           loginScene;
     GridPane        loginFrame;
@@ -35,12 +56,12 @@ public class LoginController extends Stage {
     String          id;
     String          pw;
 
-    private LoginController() {}
+    private LoginController(AppTemplate appTemplate) { this.appTemplate = appTemplate; }
 
-    public static LoginController getSingleton()
+    public static LoginController getSingleton(AppTemplate appTemplate)
     {
         if (singleton == null)
-            singleton = new LoginController();
+            singleton = new LoginController(appTemplate);
         return singleton;
     }
 
@@ -56,7 +77,9 @@ public class LoginController extends Stage {
 
     public void init(Stage primaryStage)
     {
-        PropertyManager propertyManager = PropertyManager.getManager();
+        AppMessageDialogSingleton   appMessageDialogSingleton   = AppMessageDialogSingleton.getSingleton();
+        YesNoCancelDialogSingleton  yesNoCancelDialogSingleton  = YesNoCancelDialogSingleton.getSingleton();
+
         // MAKE MODAL FOR THIS DIALOG
         initModality(Modality.WINDOW_MODAL);
         initOwner(primaryStage);
@@ -65,7 +88,7 @@ public class LoginController extends Stage {
         mainFrame = new VBox();
         mainFrame.setAlignment(Pos.CENTER);
         mainFrame.setSpacing(30);
-        mainFrame.setStyle("-fx-background-color: black");
+        mainFrame.setStyle("-fx-background-color: black; -fx-border-color: wheat");
         buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(10);
@@ -88,10 +111,10 @@ public class LoginController extends Stage {
         pwField = new PasswordField();
         pwField.setStyle("-fx-background-color: wheat; -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 3 -1; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder");
-        submit  = new Button("Submit");
+        submit  = new Button("SUBMIT");
         submit.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
-        cancel  = new Button("Cancel");
+        cancel  = new Button("CANCEL");
         cancel.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         loginFrame.add(idLabel, 0, 0);
@@ -99,12 +122,40 @@ public class LoginController extends Stage {
         loginFrame.add(pwLabel, 0, 1);
         loginFrame.add(pwField, 1, 1);
 
-        submit.setOnAction(e -> {
-            this.id = idField.getText();
-            this.pw = pwField.getText();
-            singleton.hide();
+        submit.setOnAction(event -> {
+            try {
+                isDuplicatedID(idField.getText());
+                appMessageDialogSingleton.setMessageLabel("Error! The ID already exists.");
+                appMessageDialogSingleton.show();
+
+            } catch (IOException e) {
+                if(!(idField.getText().equals("") || pwField.getText().equals(""))) {
+                    yesNoCancelDialogSingleton.show("", "Do you want to make '" + idField.getText() + "'?");
+
+                    if (yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
+                        this.id = idField.getText();
+                        this.pw = pwField.getText();
+
+                        // TODO SAVE PROFILE DATA WITH JSON FILE
+                        try {
+                            createNewProfile();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        appMessageDialogSingleton.setMessageLabel("'" + id + "' is created!");
+                        appMessageDialogSingleton.show();
+                        singleton.hide();
+                    }
+                }
+                else
+                {
+                    appMessageDialogSingleton.setMessageLabel("It is not correct type of ID & PW!");
+                    appMessageDialogSingleton.show();
+                }
+            }
         });
-        cancel.setOnAction(e -> {
+        cancel.setOnAction(event -> {
             singleton.hide();
         });
 
@@ -116,6 +167,25 @@ public class LoginController extends Stage {
         this.setScene(loginScene);
         this.setResizable(false);
         this.initStyle(StageStyle.UNDECORATED);
+    }
+
+    private void createNewProfile() throws IOException {
+        PropertyManager propertyManager         = PropertyManager.getManager();
+        Path appDirPath                         = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
+        Path targetPath                         = appDirPath.resolve(APP_WORKDIR_PATH.getParameter());
+        Path target                             = Paths.get(targetPath.toString() + "\\" + id + "." + propertyManager.getPropertyValue(WORK_FILE_EXT));
+
+        appTemplate.getFileComponent().createProfile(appTemplate, target);
+    }
+
+    private void isDuplicatedID(String testID) throws IOException {
+        PropertyManager propertyManager         = PropertyManager.getManager();
+        Path appDirPath                         = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
+        Path targetPath                         = appDirPath.resolve(APP_WORKDIR_PATH.getParameter());
+        Path idCheckerPath                      = Paths.get(targetPath.toString() + "\\" + testID + "." + propertyManager.getPropertyValue(WORK_FILE_EXT));
+
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonParser  jsonParser  = new JsonFactory().createParser(Files.newInputStream(idCheckerPath));
     }
 
     private void reset()

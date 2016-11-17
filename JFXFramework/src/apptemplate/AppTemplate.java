@@ -27,6 +27,7 @@ public abstract class AppTemplate extends Application {
 
     private final PropertyManager propertyManager = PropertyManager.getManager();
     private AppDataComponent      dataComponent; // to manage the app's data
+    private AppDataComponent      userComponent; // to manage the user's data
     private AppFileComponent      fileComponent; // to manage the app's file I/O
     private AppWorkspaceComponent workspaceComponent; // to manage the app's GUI workspace
     private AppGUI                gui;
@@ -40,6 +41,8 @@ public abstract class AppTemplate extends Application {
     public AppDataComponent getDataComponent() {
         return dataComponent;
     }
+
+    public AppDataComponent getUserComponent() { return userComponent; }
 
     public AppFileComponent getFileComponent() {
         return fileComponent;
@@ -57,7 +60,7 @@ public abstract class AppTemplate extends Application {
     public void start(Stage primaryStage) {
         AppMessageDialogSingleton  messageDialog = AppMessageDialogSingleton.getSingleton();
         YesNoCancelDialogSingleton yesNoDialog   = YesNoCancelDialogSingleton.getSingleton();
-        LoginController loginController = LoginController.getSingleton();
+        LoginController loginController = LoginController.getSingleton(this);
 
         messageDialog.init(primaryStage);
         yesNoDialog.init(primaryStage);
@@ -69,6 +72,7 @@ public abstract class AppTemplate extends Application {
 
                 fileComponent = builder.buildFileComponent();
                 dataComponent = builder.buildDataComponent();
+                userComponent = builder.buildUserComponent();
                 gui = (propertyManager.hasProperty(APP_WINDOW_WIDTH) && propertyManager.hasProperty(APP_WINDOW_HEIGHT))
                       ? new AppGUI(primaryStage, propertyManager.getPropertyValue(APP_TITLE.toString()), this,
                                    Integer.parseInt(propertyManager.getPropertyValue(APP_WINDOW_WIDTH)),

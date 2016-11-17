@@ -50,7 +50,6 @@ public class Workspace extends AppWorkspaceComponent {
     StackPane           mainFramePane;      // container to stack grid elements and lines on the basePane
     Canvas              canvas;             // canvas to draw lines to connect each of gird elements
 
-    GraphicsContext     drawingFrame;       // drawing lines to display at mainStagePane
     ScrollPane          helpPane;           // container to display help screen
     VBox                topPane;            // container to display labels at top
     VBox                bottomPane;         // container to display labels at bottom
@@ -73,8 +72,6 @@ public class Workspace extends AppWorkspaceComponent {
     Button              pauseAndPlayButton;
     Button[]            gridButtons;         // shape to make grid button design
 
-    Accordion           modeSelection;      // button for display modes to select
-    Button[]            menuButtons;        // menu buttons
     Button              closeButton;        // close button
     StackPane           closeButtonPane;
     StackPane           pauseAndPlayButtonPane;
@@ -110,7 +107,7 @@ public class Workspace extends AppWorkspaceComponent {
         gui = app.getGUI();
         canvas = new Canvas();
         controller = (BuzzWordController) gui.getFileController();    //new HangmanController(app, startGame); <-- THIS WAS A MAJOR BUG!??
-        loginController = LoginController.getSingleton();
+        loginController = LoginController.getSingleton(app);
         layoutGUI();     // initialize all the workspace (GUI) components including the containers and their layout
     }
 
@@ -152,8 +149,6 @@ public class Workspace extends AppWorkspaceComponent {
         // SET CENTER########################################
         mainFramePane = new StackPane();
         mainStagePane = new GridPane();
-//        mainStagePane.setHgap(10);
-//        mainStagePane.setVgap(10);
         mainStagePane.setPadding(new Insets(30, 0, 30, 80));
 
         // INIT PAUSE PANE
@@ -171,7 +166,6 @@ public class Workspace extends AppWorkspaceComponent {
         // INIT DISPLAY GRID ELEMENTS
         initMainStage();
 
-//        mainFramePane.getChildren().addAll(canvas, mainStagePane, pausePane);
         mainFramePane.getChildren().addAll(mainStagePane, pausePane);
         centerPane.setCenter(mainFramePane);
         // SET BOTTOM#########################################

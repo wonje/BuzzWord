@@ -123,29 +123,58 @@ public class LoginController extends Stage {
         loginFrame.add(pwField, 1, 1);
 
         submit.setOnAction(event -> {
-            try {
-                isDuplicatedID(idField.getText());
-                appMessageDialogSingleton.setMessageLabel("Error! The ID already exists.");
-                appMessageDialogSingleton.show();
+            // CRAETE PROFILE MODE
+            if(messageLabel.getText().equals(PropertyManager.getManager().getPropertyValue(CREATE_PROFILE_MESSAGE))) {
+                try {
+                    isExistedID(idField.getText());
+                    appMessageDialogSingleton.setMessageLabel("The ID already exists!");
+                    appMessageDialogSingleton.show();
 
-            } catch (IOException e) {
+                } catch (IOException e) {
+                    if (!(idField.getText().equals("") || pwField.getText().equals(""))) {
+                        yesNoCancelDialogSingleton.show("", "Do you want to make '" + idField.getText() + "'?");
+
+                        if (yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
+                            this.id = idField.getText();
+                            this.pw = pwField.getText();
+
+                            // TODO SAVE PROFILE DATA WITH JSON FILE
+                            try {
+                                createNewProfile();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            appMessageDialogSingleton.setMessageLabel("'" + id + "' is created!");
+                            appMessageDialogSingleton.show();
+                            singleton.hide();
+                        }
+                    } else {
+                        appMessageDialogSingleton.setMessageLabel("It is not correct type of ID & PW!");
+                        appMessageDialogSingleton.show();
+                    }
+                }
+            }
+            // LOGIN MODE
+            else
+            {
                 if(!(idField.getText().equals("") || pwField.getText().equals(""))) {
-                    yesNoCancelDialogSingleton.show("", "Do you want to make '" + idField.getText() + "'?");
-
-                    if (yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
-                        this.id = idField.getText();
-                        this.pw = pwField.getText();
-
-                        // TODO SAVE PROFILE DATA WITH JSON FILE
-                        try {
-                            createNewProfile();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
+                    try {
+                        isExistedID(idField.getText());
+                        if(loadProfile(idField.getText())) {
+                            id = idField.getText();
+                            pw = pwField.getText();
+                            GameState.currentState = GameState.LOGIN;
+                            singleton.hide();
+                        }
+                        else {
+                            appMessageDialogSingleton.setMessageLabel("Invalid Password!");
+                            appMessageDialogSingleton.show();
                         }
 
-                        appMessageDialogSingleton.setMessageLabel("'" + id + "' is created!");
+                    } catch (IOException e) {
+                        appMessageDialogSingleton.setMessageLabel("'" + idField.getText() + "' is not existed ID!");
                         appMessageDialogSingleton.show();
-                        singleton.hide();
                     }
                 }
                 else
@@ -178,7 +207,16 @@ public class LoginController extends Stage {
         appTemplate.getFileComponent().createProfile(appTemplate, target);
     }
 
-    private void isDuplicatedID(String testID) throws IOException {
+    private boolean loadProfile(String userID) throws IOException {
+        PropertyManager propertyManager         = PropertyManager.getManager();
+        Path appDirPath                         = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
+        Path targetPath                         = appDirPath.resolve(APP_WORKDIR_PATH.getParameter());
+        Path target                             = Paths.get(targetPath.toString() + "\\" + userID + "." + propertyManager.getPropertyValue(WORK_FILE_EXT));
+
+        return appTemplate.getFileComponent().loadProfile(appTemplate, pwField.getText(), target);
+    }
+
+    private void isExistedID(String testID) throws IOException {
         PropertyManager propertyManager         = PropertyManager.getManager();
         Path appDirPath                         = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
         Path targetPath                         = appDirPath.resolve(APP_WORKDIR_PATH.getParameter());

@@ -1,13 +1,12 @@
 package data;
 
 import apptemplate.AppTemplate;
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.*;
 import components.AppDataComponent;
 import components.AppFileComponent;
 import controller.GameState;
 import controller.LoginController;
+import ui.AppMessageDialogSingleton;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -72,8 +71,61 @@ public class GameDataFile implements AppFileComponent {
     }
 
     @Override
-    public void loadData(AppDataComponent data, Path filePath) throws IOException {
+    public boolean loadProfile(AppTemplate appTemplate, String testPW, Path from) throws IOException {
+        GameData gameData = (GameData) appTemplate.getDataComponent();
+        UserData userData = (UserData) appTemplate.getUserComponent();
 
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonParser  jsonParser  = jsonFactory.createParser(Files.newInputStream(from));
+
+        String tempID = "";
+
+        while (!jsonParser.isClosed()) {
+            JsonToken token = jsonParser.nextToken();
+            if (JsonToken.FIELD_NAME.equals(token)) {
+                String fieldname = jsonParser.getCurrentName();
+                switch (fieldname) {
+                    case USER_ID:
+                        jsonParser.nextToken();
+                        tempID = jsonParser.getValueAsString();
+                        break;
+                    case USER_PW:
+                        jsonParser.nextToken();
+                        if(testPW.equals(jsonParser.getValueAsString())){
+                            userData.reset();
+                            gameData.reset();
+                            userData.setUserInfo(tempID, testPW);
+                        }
+                        else {
+                            return false;
+                        }
+                        break;
+                    case RECENT_MODE:
+                        jsonParser.nextToken();
+                        GameState.loadRecentMode(jsonParser.getValueAsString());
+                        break;
+                    case DICTIONARY_LEVEL:
+                        jsonParser.nextToken();
+                        gameData.engDicLevel = jsonParser.getValueAsInt();
+                        break;
+                    case PLACES_LEVEL:
+                        jsonParser.nextToken();
+                        gameData.placesLevel = jsonParser.getValueAsInt();
+                        break;
+                    case SCIENCE_LEVEL:
+                        jsonParser.nextToken();
+                        gameData.scienceLevel = jsonParser.getValueAsInt();
+                        break;
+                    case FAMOUS_LEVEL:
+                        jsonParser.nextToken();
+                        gameData.famousLevel = jsonParser.getValueAsInt();
+                        break;
+                    default:
+                        throw new JsonParseException(jsonParser, "Unable to load JSON data");
+                }
+            }
+        }
+        return true;
     }
 
     @Override

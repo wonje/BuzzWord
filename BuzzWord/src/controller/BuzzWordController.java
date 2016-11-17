@@ -30,29 +30,24 @@ public class BuzzWordController implements FileController {
         PropertyManager propertyManager = PropertyManager.getManager();
         LoginController loginController = LoginController.getSingleton(appTemplate);
         loginController.show(propertyManager.getPropertyValue(CREATE_PROFILE_TITLE), propertyManager.getPropertyValue(CREATE_PROFILE_MESSAGE));
-
-        // TODO CHECK WHETHER THE ID IS ALREADY EXIST OR NOT
-
-
-        // TODO CREATING NEW USER FILE
     }
 
     @Override
     public void handleLoginRequest() {
-        GameState.currentState = GameState.LOGIN;
-        appTemplate.getGUI().setTooltipLogintoID(true);
         PropertyManager propertyManager = PropertyManager.getManager();
         LoginController loginController = LoginController.getSingleton(appTemplate);
-        gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
-
         loginController.show(propertyManager.getPropertyValue(LOGIN_TITLE), propertyManager.getPropertyValue(LOGIN_MESSAGE));
 
-        setVisibleMenu(false, true, true, true);
+        if(GameState.currentState.equals(GameState.LOGIN)) {
+            appTemplate.getGUI().setTooltipLogintoID(true);
+            gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
 
-        appTemplate.getGUI().getMenuBackground(1).setId(propertyManager.getPropertyValue(MENU_ID_IMAGE));
+            setVisibleMenu(false, true, true, true);
 
-        appTemplate.getGUI().getLoginAndIDButton().setText("User ID");
-        appTemplate.getGUI().getPlayAndHomeButton().setText("Start Playing");
+            appTemplate.getGUI().getMenuBackground(1).setId(propertyManager.getPropertyValue(MENU_ID_IMAGE));
+            appTemplate.getGUI().getLoginAndIDButton().setText(loginController.getID());
+            appTemplate.getGUI().getPlayAndHomeButton().setText("Start Playing");
+        }
     }
 
     @Override

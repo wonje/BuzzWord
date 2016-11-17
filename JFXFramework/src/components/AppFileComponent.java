@@ -19,7 +19,7 @@ public interface AppFileComponent {
 
     void createProfile(AppTemplate appTemplate, Path filePath) throws IOException;
 
-    void loadData(AppDataComponent data, Path filePath) throws IOException;
+    boolean loadProfile(AppTemplate appTemplate, String testPW, Path filePath) throws IOException;
 
     void exportData(AppDataComponent data, Path filePath) throws IOException;
 }

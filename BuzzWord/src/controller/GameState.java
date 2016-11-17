@@ -26,4 +26,24 @@ public enum GameState {
     public static GameState currentState;
     public static GameState currentMode;
     public static int       currentLevel;
+    public static void loadRecentMode(String mode)
+    {
+        switch (mode)
+        {
+            case "ENGLISH_DICTIONARY":
+                currentMode = ENGLISH_DICTIONARY;
+                break;
+            case "PLACES":
+                currentMode = PLACES;
+                break;
+            case "SCIENCE":
+                currentMode = SCIENCE;
+                break;
+            case "FAMOUS_PEOPLE":
+                currentMode = FAMOUS_PEOPLE;
+                break;
+            default:
+        }
+
+    }
 }

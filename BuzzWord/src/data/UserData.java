@@ -13,9 +13,9 @@ public class UserData implements AppDataComponent{
     AppTemplate appTemplate;
     GameData gameData;
     HashMap<Integer, Integer> dicBestScores;
-    HashMap<Integer, Integer> placeBestScores;
-    HashMap<Integer, Integer> scienceBestScores;
-    HashMap<Integer, Integer> famousBestScores;
+    HashMap<Integer, Integer> bacteriaBestScores;
+    HashMap<Integer, Integer> biologyBestScores;
+    HashMap<Integer, Integer> fungiBestScores;
     String userID;
     String userPW;
 
@@ -29,9 +29,9 @@ public class UserData implements AppDataComponent{
         userID = "";
         userPW = "";
         dicBestScores = new HashMap<Integer, Integer>();
-        placeBestScores = new HashMap<Integer, Integer>();
-        scienceBestScores = new HashMap<Integer, Integer>();
-        famousBestScores = new HashMap<Integer, Integer>();
+        bacteriaBestScores = new HashMap<Integer, Integer>();
+        biologyBestScores = new HashMap<Integer, Integer>();
+        fungiBestScores = new HashMap<Integer, Integer>();
     }
 
     @Override
@@ -40,9 +40,9 @@ public class UserData implements AppDataComponent{
         userID = "";
         userPW = "";
         dicBestScores.clear();
-        placeBestScores.clear();
-        scienceBestScores.clear();
-        famousBestScores.clear();
+        bacteriaBestScores.clear();
+        biologyBestScores.clear();
+        fungiBestScores.clear();
     }
 
     public void setUserInfo(String userID, String userPW){
@@ -60,12 +60,12 @@ public class UserData implements AppDataComponent{
         {
             case ENGLISH_DICTIONARY:
                 return dicBestScores.get(level);
-            case PLACES:
-                return placeBestScores.get(level);
-            case SCIENCE:
-                return scienceBestScores.get(level);
-            case FAMOUS_PEOPLE:
-                return famousBestScores.get(level);
+            case BACTERIA:
+                return bacteriaBestScores.get(level);
+            case BIOLOGY:
+                return biologyBestScores.get(level);
+            case FUNGI:
+                return fungiBestScores.get(level);
         }
         // TODO RETURN ERROR
         return -1;
@@ -83,26 +83,26 @@ public class UserData implements AppDataComponent{
                 }
                 else
                     return false;
-            case PLACES:
-                if(point >= placeBestScores.get(level))
+            case BACTERIA:
+                if(point >= bacteriaBestScores.get(level))
                 {
-                    placeBestScores.put(level, point);
+                    bacteriaBestScores.put(level, point);
                     return true;
                 }
                 else
                     return false;
-            case SCIENCE:
-                if(point >= scienceBestScores.get(level))
+            case BIOLOGY:
+                if(point >= biologyBestScores.get(level))
                 {
-                    scienceBestScores.put(level, point);
+                    biologyBestScores.put(level, point);
                     return true;
                 }
                 else
                     return false;
-            case FAMOUS_PEOPLE:
-                if(point >= famousBestScores.get(level))
+            case FUNGI:
+                if(point >= fungiBestScores.get(level))
                 {
-                    famousBestScores.put(level, point);
+                    fungiBestScores.put(level, point);
                     return true;
                 }
                 else

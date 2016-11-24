@@ -40,63 +40,63 @@ import ui.YesNoCancelDialogSingleton;
 public class Workspace extends AppWorkspaceComponent {
 
     AppTemplate app; // the actual application
-    AppGUI      gui; // the GUI inside which the application sits
+    AppGUI gui; // the GUI inside which the application sits
 
-    GameData    gameData;
-    UserData    userData;
+    GameData gameData;
+    UserData userData;
 
-    BuzzWordController  controller;
-    LoginController     loginController;
+    BuzzWordController controller;
+    LoginController loginController;
 
-    GridElement[]       gridElements;
+    GridElement[] gridElements;
 
-    BorderPane          basePane;           // main container to divide sections
-    BorderPane          centerPane;
-    StackPane           mainFramePane;      // container to stack grid elements and lines on the basePane
+    BorderPane basePane;           // main container to divide sections
+    BorderPane centerPane;
+    StackPane mainFramePane;      // container to stack grid elements and lines on the basePane
 
-    ScrollPane          helpPane;           // container to display help screen
-    VBox                topPane;            // container to display labels at top
-    VBox                bottomPane;         // container to display labels at bottom
-    VBox                rightPane;          // container to display status at right
-    VBox                rightStatusPane;
-    BorderPane          pausePane;
-    GridPane            mainStagePane;      // container to display all of grid elements
-    GridPane            progressPane;
+    ScrollPane helpPane;           // container to display help screen
+    VBox topPane;            // container to display labels at top
+    VBox bottomPane;         // container to display labels at bottom
+    VBox rightPane;          // container to display status at right
+    VBox rightStatusPane;
+    BorderPane pausePane;
+    GridPane mainStagePane;      // container to display all of grid elements
+    GridPane progressPane;
 
-    Label               titleLabel;         // label to display title
-    Label               modeLabel;          // label to display mode
-    Label               remainingTime;      // label to display remaining time
-    Label               levelLabel;         // label to display level
-    Label               targetPoint;        // label to display target point
-    Label               totalPointLabel;
+    Label titleLabel;         // label to display title
+    Label modeLabel;          // label to display mode
+    Label remainingTime;      // label to display remaining time
+    Label levelLabel;         // label to display level
+    Label targetPoint;        // label to display target point
+    Label totalPointLabel;
 
-    Label[]             progress;           // labels to display progressed words
-    ArrayList<Label>    matches;            // labels to display matched words
-    ArrayList<Label>    matchedPoints;      // labels to display points of matched words
+    Label[] progress;           // labels to display progressed words
+    ArrayList<Label> matches;            // labels to display matched words
+    ArrayList<Label> matchedPoints;      // labels to display points of matched words
 
-    Button              pauseAndPlayButton;
-    Button[]            gridButtons;         // shape to make grid button design
+    Button pauseAndPlayButton;
+    Button[] gridButtons;         // shape to make grid button design
 
-    Button              closeButton;        // close button
-    StackPane           closeButtonPane;
-    StackPane           pauseAndPlayButtonPane;
-    GridPane            remainingTimePane;
+    Button closeButton;        // close button
+    StackPane closeButtonPane;
+    StackPane pauseAndPlayButtonPane;
+    GridPane remainingTimePane;
 
-    VBox                matchedContainerPane;
-    ScrollPane          matchedScrollPane;
-    HBox                totalPointPane;
-    HBox                matchedPane;
-    VBox                matchedWordPane;
-    VBox                matchedPointPane;
+    VBox matchedContainerPane;
+    ScrollPane matchedScrollPane;
+    HBox totalPointPane;
+    HBox matchedPane;
+    VBox matchedWordPane;
+    VBox matchedPointPane;
 
-    VBox                targetPointPane;
+    VBox targetPointPane;
 
-    Line[]              vLines;
-    Line[]              hLines;
+    Line[] vLines;
+    Line[] hLines;
+    Line[] lrLines;
+    Line[] rlLines;
 
-
-    int                 time;
-
+    int time;
 
     /**
      * Constructor for initializing the workspace, note that this constructor
@@ -116,10 +116,11 @@ public class Workspace extends AppWorkspaceComponent {
         layoutGUI();     // initialize all the workspace (GUI) components including the containers and their layout
     }
 
-    public Label getModeLabel() { return modeLabel; }
+    public Label getModeLabel() {
+        return modeLabel;
+    }
 
-    public void setPausePane(boolean visible)
-    {
+    public void setPausePane(boolean visible) {
         pausePane.setVisible(visible);
         mainStagePane.setVisible(!visible);
     }
@@ -164,8 +165,6 @@ public class Workspace extends AppWorkspaceComponent {
         pausePane.setCenter(pause);
         pausePane.setAlignment(pause, Pos.CENTER);
 
-        // INIT DRAW CONNECTED LINES
-
         // INIT DISPLAY GRID ELEMENTS
         initMainStage();
 
@@ -194,13 +193,11 @@ public class Workspace extends AppWorkspaceComponent {
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        if(GameState.currentState.equals(GameState.PLAY)) {
+                        if (GameState.currentState.equals(GameState.PLAY)) {
                             GameState.currentState = GameState.PAUSE;
                             pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PLAY_BUTTON_IMAGE));
                             gui.getFileController().handlePauseRequest();
-                        }
-                        else if(GameState.currentState.equals(GameState.PAUSE))
-                        {
+                        } else if (GameState.currentState.equals(GameState.PAUSE)) {
                             GameState.currentState = GameState.PLAY;
                             pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PAUSE_BUTTON_IMAGE));
                             gui.getFileController().handleResumeRequest();
@@ -223,7 +220,7 @@ public class Workspace extends AppWorkspaceComponent {
         rightStatusPane.setPrefWidth(250);
         rightStatusPane.setSpacing(20);
         rightStatusPane.setVisible(false);
-        
+
         BorderPane closeButtonContainerPane = new BorderPane();
         closeButtonPane = new StackPane();
         closeButtonPane.setPrefHeight(30);
@@ -238,7 +235,7 @@ public class Workspace extends AppWorkspaceComponent {
                     @Override
                     public void handle(MouseEvent event) {
                         // TODO Confirm again before terminating the game
-                        if(confirmBeforeExit())
+                        if (confirmBeforeExit())
                             System.exit(0);
                     }
                 });
@@ -278,10 +275,10 @@ public class Workspace extends AppWorkspaceComponent {
 
         matchedWordPane = new VBox();
         matchedWordPane.setPrefWidth(170);
-        matches         = new ArrayList<Label>();
+        matches = new ArrayList<Label>();
 
-        matchedPointPane    = new VBox();
-        matchedPoints       = new ArrayList<Label>();
+        matchedPointPane = new VBox();
+        matchedPoints = new ArrayList<Label>();
 
         HBox borderline1 = new HBox();
         borderline1.setPrefHeight(280);
@@ -328,20 +325,18 @@ public class Workspace extends AppWorkspaceComponent {
         basePane.setRight(rightPane);
     }
 
-    private GridPane initProgressPane()
-    {
+    private GridPane initProgressPane() {
         progress = new Label[16];
         progressPane = new GridPane();
-        for(int i = 0; i < progress.length; i++)
-        {
+        for (int i = 0; i < progress.length; i++) {
             progress[i] = new Label();
             progress[i].setStyle("-fx-background-color: dimgray; -fx-font-family: 'Arial'; " +
                     "-fx-text-fill: antiquewhite; -fx-font-weight: bolder; -fx-font-size: 14");
-            progress[i].setMinSize(30,30);
+            progress[i].setMinSize(30, 30);
             progress[i].setVisible(false);
             progress[i].setAlignment(Pos.CENTER);
 
-            progressPane.add(progress[i], i%8, i/8);
+            progressPane.add(progress[i], i % 8, i / 8);
         }
         return progressPane;
     }
@@ -352,106 +347,129 @@ public class Workspace extends AppWorkspaceComponent {
         // INIT VLINE COMPONENTS
         vLines = new Line[12];
         for (int i = 0; i < vLines.length; i++) {
-            vLines[i] = new Line(0, 0, 0, 10);
+            vLines[i] = new Line(0, 0, 0, 17);
             vLines[i].setFill(Paint.valueOf("#000000"));
             vLines[i].setStrokeWidth(3);
             vLines[i].setSmooth(true);
-            vLines[i].setVisible(true);
-        }
-
-        // INIT HLINE COMPONENTS
-        hLines = new Line[12];
-        for (int i = 0; i < hLines.length; i++) {
-            hLines[i] = new Line(0, 0, 10, 0);
-            hLines[i].setFill(Paint.valueOf("#000000"));
-            hLines[i].setStrokeWidth(3);
-            hLines[i].setSmooth(true);
-            hLines[i].setVisible(true);
-        }
-
-        // INIT GRID BUTTON COMPONENTS
-        gridButtons     = new Button[16];
-        gridElements    = new GridElement[16];
-        int xPos        = 0;
-        int yPos        = 0;
-        for (int i = 0; i <gridButtons.length; i++)
-        {
-            gridButtons[i] = new Button();
-            gridButtons[i].setShape(new Circle(50));
-            gridButtons[i].setMinSize(100, 100);
-            gridButtons[i].setMaxSize(100, 100);
-            gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-            gridButtons[i].setVisible(true);
-            gridButtons[i].setDisable(true);
-
-            // GRID ELEMENT CLASS INIT
-            gridElements[i] = new GridElement(new Point(xPos,yPos));
-            if(xPos == 6) {
-                xPos = 0;
-                yPos += 2;
             }
-            else {
-                xPos += 2;
+            // INIT HLINE COMPONENTS
+            hLines = new Line[12];
+            for (int i = 0; i < hLines.length; i++) {
+                hLines[i] = new Line(0, 0, 17, 0);
+                hLines[i].setFill(Paint.valueOf("#000000"));
+                hLines[i].setStrokeWidth(3);
+                hLines[i].setSmooth(true);
             }
 
-        }
+            // INIT LEFT TO RIGHT DIAGONAL LINE COMPONENTS
+            lrLines = new Line[9];
+            for (int i = 0; i < lrLines.length; i++) {
+                lrLines[i] = new Line(0, 0, 15, 15);
+                lrLines[i].setFill(Paint.valueOf("#000000"));
+                lrLines[i].setStrokeWidth(3);
+                lrLines[i].setSmooth(true);
+            }
 
-        int vLineCount = 0;
-        int hLineCount = 0;
-        int gridCount = 0;
-        StackPane tempStack;
+            // INIT RIGHT TO LEFT DIAGONAL LINE COMPONENTS
+            rlLines = new Line[9];
+            for (int i = 0; i < rlLines.length; i++) {
+                rlLines[i] = new Line(15, 0, 0, 15);
+                rlLines[i].setFill(Paint.valueOf("#000000"));
+                rlLines[i].setStrokeWidth(3);
+                rlLines[i].setSmooth(true);
+            }
 
-        for (int i = 0; i < 49; i++)
-        {
-            if(i < 7 || (i >= 14 && i < 21) || (i >= 28 && i < 35) || i >= 42) {
-                if (i % 2 == 0) {
-                    // CHECK GRID COMPONENT TURN
-                    mainStagePane.add(gridButtons[gridCount], i % 7, i / 7);
-                    // INIT GRID ELEMENT OBJECT
-                    gridElements[gridCount++] = new GridElement(new Point(i % 7, i / 7));
+            // INIT GRID BUTTON COMPONENTS
+            gridButtons = new Button[16];
+            gridElements = new GridElement[16];
+            int xPos = 0;
+            int yPos = 0;
+            for (int i = 0; i < gridButtons.length; i++) {
+                gridButtons[i] = new Button();
+                gridButtons[i].setShape(new Circle(50));
+                gridButtons[i].setMinSize(100, 100);
+                gridButtons[i].setMaxSize(100, 100);
+                gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                gridButtons[i].setVisible(true);
+                gridButtons[i].setDisable(true);
+
+                // GRID ELEMENT CLASS INIT
+                gridElements[i] = new GridElement(new Point(xPos, yPos));
+                if (xPos == 6) {
+                    xPos = 0;
+                    yPos += 2;
+                } else {
+                    xPos += 2;
                 }
+
+            }
+
+            int vLineCount = 0;
+            int hLineCount = 0;
+            int diagonalLineCount = 0;
+            int gridCount = 0;
+            StackPane tempStack;
+
+            for (int i = 0; i < 49; i++) {
+                if (i < 7 || (i >= 14 && i < 21) || (i >= 28 && i < 35) || i >= 42) {
+                    if (i % 2 == 0) {
+                        // CHECK GRID COMPONENT TURN
+                        mainStagePane.add(gridButtons[gridCount], i % 7, i / 7);
+                        // INIT GRID ELEMENT OBJECT
+                        gridElements[gridCount] = new GridElement(new Point(i % 7, i / 7));
+                        gridElements[gridCount].setGridButton(gridButtons[gridCount++]);
+                    } else {
+                        // CHECK HLINE COMPONENT TURN
+                        mainStagePane.add(hLines[hLineCount], i % 7, i / 7);
+                        hLines[hLineCount++].setVisible(false);
+                    }
+                }
+                // CHECK VLINE COMPONENT TURN
                 else {
-                    // CHECK HLINE COMPONENT TURN
-                    mainStagePane.add(hLines[hLineCount++], i % 7, i / 7);
-                    hLines[hLineCount - 1].setVisible(false);
+                    if (i % 2 == 1) {
+                        tempStack = new StackPane();
+                        tempStack.setAlignment(Pos.CENTER);
+                        tempStack.getChildren().add(vLines[vLineCount]);
+                        vLines[vLineCount++].setVisible(false);
+                        mainStagePane.add(tempStack, i % 7, i / 7);
+                    } else {
+                        tempStack = new StackPane();
+                        tempStack.setAlignment(Pos.CENTER);
+                        tempStack.getChildren().addAll(lrLines[diagonalLineCount], rlLines[diagonalLineCount]);
+                        lrLines[diagonalLineCount].setVisible(false);
+                        rlLines[diagonalLineCount++].setVisible(false);
+                        mainStagePane.add(tempStack, i % 7, i / 7);
+                    }
+                }
+
+                switch (gridCount - 1) {
+                    case 0:
+                        gridButtons[gridCount - 1].setText("B");
+                        break;
+                    case 1:
+                        gridButtons[gridCount - 1].setText("U");
+                        break;
+                    case 4:
+                    case 5:
+                        gridButtons[gridCount - 1].setText("Z");
+                        break;
+                    case 10:
+                        gridButtons[gridCount - 1].setText("W");
+                        break;
+                    case 11:
+                        gridButtons[gridCount - 1].setText("O");
+                        break;
+                    case 14:
+                        gridButtons[gridCount - 1].setText("R");
+                        break;
+                    case 15:
+                        gridButtons[gridCount - 1].setText("D");
+                        break;
                 }
             }
-            // CHECK VLINE COMPONENT TURN
-            else if(i % 2 == 1) {
-                tempStack = new StackPane();
-                tempStack.setAlignment(Pos.CENTER);
-                tempStack.getChildren().add(vLines[vLineCount++]);
-                vLines[vLineCount - 1].setVisible(false);
-                mainStagePane.add(tempStack, i % 7, i / 7);
-            }
-
-            switch (gridCount - 1)
-            {
-                case 0:
-                    gridButtons[gridCount - 1].setText("B");
-                    break;
-                case 1:
-                    gridButtons[gridCount - 1].setText("U");
-                    break;
-                case 4:
-                case 5:
-                    gridButtons[gridCount - 1].setText("Z");
-                    break;
-                case 10:
-                    gridButtons[gridCount - 1].setText("W");
-                    break;
-                case 11:
-                    gridButtons[gridCount - 1].setText("O");
-                    break;
-                case 14:
-                    gridButtons[gridCount - 1].setText("R");
-                    break;
-                case 15:
-                    gridButtons[gridCount - 1].setText("D");
-                    break;
-            }
         }
-    }
+
+
 
     // SET HOME SCREEN SCREEN
     public void setHomeScreen()
@@ -493,17 +511,17 @@ public class Workspace extends AppWorkspaceComponent {
         {
             setOpenedGrid(gameData.maxEngDicLevel);
         }
-        else if(GameState.currentMode.equals(GameState.PLACES))
+        else if(GameState.currentMode.equals(GameState.BACTERIA))
         {
-            setOpenedGrid(gameData.maxPlacesLevel);
+            setOpenedGrid(gameData.maxBacteriaLevel);
         }
-        else if(GameState.currentMode.equals(GameState.SCIENCE))
+        else if(GameState.currentMode.equals(GameState.BIOLOGY))
         {
-            setOpenedGrid(gameData.maxScienceLevel);
+            setOpenedGrid(gameData.maxBiologyLevel);
         }
-        else if(GameState.currentMode.equals(GameState.FAMOUS_PEOPLE))
+        else if(GameState.currentMode.equals(GameState.FUNGI))
         {
-            setOpenedGrid(gameData.maxFamousLevel);
+            setOpenedGrid(gameData.maxFungiLevel);
         }
 
 
@@ -546,7 +564,6 @@ public class Workspace extends AppWorkspaceComponent {
         levelLabel.setVisible(true);
         pauseAndPlayButtonPane.setVisible(true);
         levelLabel.setText("Level " + Integer.toString(GameState.currentLevel));
-        GameState.currentState = GameState.PLAY;
 
         // MAKE GRID ELEMENTS RANDOMLY
         for (int i = 0; i < gridButtons.length; i++)
@@ -563,6 +580,16 @@ public class Workspace extends AppWorkspaceComponent {
             gridButtons[i].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    for (GridElement grid : gridElements) {
+                        // SEARCH GRID ELEMENT OBJECT
+                        if(event.getSource().equals(grid.getGridButton()))
+                            // CHECKING IT WAS VISITED OR NOT
+                                if(!grid.visited) {
+                                    grid.getGridButton().getStyleClass().clear();
+                                    grid.getGridButton().getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
+                                    grid.visited = true;
+                                }
+                    }
 
                 }
             });
@@ -579,11 +606,14 @@ public class Workspace extends AppWorkspaceComponent {
 
         // CREATE SOLUTION WORDS ########################
         gameData.loadWordFile(GameState.currentMode);
-
+        int target_score;
         int total_score = 0;
 
         // TARGET SCORE SETTING BY LEVEL
-        int target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 100;
+        if(GameState.currentMode.equals(GameState.ENGLISH_DICTIONARY))
+            target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 800;
+        else
+            target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 100;
         List<String> list = gameData.getBuzzWordSolution(gridElements);
 
         // GET TOTAL SCORES
@@ -622,14 +652,6 @@ public class Workspace extends AppWorkspaceComponent {
         matchedWordPane.getChildren().addAll(matches);
         matchedPointPane.getChildren().addAll(matchedPoints);
 //        totalPointLabel.setText(Integer.toString(total_score));
-
-
-        // TODO DRAW DIAGONAL LINES TOO
-//        // LINE DISPLAY BY FAKE DATA
-//        hLines[0].setVisible(true);
-//        vLines[1].setVisible(true);
-//        hLines[4].setVisible(true);
-//        hLines[5].setVisible(true);
     }
 
     private boolean confirmBeforeExit() {

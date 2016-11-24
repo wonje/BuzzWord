@@ -19,9 +19,9 @@ public enum GameState {
 
     // GAME MODE OPTIONS
     ENGLISH_DICTIONARY,
-    PLACES,
-    SCIENCE,
-    FAMOUS_PEOPLE;
+    BACTERIA,
+    BIOLOGY,
+    FUNGI;
 
     public static GameState currentState;
     public static GameState currentMode;
@@ -33,14 +33,14 @@ public enum GameState {
             case "ENGLISH_DICTIONARY":
                 currentMode = ENGLISH_DICTIONARY;
                 break;
-            case "PLACES":
-                currentMode = PLACES;
+            case "BACTERIA":
+                currentMode = BACTERIA;
                 break;
-            case "SCIENCE":
-                currentMode = SCIENCE;
+            case "BIOLOGY":
+                currentMode = BIOLOGY;
                 break;
-            case "FAMOUS_PEOPLE":
-                currentMode = FAMOUS_PEOPLE;
+            case "FUNGI":
+                currentMode = FUNGI;
                 break;
             default:
         }

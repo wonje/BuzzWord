@@ -37,9 +37,9 @@ public enum BuzzWordProperties {
 
     // GAME OPTION
     ENGLISH_DICTIONARY,
-    PLACES,
-    SCIENCE,
-    FAMOUS_PEOPLE;
+    BACTERIA,
+    BIOLOGY,
+    FUNGI;
 
 }
 

@@ -24,9 +24,9 @@ import static settings.InitializationParameters.APP_WORKDIR_PATH;
 public class GameData implements AppDataComponent{
     public AppTemplate appTemplate;
     public int maxEngDicLevel;
-    public int maxPlacesLevel;
-    public int maxScienceLevel;
-    public int maxFamousLevel;
+    public int maxBacteriaLevel;
+    public int maxBiologyLevel;
+    public int maxFungiLevel;
 
     private NavigableSet<String> wordFile;
     private char[][] board = new char[4][4];
@@ -34,29 +34,33 @@ public class GameData implements AppDataComponent{
     public GameData(AppTemplate appTemplate) {
         this.appTemplate = appTemplate;
         maxEngDicLevel  = 1;
-        maxPlacesLevel  = 1;
-        maxScienceLevel = 1;
-        maxFamousLevel  = 1;
+        maxBacteriaLevel  = 1;
+        maxBiologyLevel = 1;
+        maxFungiLevel  = 1;
     }
 
     @Override
     public void reset() {
         maxEngDicLevel  = 1;
-        maxPlacesLevel  = 1;
-        maxScienceLevel = 1;
-        maxFamousLevel  = 1;
+        maxBacteriaLevel  = 1;
+        maxBiologyLevel = 1;
+        maxFungiLevel  = 1;
 
     }
 
     public void getMaxLevels(UserData userData) {
         for(maxEngDicLevel = 1; userData.dicBestScores.containsKey(maxEngDicLevel); maxEngDicLevel++);
         maxEngDicLevel--;
-        for(maxPlacesLevel = 1; userData.placeBestScores.containsKey(maxPlacesLevel); maxPlacesLevel++);
-        maxPlacesLevel--;
-        for(maxScienceLevel = 1; userData.scienceBestScores.containsKey(maxScienceLevel); maxScienceLevel++);
-        maxScienceLevel--;
-        for(maxFamousLevel = 1; userData.famousBestScores.containsKey(maxFamousLevel); maxFamousLevel++);
-        maxFamousLevel--;
+        for(maxBacteriaLevel = 1; userData.bacteriaBestScores.containsKey(maxBacteriaLevel); maxBacteriaLevel++);
+        maxBacteriaLevel--;
+        for(maxBiologyLevel = 1; userData.biologyBestScores.containsKey(maxBiologyLevel); maxBiologyLevel++);
+        maxBiologyLevel--;
+        for(maxFungiLevel = 1; userData.fungiBestScores.containsKey(maxFungiLevel); maxFungiLevel++);
+        maxFungiLevel--;
+    }
+
+    public void searchNeighbors(GridElement grid) {
+
     }
 
     public void loadWordFile(GameState mode){
@@ -65,14 +69,17 @@ public class GameData implements AppDataComponent{
             case ENGLISH_DICTIONARY:
                 fileName = "Dictionary.txt";
                 break;
-            case PLACES:
-                fileName = "Places.txt";
+            case BACTERIA:
+//                fileName = "Places.txt";
+                fileName = "Bacteria.txt";
                 break;
-            case SCIENCE:
-                fileName = "Science.txt";
+            case BIOLOGY:
+//                fileName = "Science.txt";
+                fileName = "Biology.txt";
                 break;
-            case FAMOUS_PEOPLE:
-                fileName = "FamousPeople.txt";
+            case FUNGI:
+//                fileName = "FamousPeople.txt";
+                  fileName = "Fungi.txt";
                 break;
         }
 
@@ -128,10 +135,10 @@ public class GameData implements AppDataComponent{
                 // Skip the followed grid
                 if (row1 == followedRow && col1 == followedCol) continue;
 
-                // Skip the diagonal (row, col) value
-                if ((row1 == row - 1 && col1 == col - 1) || (row1 == row - 1 && col1 == col + 1) ||
-                        (row1 == row + 1 && col1 == col - 1) || (col1 == col + 1 && row1 == row + 1))
-                    continue;
+                 //Skip the diagonal (row, col) value
+//                if ((row1 == row - 1 && col1 == col - 1) || (row1 == row - 1 && col1 == col + 1) ||
+//                        (row1 == row + 1 && col1 == col - 1) || (col1 == col + 1 && row1 == row + 1))
+//                    continue;
 
                 String word = prefix + board[row1][col1];
 

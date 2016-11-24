@@ -324,7 +324,7 @@ public class AppGUI implements AppStyleArbiter {
                     }
                 });
 
-        placeMode = new Button("Places");
+        placeMode = new Button("Bacteria");
         placeMode.setPrefWidth(170);
         placeMode.setPrefHeight(30);
         placeMode.setAlignment(Pos.CENTER_LEFT);
@@ -333,11 +333,11 @@ public class AppGUI implements AppStyleArbiter {
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        fileController.handleModeSetRequest(GameState.PLACES);
+                        fileController.handleModeSetRequest(GameState.BACTERIA);
                     }
                 });
 
-        scienceMode = new Button("Science");
+        scienceMode = new Button("Biology");
         scienceMode.setPrefWidth(170);
         scienceMode.setPrefHeight(30);
         scienceMode.setAlignment(Pos.CENTER_LEFT);
@@ -346,11 +346,11 @@ public class AppGUI implements AppStyleArbiter {
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        fileController.handleModeSetRequest(GameState.SCIENCE);
+                        fileController.handleModeSetRequest(GameState.BIOLOGY);
                     }
                 });
 
-        famousPplMode = new Button("Famous People");
+        famousPplMode = new Button("Fungi");
         famousPplMode.setPrefWidth(170);
         famousPplMode.setPrefHeight(30);
         famousPplMode.setAlignment(Pos.CENTER_LEFT);
@@ -359,7 +359,7 @@ public class AppGUI implements AppStyleArbiter {
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        fileController.handleModeSetRequest(GameState.FAMOUS_PEOPLE);
+                        fileController.handleModeSetRequest(GameState.FUNGI);
                     }
                 });
 

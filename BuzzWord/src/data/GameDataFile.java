@@ -22,9 +22,9 @@ public class GameDataFile implements AppFileComponent {
     public static final String USER_PW              = "USER_PW";
     public static final String RECENT_MODE          = "RECENT_MODE";
     public static final String DICTIONARY_SCORES    = "DICTIONARY_SCORES";
-    public static final String PLACES_SCORES        = "PLACES_SCORES";
-    public static final String SCIENCE_SCORES       = "SCIENCE_SCORES";
-    public static final String FAMOUS_SCORES        = "FAMOUS_SCORES";
+    public static final String BACTERIA_SCORES      = "BACTERIA_SCORES";
+    public static final String BIOLOGY_SCORES       = "BIOLOGY_SCORES";
+    public static final String FUNGI_SCORES         = "FUNGI_SCORES";
 
 
     @Override
@@ -57,19 +57,19 @@ public class GameDataFile implements AppFileComponent {
             generator.writeNumber(0);
             generator.writeEndArray();
 
-            generator.writeFieldName(PLACES_SCORES);
+            generator.writeFieldName(BACTERIA_SCORES);
             generator.writeStartArray(2);
             generator.writeNumber(1);
             generator.writeNumber(0);
             generator.writeEndArray();
 
-            generator.writeFieldName(SCIENCE_SCORES);
+            generator.writeFieldName(BIOLOGY_SCORES);
             generator.writeStartArray(2);
             generator.writeNumber(1);
             generator.writeNumber(0);
             generator.writeEndArray();
 
-            generator.writeFieldName(FAMOUS_SCORES);
+            generator.writeFieldName(FUNGI_SCORES);
             generator.writeStartArray(2);
             generator.writeNumber(1);
             generator.writeNumber(0);
@@ -129,28 +129,28 @@ public class GameDataFile implements AppFileComponent {
                             userData.dicBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
                         }
                         break;
-                    case PLACES_SCORES:
+                    case BACTERIA_SCORES:
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY){
                             tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
                             jsonParser.nextToken();
-                            userData.placeBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            userData.bacteriaBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
                         }
                         break;
-                    case SCIENCE_SCORES:
+                    case BIOLOGY_SCORES:
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY){
                             tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
                             jsonParser.nextToken();
-                            userData.scienceBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            userData.biologyBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
                         }
                         break;
-                    case FAMOUS_SCORES:
+                    case FUNGI_SCORES:
                         jsonParser.nextToken();
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY){
                             tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
                             jsonParser.nextToken();
-                            userData.famousBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            userData.fungiBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
                         }
                         break;
                     default:

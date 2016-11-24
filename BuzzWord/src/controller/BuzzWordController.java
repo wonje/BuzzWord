@@ -6,6 +6,8 @@ import apptemplate.AppTemplate;
 import data.GameData;
 import data.UserData;
 import gui.Workspace;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import propertymanager.PropertyManager;
 import ui.YesNoCancelDialogSingleton;
 
@@ -29,7 +31,17 @@ public class BuzzWordController implements FileController {
         GameState.currentState = GameState.UNLOGIN;
         GameState.currentMode = GameState.ENGLISH_DICTIONARY;
     }
-
+//
+//
+//    private void play()
+//    {
+//        AnimationTimer timer = new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//
+//            }
+//        }
+//    }
 
 
     @Override

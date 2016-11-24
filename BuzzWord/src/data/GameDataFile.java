@@ -21,10 +21,10 @@ public class GameDataFile implements AppFileComponent {
     public static final String USER_ID              = "USER_ID";
     public static final String USER_PW              = "USER_PW";
     public static final String RECENT_MODE          = "RECENT_MODE";
-    public static final String DICTIONARY_LEVEL     = "DICTIONARY_LEVEL";
-    public static final String PLACES_LEVEL         = "PLACES_LEVEL";
-    public static final String SCIENCE_LEVEL        = "SCIENCE_LEVEL";
-    public static final String FAMOUS_LEVEL         = "FAMOUS_LEVEL";
+    public static final String DICTIONARY_SCORES    = "DICTIONARY_SCORES";
+    public static final String PLACES_SCORES        = "PLACES_SCORES";
+    public static final String SCIENCE_SCORES       = "SCIENCE_SCORES";
+    public static final String FAMOUS_SCORES        = "FAMOUS_SCORES";
 
 
     @Override
@@ -51,13 +51,29 @@ public class GameDataFile implements AppFileComponent {
 
             generator.writeStringField(RECENT_MODE, GameState.ENGLISH_DICTIONARY.toString());
 
-            generator.writeNumberField(DICTIONARY_LEVEL, 1);
+            generator.writeFieldName(DICTIONARY_SCORES);
+            generator.writeStartArray(2);
+            generator.writeNumber(1);
+            generator.writeNumber(0);
+            generator.writeEndArray();
 
-            generator.writeNumberField(PLACES_LEVEL, 1);
+            generator.writeFieldName(PLACES_SCORES);
+            generator.writeStartArray(2);
+            generator.writeNumber(1);
+            generator.writeNumber(0);
+            generator.writeEndArray();
 
-            generator.writeNumberField(SCIENCE_LEVEL, 1);
+            generator.writeFieldName(SCIENCE_SCORES);
+            generator.writeStartArray(2);
+            generator.writeNumber(1);
+            generator.writeNumber(0);
+            generator.writeEndArray();
 
-            generator.writeNumberField(FAMOUS_LEVEL, 1);
+            generator.writeFieldName(FAMOUS_SCORES);
+            generator.writeStartArray(2);
+            generator.writeNumber(1);
+            generator.writeNumber(0);
+            generator.writeEndArray();
 
             generator.writeEndObject();
 
@@ -78,7 +94,8 @@ public class GameDataFile implements AppFileComponent {
         JsonFactory jsonFactory = new JsonFactory();
         JsonParser  jsonParser  = jsonFactory.createParser(Files.newInputStream(from));
 
-        String tempID = "";
+        String  tempID  = "";
+        int     tempKey = 0;
 
         while (!jsonParser.isClosed()) {
             JsonToken token = jsonParser.nextToken();
@@ -104,21 +121,37 @@ public class GameDataFile implements AppFileComponent {
                         jsonParser.nextToken();
                         GameState.loadRecentMode(jsonParser.getValueAsString());
                         break;
-                    case DICTIONARY_LEVEL:
+                    case DICTIONARY_SCORES:
                         jsonParser.nextToken();
-                        gameData.engDicLevel = jsonParser.getValueAsInt();
+                        while (jsonParser.nextToken() != JsonToken.END_ARRAY){
+                            tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
+                            jsonParser.nextToken();
+                            userData.dicBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                        }
                         break;
-                    case PLACES_LEVEL:
+                    case PLACES_SCORES:
                         jsonParser.nextToken();
-                        gameData.placesLevel = jsonParser.getValueAsInt();
+                        while (jsonParser.nextToken() != JsonToken.END_ARRAY){
+                            tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
+                            jsonParser.nextToken();
+                            userData.placeBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                        }
                         break;
-                    case SCIENCE_LEVEL:
+                    case SCIENCE_SCORES:
                         jsonParser.nextToken();
-                        gameData.scienceLevel = jsonParser.getValueAsInt();
+                        while (jsonParser.nextToken() != JsonToken.END_ARRAY){
+                            tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
+                            jsonParser.nextToken();
+                            userData.scienceBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                        }
                         break;
-                    case FAMOUS_LEVEL:
+                    case FAMOUS_SCORES:
                         jsonParser.nextToken();
-                        gameData.famousLevel = jsonParser.getValueAsInt();
+                        while (jsonParser.nextToken() != JsonToken.END_ARRAY){
+                            tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
+                            jsonParser.nextToken();
+                            userData.famousBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                        }
                         break;
                     default:
                         throw new JsonParseException(jsonParser, "Unable to load JSON data");

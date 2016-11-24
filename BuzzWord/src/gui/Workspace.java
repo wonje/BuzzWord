@@ -2,8 +2,10 @@ package gui;
 
 import static buzzword.BuzzWordProperties.*;
 
+import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 import apptemplate.AppTemplate;
 import components.AppWorkspaceComponent;
@@ -28,6 +30,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import propertymanager.PropertyManager;
 import ui.AppGUI;
+import ui.YesNoCancelDialogSingleton;
 
 /**
  * This class serves as the GUI component for the Hangman game.
@@ -45,10 +48,11 @@ public class Workspace extends AppWorkspaceComponent {
     BuzzWordController  controller;
     LoginController     loginController;
 
+    GridElement[]       gridElements;
+
     BorderPane          basePane;           // main container to divide sections
     BorderPane          centerPane;
     StackPane           mainFramePane;      // container to stack grid elements and lines on the basePane
-    Canvas              canvas;             // canvas to draw lines to connect each of gird elements
 
     ScrollPane          helpPane;           // container to display help screen
     VBox                topPane;            // container to display labels at top
@@ -64,6 +68,7 @@ public class Workspace extends AppWorkspaceComponent {
     Label               remainingTime;      // label to display remaining time
     Label               levelLabel;         // label to display level
     Label               targetPoint;        // label to display target point
+    Label               totalPointLabel;
 
     Label[]             progress;           // labels to display progressed words
     ArrayList<Label>    matches;            // labels to display matched words
@@ -91,7 +96,6 @@ public class Workspace extends AppWorkspaceComponent {
 
 
     int                 time;
-    int                 totalPoint;
 
 
     /**
@@ -105,7 +109,8 @@ public class Workspace extends AppWorkspaceComponent {
     public Workspace(AppTemplate initApp) throws IOException {
         app = initApp;
         gui = app.getGUI();
-        canvas = new Canvas();
+        gameData = (GameData) app.getDataComponent();
+        userData = (UserData) app.getUserComponent();
         controller = (BuzzWordController) gui.getFileController();    //new HangmanController(app, startGame); <-- THIS WAS A MAJOR BUG!??
         loginController = LoginController.getSingleton(app);
         layoutGUI();     // initialize all the workspace (GUI) components including the containers and their layout
@@ -116,7 +121,6 @@ public class Workspace extends AppWorkspaceComponent {
     public void setPausePane(boolean visible)
     {
         pausePane.setVisible(visible);
-        canvas.setVisible(!visible);
         mainStagePane.setVisible(!visible);
     }
 
@@ -161,7 +165,6 @@ public class Workspace extends AppWorkspaceComponent {
         pausePane.setAlignment(pause, Pos.CENTER);
 
         // INIT DRAW CONNECTED LINES
-        initGridLines();
 
         // INIT DISPLAY GRID ELEMENTS
         initMainStage();
@@ -235,8 +238,8 @@ public class Workspace extends AppWorkspaceComponent {
                     @Override
                     public void handle(MouseEvent event) {
                         // TODO Confirm again before terminating the game
-
-                        System.exit(0);
+                        if(confirmBeforeExit())
+                            System.exit(0);
                     }
                 });
         closeButtonPane.getChildren().add(closeButton);
@@ -285,31 +288,18 @@ public class Workspace extends AppWorkspaceComponent {
         borderline1.setPrefWidth(3);
         borderline1.setStyle("-fx-background-color: black");
 
-        // FAKE DATA
-        matches.add(new Label("SUCCESS"));
-        matches.add(new Label("CSE"));
-        matchedPoints.add(new Label("70"));
-        matchedPoints.add(new Label("30"));
-
-        matchedWordPane.getChildren().addAll(matches);
-
-        matchedPointPane.getChildren().addAll(matchedPoints);
-
         // TOTAL POINT
         totalPointPane = new HBox();
         totalPointPane.setStyle("-fx-background-color: dimgray");
         Label total = new Label("TOTAL");
         total.setPrefWidth(171);
+        totalPointLabel = new Label();
         // FAKE DATA
         HBox borderline2 = new HBox();
         borderline2.setPrefWidth(3);
         borderline2.setStyle("-fx-background-color: black");
 
-        totalPoint = 0;
-        for (int i = 0; i < matchedPoints.size(); i++)
-            totalPoint += Integer.parseInt(matchedPoints.get(i).getText());
-
-        totalPointPane.getChildren().addAll(total, borderline2, new Label(Integer.toString(totalPoint)));
+        totalPointPane.getChildren().addAll(total, borderline2, totalPointLabel);
 
         matchedContainerPane.setStyle("-fx-background-color: black");
         matchedContainerPane.getChildren().addAll(matchedScrollPane, totalPointPane);
@@ -327,7 +317,7 @@ public class Workspace extends AppWorkspaceComponent {
 
         Label targetDisplay = new Label("TARGET");
         targetDisplay.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 20; -fx-underline: true; -fx-font-weight: bolder");
-        targetPoint = new Label("150");
+        targetPoint = new Label();
         targetPoint.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Arial'; -fx-font-size: 18; -fx-font-weight: bolder");
 
         targetPointPane.getChildren().addAll(targetDisplay, targetPoint);
@@ -350,51 +340,10 @@ public class Workspace extends AppWorkspaceComponent {
             progress[i].setMinSize(30,30);
             progress[i].setVisible(false);
             progress[i].setAlignment(Pos.CENTER);
-            switch (i)
-            {
-                case 0:
-                    progress[i].setText("S");
-                    break;
-                case 1:
-                    progress[i].setText("T");
-                    break;
-                case 2:
-                    progress[i].setText("O");
-                    break;
-                case 3:
-                    progress[i].setText("N");
-                    break;
-                case 4:
-                    progress[i].setText("Y");
-                    break;
-            }
 
             progressPane.add(progress[i], i%8, i/8);
         }
         return progressPane;
-    }
-
-    private void initGridLines()
-    {
-        canvas.setWidth(380);
-        canvas.setHeight(340);
-
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        String defaultColor = "#000000";
-
-        gc.setFill(Paint.valueOf(defaultColor));
-        gc.setLineWidth(5);
-
-        gc.strokeLine(27,3,370,3);
-        gc.strokeLine(27,110,357,110);
-        gc.strokeLine(27,220,357,220);
-        gc.strokeLine(27,330,357,330);
-        gc.strokeLine(27, 3, 27, 330);
-        gc.strokeLine(137, 3, 137, 330);
-        gc.strokeLine(247, 3, 247, 330);
-        gc.strokeLine(357, 3, 357, 330);
-        canvas.setVisible(false);
     }
 
     private void initMainStage() {
@@ -421,7 +370,10 @@ public class Workspace extends AppWorkspaceComponent {
         }
 
         // INIT GRID BUTTON COMPONENTS
-        gridButtons = new Button[16];
+        gridButtons     = new Button[16];
+        gridElements    = new GridElement[16];
+        int xPos        = 0;
+        int yPos        = 0;
         for (int i = 0; i <gridButtons.length; i++)
         {
             gridButtons[i] = new Button();
@@ -431,6 +383,17 @@ public class Workspace extends AppWorkspaceComponent {
             gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
             gridButtons[i].setVisible(true);
             gridButtons[i].setDisable(true);
+
+            // GRID ELEMENT CLASS INIT
+            gridElements[i] = new GridElement(new Point(xPos,yPos));
+            if(xPos == 6) {
+                xPos = 0;
+                yPos += 2;
+            }
+            else {
+                xPos += 2;
+            }
+
         }
 
         int vLineCount = 0;
@@ -442,8 +405,10 @@ public class Workspace extends AppWorkspaceComponent {
         {
             if(i < 7 || (i >= 14 && i < 21) || (i >= 28 && i < 35) || i >= 42) {
                 if (i % 2 == 0) {
-                    // CHECK GRID COMPONENT TRUN
-                    mainStagePane.add(gridButtons[gridCount++], i % 7, i / 7);
+                    // CHECK GRID COMPONENT TURN
+                    mainStagePane.add(gridButtons[gridCount], i % 7, i / 7);
+                    // INIT GRID ELEMENT OBJECT
+                    gridElements[gridCount++] = new GridElement(new Point(i % 7, i / 7));
                 }
                 else {
                     // CHECK HLINE COMPONENT TURN
@@ -493,6 +458,7 @@ public class Workspace extends AppWorkspaceComponent {
     {
         gui.getPlayAndHomeButton().setText("Start Playing");
         resetGrid();
+        resetScrollPane();
         modeLabel.setVisible(false);
         pauseAndPlayButtonPane.setVisible(false);
         levelLabel.setVisible(false);
@@ -516,42 +482,37 @@ public class Workspace extends AppWorkspaceComponent {
         modeLabel.setVisible(true);
         gui.getPlayAndHomeButton().setText("Home");
 
-        // TODO Different level opend as CurrentState
+        // CREATE GRID ELEMENT GUI
         for(int i = 0; i < 8; i++)
             gridButtons[i].setText(Integer.toString(i+1));
         for(int i = 8; i < gridButtons.length; i++)
             gridButtons[i].setVisible(false);
 
-        // TODO Load data from saved data file
-        int engData     = 4;
-        int placeData   = 5;
-        int scienceData = 6;
-        int famousData  = 7;
-
+        // OPEN GRID UP TO MAX LEVEL
         if(GameState.currentMode.equals(GameState.ENGLISH_DICTIONARY))
         {
-            setOpenedGrid(engData);
+            setOpenedGrid(gameData.maxEngDicLevel);
         }
         else if(GameState.currentMode.equals(GameState.PLACES))
         {
-            setOpenedGrid(placeData);
+            setOpenedGrid(gameData.maxPlacesLevel);
         }
         else if(GameState.currentMode.equals(GameState.SCIENCE))
         {
-            setOpenedGrid(scienceData);
+            setOpenedGrid(gameData.maxScienceLevel);
         }
         else if(GameState.currentMode.equals(GameState.FAMOUS_PEOPLE))
         {
-            setOpenedGrid(famousData);
+            setOpenedGrid(gameData.maxFamousLevel);
         }
 
 
     }
 
-    private void setOpenedGrid(int data)
+    private void setOpenedGrid(int maxLevel)
     {
         PropertyManager propertyManager = PropertyManager.getManager();
-        for(int i=0; i < data; i++)
+        for(int i=0; i < maxLevel; i++)
         {
             gridButtons[i].getStyleClass().clear();
             gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_OPENLEVEL));
@@ -562,7 +523,7 @@ public class Workspace extends AppWorkspaceComponent {
                     new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
-                            // TODO GAMEDATA SET
+                            // TODO GAMEDATA SETs
                             // #################
                             if(GameState.currentState.equals(GameState.LEVEL_SELECTION))
                                 gui.getFileController().handlePlayRequest(level);
@@ -574,10 +535,10 @@ public class Workspace extends AppWorkspaceComponent {
     // SET PLAYING GAME SCREEN
     public void setGamePlayScreen(int level) {
         PropertyManager propertyManager = PropertyManager.getManager();
+        String alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random random = new Random();
 
-        // PANES DISPLAY SET
-        canvas.setVisible(true);
-        // DISPLAY RIGHT STATUS
+        // DISPLAY GAME FUNCTIONS
         rightStatusPane.setVisible(true);
         remainingTimePane.setVisible(true);
         targetPointPane.setVisible(true);
@@ -586,80 +547,116 @@ public class Workspace extends AppWorkspaceComponent {
         pauseAndPlayButtonPane.setVisible(true);
         levelLabel.setText("Level " + Integer.toString(GameState.currentLevel));
         GameState.currentState = GameState.PLAY;
-        for (Label prog : progress)
-            prog.setVisible(true);
 
-        // LINE DISPLAY BY FAKE DATA
-        hLines[0].setVisible(true);
-        vLines[1].setVisible(true);
-        hLines[4].setVisible(true);
-        hLines[5].setVisible(true);
-
-        // GRID DISPLAY
-        for (int i = 0; i < gridButtons.length; i++) {
+        // MAKE GRID ELEMENTS RANDOMLY
+        for (int i = 0; i < gridButtons.length; i++)
+        {
             gridButtons[i].setDisable(false);
             gridButtons[i].setVisible(true);
             gridButtons[i].getStyleClass().clear();
+            gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
             gridButtons[i].setAlignment(Pos.CENTER);
-            switch (i) {
-                case 0:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
-                    gridButtons[i].setText("S");
-                    break;
-                case 1:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
-                    gridButtons[i].setText("T");
-                    break;
-                case 5:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
-                    gridButtons[i].setText("O");
-                    break;
-                case 6:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
-                    gridButtons[i].setText("N");
-                    break;
-                case 7:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
-                    gridButtons[i].setText("Y");
-                    break;
-                case 8:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("E");
-                    break;
-                case 9:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("S");
-                    break;
-                case 10:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("S");
-                    break;
-                case 12:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("C");
-                    break;
-                case 13:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("C");
-                    break;
-                case 14:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("U");
-                    break;
-                case 15:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("S");
-                    break;
-                default:
-                    gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                    gridButtons[i].setText("A");
-            }
+            gridButtons[i].setText(Character.toString(alphabets.charAt(random.nextInt(26))));
+            // GRID ELEMENT CLASS WORD SET
+            gridElements[i].word = gridButtons[i].getText().charAt(0);
+            // GET ACTION EVENT TO GRID BUTTONS
+            gridButtons[i].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+
+                }
+            });
+            gridButtons[i].addEventHandler(MouseEvent.DRAG_DETECTED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+
+                }
+            });
         }
+
+        for (Label prog : progress)
+            prog.setVisible(true);
+
+        // CREATE SOLUTION WORDS ########################
+        gameData.loadWordFile(GameState.currentMode);
+
+        int total_score = 0;
+
+        // TARGET SCORE SETTING BY LEVEL
+        int target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 100;
+        List<String> list = gameData.getBuzzWordSolution(gridElements);
+
+        // GET TOTAL SCORES
+        for (String element : list){
+            System.out.println(element);
+            total_score += element.length() * 10;
+//            matches.add(new Label(element));
+//            matchedPoints.add(new Label(Integer.toString(element.length() * 10)));
+        }
+        System.out.println("Target Score : " + target_score);
+        System.out.println("Total Score : " + total_score);
+        System.out.println("---------------");
+
+        // IF TARGET > TOTAL
+        while(target_score > total_score){
+            resetScrollPane();
+            total_score = 0;
+            for(int i = 0; i < gridButtons.length; i++){
+                gridButtons[i].setText(Character.toString(alphabets.charAt(random.nextInt(26))));
+                gridElements[i].word = gridButtons[i].getText().charAt(0);
+            }
+            list = gameData.getBuzzWordSolution(gridElements);
+            // GET TOTAL SCORES
+            for (String element : list){
+                System.out.println(element);
+                total_score += element.length() * 10;
+//                matches.add(new Label(element));
+//                matchedPoints.add(new Label(Integer.toString(element.length() * 10)));
+            }
+            System.out.println("Target Score : " + target_score);
+            System.out.println("Total Score : " + total_score);
+            System.out.println("---------------");
+        }
+        // SET TARGET LABEL
+        targetPoint.setText(Integer.toString(target_score));
+        matchedWordPane.getChildren().addAll(matches);
+        matchedPointPane.getChildren().addAll(matchedPoints);
+//        totalPointLabel.setText(Integer.toString(total_score));
+
+
+        // TODO DRAW DIAGONAL LINES TOO
+//        // LINE DISPLAY BY FAKE DATA
+//        hLines[0].setVisible(true);
+//        vLines[1].setVisible(true);
+//        hLines[4].setVisible(true);
+//        hLines[5].setVisible(true);
+    }
+
+    private boolean confirmBeforeExit() {
+        PropertyManager propertyManager = PropertyManager.getManager();
+        YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
+
+        if(GameState.currentState.equals(GameState.PLAY)) {
+            pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PLAY_BUTTON_IMAGE));
+            setPausePane(true);
+        }
+
+
+        yesNoCancelDialogSingleton.show("", "Are you sure to exit this application?");
+        if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
+            return true;
+        }
+
+        if(GameState.currentState.equals(GameState.PLAY)) {
+            pauseAndPlayButtonPane.setId(propertyManager.getPropertyValue(PAUSE_BUTTON_IMAGE));
+            setPausePane(false);
+        }
+
+        return false;
     }
 
     public void resetGrid()
     {
-        canvas.setVisible(false);
         for(int i = 0; i < gridButtons.length; i++)
         {
             gridButtons[i].setDisable(true);
@@ -696,6 +693,14 @@ public class Workspace extends AppWorkspaceComponent {
             }
 
         }
+    }
+
+    private void resetScrollPane() {
+        // RESET MATCHED VALUES
+        matches.clear();
+        matchedPoints.clear();
+        matchedWordPane.getChildren().clear();
+        matchedPointPane.getChildren().clear();
     }
 
     @Override

@@ -3,8 +3,11 @@ package controller;
 import static settings.AppPropertyType.*;
 
 import apptemplate.AppTemplate;
+import data.GameData;
+import data.UserData;
 import gui.Workspace;
 import propertymanager.PropertyManager;
+import ui.YesNoCancelDialogSingleton;
 
 import java.nio.file.Path;
 
@@ -14,11 +17,15 @@ import java.nio.file.Path;
  */
 public class BuzzWordController implements FileController {
 
-    private AppTemplate appTemplate;
-    private Workspace gameWorkspace;
+    AppTemplate appTemplate;
+    Workspace gameWorkspace;
+    UserData userData;
+    GameData gameData;
 
     public BuzzWordController(AppTemplate appTemplate) {
         this.appTemplate = appTemplate;
+        userData = (UserData) appTemplate.getUserComponent();
+        gameData = (GameData) appTemplate.getDataComponent();
         GameState.currentState = GameState.UNLOGIN;
         GameState.currentMode = GameState.ENGLISH_DICTIONARY;
     }
@@ -52,18 +59,31 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleLogoutRequest() {
-        GameState.currentState = GameState.UNLOGIN;
-        appTemplate.getGUI().setTooltipLogintoID(false);
-        // TODO DATA LOGOUT
-        // #################
-        setVisibleMenu(true, true, false, false);
-        appTemplate.getGUI().getMenuBackground(1).setId(PropertyManager.getManager().getPropertyValue(MENU_IMAGE));
-        appTemplate.getGUI().getLoginAndIDButton().setText("Login");
-        gameWorkspace.setHomeScreen();
+        YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
+        yesNoCancelDialogSingleton.show("", "Do you want to logout?");
+
+        if(yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
+            GameState.currentState = GameState.UNLOGIN;
+            appTemplate.getGUI().setTooltipLogintoID(false);
+            // TODO DATA LOGOUT
+            userData.reset();
+            gameData.reset();
+            // #################
+            setVisibleMenu(true, true, false, false);
+            appTemplate.getGUI().getMenuBackground(1).setId(PropertyManager.getManager().getPropertyValue(MENU_IMAGE));
+            appTemplate.getGUI().getLoginAndIDButton().setText("Login");
+            gameWorkspace.setHomeScreen();
+        }
     }
 
     @Override
     public void handleGoHomeRequest() {
+        YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
+        if(GameState.currentState.equals(GameState.PLAY) || GameState.currentState.equals(GameState.PAUSE)) {
+            yesNoCancelDialogSingleton.show("", "Are you sure to terminate this stage?");
+            if(!yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES))
+                return;
+        }
         if(GameState.currentState.equals(GameState.PAUSE))
             gameWorkspace.setPausePane(false);
         GameState.currentState = GameState.LOGIN;
@@ -78,6 +98,9 @@ public class BuzzWordController implements FileController {
         appTemplate.getGUI().setTooltipPlaytoHome(true);
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         setVisibleMenu(false, true, true, false);
+        // GET MAX LEVEL
+        gameData.getMaxLevels(userData);
+        // SET LEVEL SELECTION DISPLAY
         gameWorkspace.setLevelSelectionScreen();
     }
 

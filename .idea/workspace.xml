@@ -2,13 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3fafb944-5399-44bb-80f3-ebf5980d57dd" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/BuzzWord/logs/wonjess92.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/BuzzWord/resources/words/EnglishDictionary.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/resources/words/FamousPeople.txt" afterPath="$PROJECT_DIR$/BuzzWord/resources/words/FamousPeople.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/resources/words/Places.txt" afterPath="$PROJECT_DIR$/BuzzWord/resources/words/Places.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/resources/words/Science.txt" afterPath="$PROJECT_DIR$/BuzzWord/resources/words/Science.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" afterPath="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/controller/GameState.java" afterPath="$PROJECT_DIR$/BuzzWord/src/controller/GameState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java" afterPath="$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/data/GameData.java" afterPath="$PROJECT_DIR$/BuzzWord/src/data/GameData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java" afterPath="$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java" afterPath="$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/data/UserData.java" afterPath="$PROJECT_DIR$/BuzzWord/src/data/UserData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/gui/GridElement.java" afterPath="$PROJECT_DIR$/BuzzWord/src/gui/GridElement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java" afterPath="$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java" />
     </list>
     <ignored path="TheBuzzwordGame.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +35,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="168" column="25" selection-start-line="168" selection-start-column="25" selection-end-line="168" selection-end-column="25" />
+            <state relative-caret-position="418">
+              <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -45,60 +50,48 @@
       <file leaf-file-name="BuzzWordController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="47" column="85" selection-start-line="47" selection-start-column="85" selection-end-line="47" selection-end-column="85" />
+            <state relative-caret-position="400">
+              <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppTemplate.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JFXFramework/src/apptemplate/AppTemplate.java">
+      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/GameState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-              <folding>
-                <element signature="e#1567#1568#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TextInputControl.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/scene/control/TextInputControl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="347" column="35" selection-start-line="347" selection-start-column="35" selection-end-line="347" selection-end-column="35" />
+            <state relative-caret-position="464">
+              <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JsonFactory.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/jackson-core-2.8.2-sources.jar!/com/fasterxml/jackson/core/JsonFactory.java">
+      <file leaf-file-name="Workspace.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="809" column="0" selection-start-line="809" selection-start-column="0" selection-end-line="809" selection-end-column="0" />
+            <state relative-caret-position="1015">
+              <caret line="699" column="24" selection-start-line="699" selection-start-column="24" selection-end-line="699" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BuzzWord.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BuzzWord/src/buzzword/BuzzWord.java">
+      <file leaf-file-name="FileController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JFXFramework/src/controller/FileController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
+            <state relative-caret-position="304">
+              <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppFileComponent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java">
+      <file leaf-file-name="GridElement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BuzzWord/src/gui/GridElement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+            <state relative-caret-position="432">
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -107,19 +100,11 @@
       <file leaf-file-name="GameDataFile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="74" column="40" selection-start-line="74" selection-start-column="40" selection-end-line="74" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UTF8StreamJsonParser.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/jackson-core-2.8.2-sources.jar!/com/fasterxml/jackson/core/json/UTF8StreamJsonParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="771" column="0" selection-start-line="771" selection-start-column="0" selection-end-line="771" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="1472">
+              <caret line="103" column="36" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="36" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,8 +112,20 @@
       <file leaf-file-name="GameData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
+            <state relative-caret-position="32">
+              <caret line="87" column="31" selection-start-line="87" selection-start-column="31" selection-end-line="87" selection-end-column="31" />
+              <folding>
+                <element signature="e#3453#3461#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/UserData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="103">
+              <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -170,21 +167,21 @@
         <option value="$PROJECT_DIR$/BuzzWord/resources/properties/app-properties.xml" />
         <option value="$PROJECT_DIR$/JFXFramework/src/ui/AppGUI.java" />
         <option value="$PROJECT_DIR$/BuzzWord/resources/css/buzzword_style.css" />
-        <option value="$PROJECT_DIR$/BuzzWord/src/data/UserData.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/components/AppComponentsBuilder.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/apptemplate/AppTemplate.java" />
-        <option value="$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/ui/AppMessageDialogSingleton.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/settings/InitializationParameters.java" />
         <option value="$PROJECT_DIR$/BuzzWord/src/buzzword/BuzzWord.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/ui/YesNoCancelDialogSingleton.java" />
-        <option value="$PROJECT_DIR$/BuzzWord/src/gui/GridElement.java" />
         <option value="$PROJECT_DIR$/BuzzWord/src/controller/GameState.java" />
-        <option value="$PROJECT_DIR$/BuzzWord/src/data/GameData.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java" />
-        <option value="$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java" />
-        <option value="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" />
         <option value="$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java" />
+        <option value="$PROJECT_DIR$/BuzzWord/src/data/UserData.java" />
+        <option value="$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java" />
+        <option value="$PROJECT_DIR$/BuzzWord/src/gui/GridElement.java" />
+        <option value="$PROJECT_DIR$/BuzzWord/src/data/GameData.java" />
+        <option value="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" />
+        <option value="$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java" />
       </list>
     </option>
   </component>
@@ -209,7 +206,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="width" value="1931" />
-    <option name="height" value="1038" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -313,8 +310,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -631,27 +628,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TheBuzzwordGame" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TheBuzzwordGame" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BuzzWord" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="logs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1150,7 +1129,14 @@
       <workItem from="1479365406726" duration="123000" />
       <workItem from="1479365674219" duration="6913000" />
       <workItem from="1479385428511" duration="2591000" />
-      <workItem from="1479403792525" duration="6209000" />
+      <workItem from="1479403792525" duration="7431000" />
+      <workItem from="1479421105755" duration="1113000" />
+      <workItem from="1479426068723" duration="7470000" />
+      <workItem from="1479437287552" duration="1573000" />
+      <workItem from="1479450659772" duration="1995000" />
+      <workItem from="1479587040557" duration="1547000" />
+      <workItem from="1479604336714" duration="15677000" />
+      <workItem from="1479950980937" duration="8515000" />
     </task>
     <task id="LOCAL-00001" summary="Git Initialization">
       <created>1478574478338</created>
@@ -1271,11 +1257,18 @@
       <option name="project" value="LOCAL" />
       <updated>1479372818487</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="The BuzzWord Game HW5 ver 2.0 + Login Function">
+      <created>1479414170747</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1479414170747</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="209687000" />
+    <option name="totallyTimeSpent" value="248799000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1287,7 +1280,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1931" height="1038" extended-state="0" />
+    <frame x="-8" y="0" width="1931" height="1039" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1298,7 +1291,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25821066" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25678733" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1310,7 +1303,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18346547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24688561" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1350,11 +1343,12 @@
     <MESSAGE value="The BuzzWord Game HW4 Complete ver 2.0" />
     <MESSAGE value="The BuzzWord Game HW4 Complete ver 3.0" />
     <MESSAGE value="The BuzzWord Game HW5 ver 1.0 +create new profile" />
-    <option name="LAST_COMMIT_MESSAGE" value="The BuzzWord Game HW5 ver 1.0 +create new profile" />
+    <MESSAGE value="The BuzzWord Game HW5 ver 2.0 + Login Function" />
+    <option name="LAST_COMMIT_MESSAGE" value="The BuzzWord Game HW5 ver 2.0 + Login Function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="36" />
+      <option name="time" value="42" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1363,20 +1357,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/src.zip!/java/lang/Exception.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="53" column="11" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/src.zip!/javax/xml/validation/Validator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="121" column="23" selection-start-line="121" selection-start-column="23" selection-end-line="121" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/src.zip!/org/xml/sax/SAXException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
@@ -1497,18 +1477,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JFXFramework/src/controller/FileController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/JFXFramework/src/propertymanager/PropertyManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="29" column="72" selection-start-line="29" selection-start-column="72" selection-end-line="29" selection-end-column="72" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1558,120 +1530,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5856">
           <caret line="450" column="16" selection-start-line="450" selection-start-column="16" selection-end-line="450" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#44297#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#5953#5954#0" expanded="false" />
-            <element signature="e#5998#5999#0" expanded="false" />
-            <element signature="e#6146#6147#0" expanded="false" />
-            <element signature="e#6191#6192#0" expanded="false" />
-            <element signature="e#6574#6575#0" expanded="false" />
-            <element signature="e#6642#6643#0" expanded="false" />
-            <element signature="e#6728#6729#0" expanded="false" />
-            <element signature="e#6796#6797#0" expanded="false" />
-            <element signature="e#7059#7060#0" expanded="false" />
-            <element signature="e#7121#7122#0" expanded="false" />
-            <element signature="e#7203#7204#0" expanded="false" />
-            <element signature="e#7267#7268#0" expanded="false" />
-            <element signature="e#7505#7506#0" expanded="false" />
-            <element signature="e#7547#7548#0" expanded="false" />
-            <element signature="e#8302#8303#0" expanded="false" />
-            <element signature="e#8330#8331#0" expanded="false" />
-            <element signature="e#9715#9716#0" expanded="false" />
-            <element signature="e#9752#9753#0" expanded="false" />
-            <element signature="e#10109#10110#0" expanded="false" />
-            <element signature="e#10147#10148#0" expanded="false" />
-            <element signature="e#10404#10405#0" expanded="false" />
-            <element signature="e#10434#10435#0" expanded="false" />
-            <element signature="e#10681#10682#0" expanded="false" />
-            <element signature="e#10759#10760#0" expanded="false" />
-            <element signature="e#11299#11300#0" expanded="false" />
-            <element signature="e#11341#11342#0" expanded="false" />
-            <element signature="e#11378#11379#0" expanded="false" />
-            <element signature="e#11410#11411#0" expanded="false" />
-            <element signature="e#17461#17462#0" expanded="false" />
-            <element signature="e#17489#17490#0" expanded="false" />
-            <element signature="e#18576#18577#0" expanded="false" />
-            <element signature="e#18607#18608#0" expanded="false" />
-            <element signature="e#19777#19778#0" expanded="false" />
-            <element signature="e#19805#19806#0" expanded="false" />
-            <element signature="e#23866#23867#0" expanded="false" />
-            <element signature="e#23934#23935#0" expanded="false" />
-            <element signature="e#23999#24000#0" expanded="false" />
-            <element signature="e#24068#24069#0" expanded="false" />
-            <element signature="e#25330#25331#0" expanded="false" />
-            <element signature="e#25358#25359#0" expanded="false" />
-            <element signature="e#25545#25546#0" expanded="false" />
-            <element signature="e#25587#25588#0" expanded="false" />
-            <element signature="e#25625#25626#0" expanded="false" />
-            <element signature="e#25682#25683#0" expanded="false" />
-            <element signature="e#26088#26089#0" expanded="false" />
-            <element signature="e#26145#26146#0" expanded="false" />
-            <element signature="e#26214#26215#0" expanded="false" />
-            <element signature="e#26268#26269#0" expanded="false" />
-            <element signature="e#27236#27237#0" expanded="false" />
-            <element signature="e#27302#27303#0" expanded="false" />
-            <element signature="e#27366#27367#0" expanded="false" />
-            <element signature="e#27434#27435#0" expanded="false" />
-            <element signature="e#28432#28433#0" expanded="false" />
-            <element signature="e#28498#28499#0" expanded="false" />
-            <element signature="e#28562#28563#0" expanded="false" />
-            <element signature="e#28630#28631#0" expanded="false" />
-            <element signature="e#29998#29999#0" expanded="false" />
-            <element signature="e#30068#30069#0" expanded="false" />
-            <element signature="e#31237#31238#0" expanded="false" />
-            <element signature="e#31283#31284#0" expanded="false" />
-            <element signature="e#31325#31326#0" expanded="false" />
-            <element signature="e#31390#31391#0" expanded="false" />
-            <element signature="e#31907#31908#0" expanded="false" />
-            <element signature="e#31967#31968#0" expanded="false" />
-            <element signature="e#32789#32790#0" expanded="false" />
-            <element signature="e#32834#32835#0" expanded="false" />
-            <element signature="e#32875#32876#0" expanded="false" />
-            <element signature="e#32935#32936#0" expanded="false" />
-            <element signature="e#33564#33565#0" expanded="false" />
-            <element signature="e#33621#33622#0" expanded="false" />
-            <element signature="e#33690#33691#0" expanded="false" />
-            <element signature="e#33747#33748#0" expanded="false" />
-            <element signature="e#34022#34023#0" expanded="false" />
-            <element signature="e#34068#34069#0" expanded="false" />
-            <element signature="e#34110#34111#0" expanded="false" />
-            <element signature="e#34172#34173#0" expanded="false" />
-            <element signature="e#34840#34841#0" expanded="false" />
-            <element signature="e#34897#34898#0" expanded="false" />
-            <element signature="e#34966#34967#0" expanded="false" />
-            <element signature="e#35024#35025#0" expanded="false" />
-            <element signature="e#35312#35313#0" expanded="false" />
-            <element signature="e#35357#35358#0" expanded="false" />
-            <element signature="e#35398#35399#0" expanded="false" />
-            <element signature="e#35473#35474#0" expanded="false" />
-            <element signature="e#36119#36120#0" expanded="false" />
-            <element signature="e#36176#36177#0" expanded="false" />
-            <element signature="e#36245#36246#0" expanded="false" />
-            <element signature="e#36302#36303#0" expanded="false" />
-            <element signature="e#36592#36593#0" expanded="false" />
-            <element signature="e#36638#36639#0" expanded="false" />
-            <element signature="e#36680#36681#0" expanded="false" />
-            <element signature="e#36757#36758#0" expanded="false" />
-            <element signature="e#37442#37443#0" expanded="false" />
-            <element signature="e#37499#37500#0" expanded="false" />
-            <element signature="e#37568#37569#0" expanded="false" />
-            <element signature="e#37626#37627#0" expanded="false" />
-            <element signature="e#41620#41621#0" expanded="false" />
-            <element signature="e#41642#41643#0" expanded="false" />
-            <element signature="e#41687#41688#0" expanded="false" />
-            <element signature="e#41720#41721#0" expanded="false" />
-            <element signature="e#42974#42975#0" expanded="false" />
-            <element signature="e#43028#43029#0" expanded="false" />
-            <element signature="e#43243#43244#0" expanded="false" />
-            <element signature="e#43291#43292#0" expanded="false" />
-            <element signature="e#44037#44038#0" expanded="false" />
-            <element signature="e#44082#44083#0" expanded="false" />
-            <element signature="e#44133#44134#0" expanded="false" />
-            <element signature="e#44180#44181#0" expanded="false" />
-            <element signature="e#44252#44253#0" expanded="false" />
-            <element signature="e#44293#44294#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1698,21 +1556,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1280">
-          <caret line="107" column="30" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/JFXFramework/src/ui/AppGUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="661">
           <caret line="243" column="28" selection-start-line="243" selection-start-column="28" selection-end-line="243" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1720,7 +1567,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1632">
           <caret line="113" column="47" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1736,15 +1582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="624">
           <caret line="50" column="72" selection-start-line="50" selection-start-column="72" selection-end-line="50" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/gui/GridElement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1752,31 +1589,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
           <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/GameState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="44" column="20" selection-start-line="44" selection-start-column="20" selection-end-line="44" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/UserData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1784,41 +1596,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="32" column="45" selection-start-line="32" selection-start-column="45" selection-end-line="32" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JFXFramework/src/apptemplate/AppTemplate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding>
-            <element signature="e#1567#1568#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#476#477#0" expanded="false" />
+            <element signature="e#519#520#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/scene/control/TextInputControl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="347" column="35" selection-start-line="347" selection-start-column="35" selection-end-line="347" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/jackson-core-2.8.2-sources.jar!/com/fasterxml/jackson/core/JsonFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="809" column="0" selection-start-line="809" selection-start-column="0" selection-end-line="809" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/jackson-core-2.8.2-sources.jar!/com/fasterxml/jackson/core/json/UTF8StreamJsonParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
+        <state relative-caret-position="12080">
           <caret line="771" column="0" selection-start-line="771" selection-start-column="0" selection-end-line="771" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1826,33 +1615,124 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/jackson-core-2.8.2-sources.jar!/com/fasterxml/jackson/core/JsonFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="809" column="0" selection-start-line="809" selection-start-column="0" selection-end-line="809" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/scene/control/TextInputControl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="347" column="35" selection-start-line="347" selection-start-column="35" selection-end-line="347" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JFXFramework/src/apptemplate/AppTemplate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding>
+            <element signature="e#1567#1568#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/stage/Window.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="91" column="29" selection-start-line="91" selection-start-column="29" selection-end-line="91" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="74" column="40" selection-start-line="74" selection-start-column="40" selection-end-line="74" selection-end-column="40" />
+        <state relative-caret-position="1472">
+          <caret line="103" column="36" selection-start-line="103" selection-start-column="36" selection-end-line="103" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/gui/GridElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java">
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/UserData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="47" column="85" selection-start-line="47" selection-start-column="85" selection-end-line="47" selection-end-column="85" />
+        <state relative-caret-position="103">
+          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/GameState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="168" column="25" selection-start-line="168" selection-start-column="25" selection-end-line="168" selection-end-column="25" />
+        <state relative-caret-position="418">
+          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JFXFramework/src/controller/FileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="87" column="31" selection-start-line="87" selection-start-column="31" selection-end-line="87" selection-end-column="31" />
+          <folding>
+            <element signature="e#3453#3461#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Downloads/NORM&amp;R.DIC">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7104">
+          <caret line="171" column="8" selection-start-line="171" selection-start-column="8" selection-end-line="171" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1015">
+          <caret line="699" column="24" selection-start-line="699" selection-start-column="24" selection-end-line="699" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>

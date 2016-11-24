@@ -10,14 +10,14 @@ import java.util.HashMap;
  * @author Jason Kang
  */
 public class UserData implements AppDataComponent{
-    public AppTemplate appTemplate;
-    public GameData gameData;
-    private HashMap<Integer, Integer> dicBestPoints;
-    private HashMap<Integer, Integer> placeBestPoints;
-    private HashMap<Integer, Integer> scienceBestPoints;
-    private HashMap<Integer, Integer> famousBestPoints;
-    private String userID;
-    private String userPW;
+    AppTemplate appTemplate;
+    GameData gameData;
+    HashMap<Integer, Integer> dicBestScores;
+    HashMap<Integer, Integer> placeBestScores;
+    HashMap<Integer, Integer> scienceBestScores;
+    HashMap<Integer, Integer> famousBestScores;
+    String userID;
+    String userPW;
 
     public UserData(AppTemplate appTemplate){
         this.appTemplate    = appTemplate;
@@ -28,10 +28,10 @@ public class UserData implements AppDataComponent{
     {
         userID = "";
         userPW = "";
-        dicBestPoints = new HashMap<Integer, Integer>();
-        placeBestPoints = new HashMap<Integer, Integer>();
-        scienceBestPoints = new HashMap<Integer, Integer>();
-        famousBestPoints = new HashMap<Integer, Integer>();
+        dicBestScores = new HashMap<Integer, Integer>();
+        placeBestScores = new HashMap<Integer, Integer>();
+        scienceBestScores = new HashMap<Integer, Integer>();
+        famousBestScores = new HashMap<Integer, Integer>();
     }
 
     @Override
@@ -39,10 +39,10 @@ public class UserData implements AppDataComponent{
     {
         userID = "";
         userPW = "";
-        dicBestPoints.clear();
-        placeBestPoints.clear();
-        scienceBestPoints.clear();
-        famousBestPoints.clear();
+        dicBestScores.clear();
+        placeBestScores.clear();
+        scienceBestScores.clear();
+        famousBestScores.clear();
     }
 
     public void setUserInfo(String userID, String userPW){
@@ -59,13 +59,13 @@ public class UserData implements AppDataComponent{
         switch (mode)
         {
             case ENGLISH_DICTIONARY:
-                return dicBestPoints.get(level);
+                return dicBestScores.get(level);
             case PLACES:
-                return placeBestPoints.get(level);
+                return placeBestScores.get(level);
             case SCIENCE:
-                return scienceBestPoints.get(level);
+                return scienceBestScores.get(level);
             case FAMOUS_PEOPLE:
-                return famousBestPoints.get(level);
+                return famousBestScores.get(level);
         }
         // TODO RETURN ERROR
         return -1;
@@ -76,33 +76,33 @@ public class UserData implements AppDataComponent{
         switch (mode)
         {
             case ENGLISH_DICTIONARY:
-                if(point >= dicBestPoints.get(level))
+                if(point >= dicBestScores.get(level))
                 {
-                    dicBestPoints.put(level, point);
+                    dicBestScores.put(level, point);
                     return true;
                 }
                 else
                     return false;
             case PLACES:
-                if(point >= placeBestPoints.get(level))
+                if(point >= placeBestScores.get(level))
                 {
-                    placeBestPoints.put(level, point);
+                    placeBestScores.put(level, point);
                     return true;
                 }
                 else
                     return false;
             case SCIENCE:
-                if(point >= scienceBestPoints.get(level))
+                if(point >= scienceBestScores.get(level))
                 {
-                    scienceBestPoints.put(level, point);
+                    scienceBestScores.put(level, point);
                     return true;
                 }
                 else
                     return false;
             case FAMOUS_PEOPLE:
-                if(point >= famousBestPoints.get(level))
+                if(point >= famousBestScores.get(level))
                 {
-                    famousBestPoints.put(level, point);
+                    famousBestScores.put(level, point);
                     return true;
                 }
                 else

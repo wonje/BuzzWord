@@ -70,12 +70,11 @@ public class Workspace extends AppWorkspaceComponent {
     Label targetPoint;        // label to display target point
     Label totalPointLabel;
 
-    Label[] progress;           // labels to display progressed words
+    ArrayList<Label> progress;           // labels to display progressed words
     ArrayList<Label> matches;            // labels to display matched words
     ArrayList<Label> matchedPoints;      // labels to display points of matched words
 
     Button pauseAndPlayButton;
-    Button[] gridButtons;         // shape to make grid button design
 
     Button closeButton;        // close button
     StackPane closeButtonPane;
@@ -95,6 +94,8 @@ public class Workspace extends AppWorkspaceComponent {
     Line[] hLines;
     Line[] lrLines;
     Line[] rlLines;
+
+    ArrayList<String> solutions;
 
     int time;
 
@@ -290,7 +291,7 @@ public class Workspace extends AppWorkspaceComponent {
         totalPointPane.setStyle("-fx-background-color: dimgray");
         Label total = new Label("TOTAL");
         total.setPrefWidth(171);
-        totalPointLabel = new Label();
+        totalPointLabel = new Label("0");
         // FAKE DATA
         HBox borderline2 = new HBox();
         borderline2.setPrefWidth(3);
@@ -326,18 +327,10 @@ public class Workspace extends AppWorkspaceComponent {
     }
 
     private GridPane initProgressPane() {
-        progress = new Label[16];
+        progress = new ArrayList<Label>();
         progressPane = new GridPane();
-        for (int i = 0; i < progress.length; i++) {
-            progress[i] = new Label();
-            progress[i].setStyle("-fx-background-color: dimgray; -fx-font-family: 'Arial'; " +
-                    "-fx-text-fill: antiquewhite; -fx-font-weight: bolder; -fx-font-size: 14");
-            progress[i].setMinSize(30, 30);
-            progress[i].setVisible(false);
-            progress[i].setAlignment(Pos.CENTER);
+        progressPane.setPrefHeight(60);
 
-            progressPane.add(progress[i], i % 8, i / 8);
-        }
         return progressPane;
     }
 
@@ -379,45 +372,26 @@ public class Workspace extends AppWorkspaceComponent {
                 rlLines[i].setSmooth(true);
             }
 
-            // INIT GRID BUTTON COMPONENTS
-            gridButtons = new Button[16];
-            gridElements = new GridElement[16];
-            int xPos = 0;
-            int yPos = 0;
-            for (int i = 0; i < gridButtons.length; i++) {
-                gridButtons[i] = new Button();
-                gridButtons[i].setShape(new Circle(50));
-                gridButtons[i].setMinSize(100, 100);
-                gridButtons[i].setMaxSize(100, 100);
-                gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-                gridButtons[i].setVisible(true);
-                gridButtons[i].setDisable(true);
-
-                // GRID ELEMENT CLASS INIT
-                gridElements[i] = new GridElement(new Point(xPos, yPos));
-                if (xPos == 6) {
-                    xPos = 0;
-                    yPos += 2;
-                } else {
-                    xPos += 2;
-                }
-
-            }
-
             int vLineCount = 0;
             int hLineCount = 0;
             int diagonalLineCount = 0;
             int gridCount = 0;
             StackPane tempStack;
 
+            // INIT GRID BUTTON COMPONENTS
+            gridElements = new GridElement[16];
             for (int i = 0; i < 49; i++) {
                 if (i < 7 || (i >= 14 && i < 21) || (i >= 28 && i < 35) || i >= 42) {
                     if (i % 2 == 0) {
-                        // CHECK GRID COMPONENT TURN
-                        mainStagePane.add(gridButtons[gridCount], i % 7, i / 7);
-                        // INIT GRID ELEMENT OBJECT
-                        gridElements[gridCount] = new GridElement(new Point(i % 7, i / 7));
-                        gridElements[gridCount].setGridButton(gridButtons[gridCount++]);
+                        // CHECK GRID COMPONENT TURN AND INIT
+                        gridElements[gridCount] = new GridElement(new Point(i % 7, i / 7), this, this.app);
+                        gridElements[gridCount].setShape(new Circle(50));
+                        gridElements[gridCount].setMinSize(100, 100);
+                        gridElements[gridCount].setMaxSize(100, 100);
+                        gridElements[gridCount].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                        gridElements[gridCount].setVisible(true);
+                        gridElements[gridCount].setDisable(true);
+                        mainStagePane.add(gridElements[gridCount++], i % 7, i / 7);
                     } else {
                         // CHECK HLINE COMPONENT TURN
                         mainStagePane.add(hLines[hLineCount], i % 7, i / 7);
@@ -444,26 +418,26 @@ public class Workspace extends AppWorkspaceComponent {
 
                 switch (gridCount - 1) {
                     case 0:
-                        gridButtons[gridCount - 1].setText("B");
+                        gridElements[gridCount - 1].setText("B");
                         break;
                     case 1:
-                        gridButtons[gridCount - 1].setText("U");
+                        gridElements[gridCount - 1].setText("U");
                         break;
                     case 4:
                     case 5:
-                        gridButtons[gridCount - 1].setText("Z");
+                        gridElements[gridCount - 1].setText("Z");
                         break;
                     case 10:
-                        gridButtons[gridCount - 1].setText("W");
+                        gridElements[gridCount - 1].setText("W");
                         break;
                     case 11:
-                        gridButtons[gridCount - 1].setText("O");
+                        gridElements[gridCount - 1].setText("O");
                         break;
                     case 14:
-                        gridButtons[gridCount - 1].setText("R");
+                        gridElements[gridCount - 1].setText("R");
                         break;
                     case 15:
-                        gridButtons[gridCount - 1].setText("D");
+                        gridElements[gridCount - 1].setText("D");
                         break;
                 }
             }
@@ -481,17 +455,14 @@ public class Workspace extends AppWorkspaceComponent {
         pauseAndPlayButtonPane.setVisible(false);
         levelLabel.setVisible(false);
 
-        // LINE UNDISPLAY BY FAKE DATA
-        hLines[0].setVisible(false);
-        vLines[1].setVisible(false);
-        hLines[4].setVisible(false);
-        hLines[5].setVisible(false);
-
         // UNDISPLAY RIGHT STATUS PANE
         rightStatusPane.setVisible(false);
         remainingTimePane.setVisible(false);
         targetPointPane.setVisible(false);
 
+        // RESET GAME DATA
+        gameData.matchedStr.clear();
+        totalPointLabel.setText("0");
     }
 
     // SET LEVEL SELETION SCREEN
@@ -502,9 +473,9 @@ public class Workspace extends AppWorkspaceComponent {
 
         // CREATE GRID ELEMENT GUI
         for(int i = 0; i < 8; i++)
-            gridButtons[i].setText(Integer.toString(i+1));
-        for(int i = 8; i < gridButtons.length; i++)
-            gridButtons[i].setVisible(false);
+            gridElements[i].setText(Integer.toString(i+1));
+        for(int i = 8; i < gridElements.length; i++)
+            gridElements[i].setVisible(false);
 
         // OPEN GRID UP TO MAX LEVEL
         if(GameState.currentMode.equals(GameState.ENGLISH_DICTIONARY))
@@ -532,16 +503,16 @@ public class Workspace extends AppWorkspaceComponent {
         PropertyManager propertyManager = PropertyManager.getManager();
         for(int i=0; i < maxLevel; i++)
         {
-            gridButtons[i].getStyleClass().clear();
-            gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_OPENLEVEL));
-            gridButtons[i].setAlignment(Pos.CENTER);
-            gridButtons[i].setDisable(false);
+            gridElements[i].getStyleClass().clear();
+            gridElements[i].getStyleClass().add(propertyManager.getPropertyValue(GRID_OPENLEVEL));
+            gridElements[i].setAlignment(Pos.CENTER);
+            gridElements[i].setDisable(false);
             int level = i+1;
-            gridButtons[i].addEventHandler(MouseEvent.MOUSE_CLICKED,
+            gridElements[i].addEventHandler(MouseEvent.MOUSE_CLICKED,
                     new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
-                            // TODO GAMEDATA SETs
+                            // TODO GAMEDATA SET
                             // #################
                             if(GameState.currentState.equals(GameState.LEVEL_SELECTION))
                                 gui.getFileController().handlePlayRequest(level);
@@ -560,49 +531,22 @@ public class Workspace extends AppWorkspaceComponent {
         rightStatusPane.setVisible(true);
         remainingTimePane.setVisible(true);
         targetPointPane.setVisible(true);
-
         levelLabel.setVisible(true);
         pauseAndPlayButtonPane.setVisible(true);
         levelLabel.setText("Level " + Integer.toString(GameState.currentLevel));
 
         // MAKE GRID ELEMENTS RANDOMLY
-        for (int i = 0; i < gridButtons.length; i++)
+        for (int i = 0; i < gridElements.length; i++)
         {
-            gridButtons[i].setDisable(false);
-            gridButtons[i].setVisible(true);
-            gridButtons[i].getStyleClass().clear();
-            gridButtons[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
-            gridButtons[i].setAlignment(Pos.CENTER);
-            gridButtons[i].setText(Character.toString(alphabets.charAt(random.nextInt(26))));
+            gridElements[i].setDisable(false);
+            gridElements[i].setVisible(true);
+            gridElements[i].getStyleClass().clear();
+            gridElements[i].getStyleClass().add(propertyManager.getPropertyValue(GRID));
+            gridElements[i].setAlignment(Pos.CENTER);
+            gridElements[i].setText(Character.toString(alphabets.charAt(random.nextInt(26))));
             // GRID ELEMENT CLASS WORD SET
-            gridElements[i].word = gridButtons[i].getText().charAt(0);
-            // GET ACTION EVENT TO GRID BUTTONS
-            gridButtons[i].addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    for (GridElement grid : gridElements) {
-                        // SEARCH GRID ELEMENT OBJECT
-                        if(event.getSource().equals(grid.getGridButton()))
-                            // CHECKING IT WAS VISITED OR NOT
-                                if(!grid.visited) {
-                                    grid.getGridButton().getStyleClass().clear();
-                                    grid.getGridButton().getStyleClass().add(propertyManager.getPropertyValue(GRID_SELECTED));
-                                    grid.visited = true;
-                                }
-                    }
-
-                }
-            });
-            gridButtons[i].addEventHandler(MouseEvent.DRAG_DETECTED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-
-                }
-            });
+            gridElements[i].word = gridElements[i].getText().charAt(0);
         }
-
-        for (Label prog : progress)
-            prog.setVisible(true);
 
         // CREATE SOLUTION WORDS ########################
         gameData.loadWordFile(GameState.currentMode);
@@ -614,10 +558,10 @@ public class Workspace extends AppWorkspaceComponent {
             target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 800;
         else
             target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 100;
-        List<String> list = gameData.getBuzzWordSolution(gridElements);
+        solutions = gameData.getBuzzWordSolution(gridElements);
 
         // GET TOTAL SCORES
-        for (String element : list){
+        for (String element : solutions){
             System.out.println(element);
             total_score += element.length() * 10;
 //            matches.add(new Label(element));
@@ -631,13 +575,13 @@ public class Workspace extends AppWorkspaceComponent {
         while(target_score > total_score){
             resetScrollPane();
             total_score = 0;
-            for(int i = 0; i < gridButtons.length; i++){
-                gridButtons[i].setText(Character.toString(alphabets.charAt(random.nextInt(26))));
-                gridElements[i].word = gridButtons[i].getText().charAt(0);
+            for(int i = 0; i < gridElements.length; i++){
+                gridElements[i].setText(Character.toString(alphabets.charAt(random.nextInt(26))));
+                gridElements[i].word = gridElements[i].getText().charAt(0);
             }
-            list = gameData.getBuzzWordSolution(gridElements);
+            solutions = gameData.getBuzzWordSolution(gridElements);
             // GET TOTAL SCORES
-            for (String element : list){
+            for (String element : solutions){
                 System.out.println(element);
                 total_score += element.length() * 10;
 //                matches.add(new Label(element));
@@ -679,39 +623,39 @@ public class Workspace extends AppWorkspaceComponent {
 
     public void resetGrid()
     {
-        for(int i = 0; i < gridButtons.length; i++)
+        for(int i = 0; i < gridElements.length; i++)
         {
-            gridButtons[i].setDisable(true);
-            gridButtons[i].setVisible(true);
-            gridButtons[i].getStyleClass().clear();
-            gridButtons[i].getStyleClass().add(PropertyManager.getManager().getPropertyValue(GRID));
-            gridButtons[i].setAlignment(Pos.CENTER);
+            gridElements[i].setDisable(true);
+            gridElements[i].setVisible(true);
+            gridElements[i].getStyleClass().clear();
+            gridElements[i].getStyleClass().add(PropertyManager.getManager().getPropertyValue(GRID));
+            gridElements[i].setAlignment(Pos.CENTER);
             switch (i)
             {
                 case 0:
-                    gridButtons[i].setText("B");
+                    gridElements[i].setText("B");
                     break;
                 case 1:
-                    gridButtons[i].setText("U");
+                    gridElements[i].setText("U");
                     break;
                 case 4:
                 case 5:
-                    gridButtons[i].setText("Z");
+                    gridElements[i].setText("Z");
                     break;
                 case 10:
-                    gridButtons[i].setText("W");
+                    gridElements[i].setText("W");
                     break;
                 case 11:
-                    gridButtons[i].setText("O");
+                    gridElements[i].setText("O");
                     break;
                 case 14:
-                    gridButtons[i].setText("R");
+                    gridElements[i].setText("R");
                     break;
                 case 15:
-                    gridButtons[i].setText("D");
+                    gridElements[i].setText("D");
                     break;
                 default:
-                    gridButtons[i].setText("");
+                    gridElements[i].setText("");
             }
 
         }

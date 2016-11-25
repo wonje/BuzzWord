@@ -4,6 +4,7 @@ import apptemplate.AppTemplate;
 import components.AppDataComponent;
 import controller.GameState;
 import gui.GridElement;
+import javafx.scene.shape.Line;
 import propertymanager.PropertyManager;
 
 import java.io.BufferedReader;
@@ -31,12 +32,19 @@ public class GameData implements AppDataComponent{
     private NavigableSet<String> wordFile;
     private char[][] board = new char[4][4];
 
+    public Stack<GridElement>   gridStack;
+    public Stack<Line>          lineStack;
+    public ArrayList<String>    matchedStr;
+
     public GameData(AppTemplate appTemplate) {
         this.appTemplate = appTemplate;
         maxEngDicLevel  = 1;
         maxBacteriaLevel  = 1;
         maxBiologyLevel = 1;
         maxFungiLevel  = 1;
+        gridStack = new Stack<GridElement>();
+        lineStack = new Stack<Line>();
+        matchedStr = new ArrayList<String>();
     }
 
     @Override
@@ -98,7 +106,7 @@ public class GameData implements AppDataComponent{
 
     }
 
-    public List<String> getBuzzWordSolution(GridElement[] gridElements){
+    public ArrayList<String> getBuzzWordSolution(GridElement[] gridElements){
         // MAKE GRID WORD ARRAY
         int row = 0;
         int col = 0;
@@ -116,7 +124,7 @@ public class GameData implements AppDataComponent{
         }
 
         // TODO IF TOTAL > TARGET, REARRANGE GRID WORDS
-        final List<String> validWords = new ArrayList<String>();
+        final ArrayList<String> validWords = new ArrayList<String>();
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[0].length; j++) {
                     solve(i, j, board[i][j] + "", validWords, -1, -1);
@@ -126,7 +134,7 @@ public class GameData implements AppDataComponent{
         return validWords;
     }
 
-    private void solve(int row, int col, String prefix, List<String> validWords, int followedRow, int followedCol){
+    private void solve(int row, int col, String prefix, ArrayList<String> validWords, int followedRow, int followedCol){
         for (int row1 = Math.max(0, row - 1); row1 < Math.min(board.length, row + 2); row1++) {
             for (int col1 = Math.max(0, col - 1); col1 < Math.min(board.length, col + 2); col1++){
                 // Skip the grid (row, col) itself

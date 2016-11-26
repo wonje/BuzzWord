@@ -4,8 +4,8 @@ import static buzzword.BuzzWordProperties.*;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.*;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
 
 import apptemplate.AppTemplate;
 import components.AppWorkspaceComponent;
@@ -17,15 +17,11 @@ import data.UserData;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import propertymanager.PropertyManager;
@@ -89,6 +85,8 @@ public class Workspace extends AppWorkspaceComponent {
     VBox matchedPointPane;
 
     VBox targetPointPane;
+
+    LineElement[] lineElements;
 
     Line[] vLines;
     Line[] hLines;
@@ -337,49 +335,13 @@ public class Workspace extends AppWorkspaceComponent {
     private void initMainStage() {
         PropertyManager propertyManager = PropertyManager.getManager();
 
-        // INIT VLINE COMPONENTS
-        vLines = new Line[12];
-        for (int i = 0; i < vLines.length; i++) {
-            vLines[i] = new Line(0, 0, 0, 17);
-            vLines[i].setFill(Paint.valueOf("#000000"));
-            vLines[i].setStrokeWidth(3);
-            vLines[i].setSmooth(true);
-            }
-            // INIT HLINE COMPONENTS
-            hLines = new Line[12];
-            for (int i = 0; i < hLines.length; i++) {
-                hLines[i] = new Line(0, 0, 17, 0);
-                hLines[i].setFill(Paint.valueOf("#000000"));
-                hLines[i].setStrokeWidth(3);
-                hLines[i].setSmooth(true);
-            }
-
-            // INIT LEFT TO RIGHT DIAGONAL LINE COMPONENTS
-            lrLines = new Line[9];
-            for (int i = 0; i < lrLines.length; i++) {
-                lrLines[i] = new Line(0, 0, 15, 15);
-                lrLines[i].setFill(Paint.valueOf("#000000"));
-                lrLines[i].setStrokeWidth(3);
-                lrLines[i].setSmooth(true);
-            }
-
-            // INIT RIGHT TO LEFT DIAGONAL LINE COMPONENTS
-            rlLines = new Line[9];
-            for (int i = 0; i < rlLines.length; i++) {
-                rlLines[i] = new Line(15, 0, 0, 15);
-                rlLines[i].setFill(Paint.valueOf("#000000"));
-                rlLines[i].setStrokeWidth(3);
-                rlLines[i].setSmooth(true);
-            }
-
-            int vLineCount = 0;
-            int hLineCount = 0;
-            int diagonalLineCount = 0;
+            int lineCount = 0;
             int gridCount = 0;
             StackPane tempStack;
 
             // INIT GRID BUTTON COMPONENTS
             gridElements = new GridElement[16];
+            lineElements = new LineElement[42];
             for (int i = 0; i < 49; i++) {
                 if (i < 7 || (i >= 14 && i < 21) || (i >= 28 && i < 35) || i >= 42) {
                     if (i % 2 == 0) {
@@ -394,24 +356,30 @@ public class Workspace extends AppWorkspaceComponent {
                         mainStagePane.add(gridElements[gridCount++], i % 7, i / 7);
                     } else {
                         // CHECK HLINE COMPONENT TURN
-                        mainStagePane.add(hLines[hLineCount], i % 7, i / 7);
-                        hLines[hLineCount++].setVisible(false);
+                        lineElements[lineCount] = new LineElement(new Point(i % 7, i / 7), this.app, this, false);
+                        mainStagePane.add(lineElements[lineCount], i % 7, i / 7);
+                        lineElements[lineCount++].setVisible(false);
                     }
                 }
-                // CHECK VLINE COMPONENT TURN
                 else {
+                    // CHECK VLINE COMPONENT TURN
                     if (i % 2 == 1) {
                         tempStack = new StackPane();
                         tempStack.setAlignment(Pos.CENTER);
-                        tempStack.getChildren().add(vLines[vLineCount]);
-                        vLines[vLineCount++].setVisible(false);
+                        lineElements[lineCount] = new LineElement(new Point(i % 7, i / 7), this.app, this, false);
+                        tempStack.getChildren().add(lineElements[lineCount]);
+                        lineElements[lineCount++].setVisible(false);
                         mainStagePane.add(tempStack, i % 7, i / 7);
-                    } else {
+                    }
+                    // CHECK DIAGONAL COMPONENT TURN
+                    else {
                         tempStack = new StackPane();
                         tempStack.setAlignment(Pos.CENTER);
-                        tempStack.getChildren().addAll(lrLines[diagonalLineCount], rlLines[diagonalLineCount]);
-                        lrLines[diagonalLineCount].setVisible(false);
-                        rlLines[diagonalLineCount++].setVisible(false);
+                        lineElements[lineCount++]   = new LineElement(new Point(i % 7, i / 7), this.app, this, true);
+                        lineElements[lineCount]     = new LineElement(new Point(i % 7, i / 7), this.app, this, false);
+                        tempStack.getChildren().addAll(lineElements[lineCount - 1], lineElements[lineCount]);
+                        lineElements[lineCount - 1].setVisible(false);
+                        lineElements[lineCount++].setVisible(false);
                         mainStagePane.add(tempStack, i % 7, i / 7);
                     }
                 }
@@ -555,9 +523,9 @@ public class Workspace extends AppWorkspaceComponent {
 
         // TARGET SCORE SETTING BY LEVEL
         if(GameState.currentMode.equals(GameState.ENGLISH_DICTIONARY))
-            target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 800;
+            target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 200;
         else
-            target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 100;
+            target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 50;
         solutions = gameData.getBuzzWordSolution(gridElements);
 
         // GET TOTAL SCORES

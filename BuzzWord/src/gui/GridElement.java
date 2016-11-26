@@ -1,17 +1,17 @@
 package gui;
 
 
+import static buzzword.BuzzWordProperties.GRID;
+import static buzzword.BuzzWordProperties.GRID_SELECTED;
+
+import java.awt.*;
+
 import apptemplate.AppTemplate;
 import data.GameData;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import propertymanager.PropertyManager;
-
-import java.awt.Point;
-
-import static buzzword.BuzzWordProperties.GRID;
-import static buzzword.BuzzWordProperties.GRID_SELECTED;
 
 
 /**
@@ -60,6 +60,30 @@ public class GridElement extends Button{
         return label;
     }
 
+    // RESET PROGRESS
+    private void resetProgress() {
+        PropertyManager propertyManager = PropertyManager.getManager();
+        // POP FROM GRID STACK AND CHANGE GRID CSS
+        GridElement grid;
+        while(!gameData.gridStack.isEmpty()) {
+            grid = gameData.gridStack.pop();
+            grid.getStyleClass().clear();
+            grid.getStyleClass().addAll(propertyManager.getPropertyValue(GRID));
+            grid.visited = false;
+        }
+        while(!gameData.lineStack.isEmpty()) {
+            gameData.lineStack.pop().setVisible(false);
+        }
+        // POP FROM LINE STACK, ERASE LINES
+        while(!gameData.lineStack.isEmpty()) {
+            gameData.lineStack.pop().setVisible(false);
+        }
+
+        // PROGRESS RESET
+        gameWorkspace.progress.clear();
+        gameWorkspace.progressPane.getChildren().clear();
+    }
+
     // MOUSE EVENT HANDLING
     public void setOnEventHandler() {
         PropertyManager propertyManager = PropertyManager.getManager();
@@ -68,8 +92,14 @@ public class GridElement extends Button{
             this.startFullDrag();
         });
 
-        // DRAGING
+        // DRAG
         this.setOnMouseDragEntered(mouseDragEvent -> {
+            // SKIP IF THE NODE IS NOT ADJACENT NODE FROM LAST NODE
+            System.out.println(this.pos.toString());
+            if((!gameData.gridStack.isEmpty()) && (Math.abs(gameData.gridStack.peek().pos.getX() - this.pos.getX()) > 2 ||
+                    Math.abs(gameData.gridStack.peek().pos.getY() - this.pos.getY()) > 2))
+                return;
+            // SKIP IF THE NODE WAS VISITED
             if(this.visited == true)
                 return;
             this.visited = true;
@@ -79,11 +109,30 @@ public class GridElement extends Button{
                     (gameWorkspace.progress.size() - 1) % 8, (gameWorkspace.progress.size() - 1) / 8);
             this.getStyleClass().clear();
             this.getStyleClass().addAll(propertyManager.getPropertyValue(GRID_SELECTED));
-            // PUSH TO GRID STACK
+            // DRAW LINE
+            LineElement temp = null;
+            if(!gameData.gridStack.isEmpty()) {
+                temp = new LineElement(new Point((int) (this.pos.getX() + gameData.gridStack.peek().pos.getX()) / 2,
+                        (int) (this.pos.getY() + gameData.gridStack.peek().pos.getY()) / 2));
+                for (int i = 0; i < gameWorkspace.lineElements.length; i++) {
+                    if (gameWorkspace.lineElements[i].pos.equals(temp.pos)) {
+                        // CHECK DIAGONAL RIGHT TO LEFT
+                        if((gameData.gridStack.peek().pos.getY() > pos.getY() && gameData.gridStack.peek().pos.getX() < pos.getX() ||
+                                (gameData.gridStack.peek().pos.getY() < pos.getY() && gameData.gridStack.peek().pos.getX() > pos.getX()))){
+                            gameWorkspace.lineElements[++i].setVisible(true);
+                        }
+                        else {
+                            gameWorkspace.lineElements[i].setVisible(true);
+                        }
+                        gameData.lineStack.push(gameWorkspace.lineElements[i]);
+                        break;
+                    }
+                }
+            }
             gameData.gridStack.push(this);
         });
 
-        // FINISH DRAGING
+        // FINISH DRAG
         this.setOnMouseDragReleased(mouseDragEvent -> {
             // MATCHING PROGRESS
             StringBuilder progressStr = new StringBuilder();
@@ -104,21 +153,7 @@ public class GridElement extends Button{
                 gameWorkspace.totalPointLabel.setText(Integer.toString(progressStr.toString().length() * 10 +
                         Integer.parseInt(gameWorkspace.totalPointLabel.getText())));
             }
-            // POP FROM GRID STACK, CHANGE GRID CSS, AND ERASE LINES
-            GridElement grid;
-            while(!gameData.gridStack.isEmpty()) {
-                grid = gameData.gridStack.pop();
-                grid.getStyleClass().clear();
-                grid.getStyleClass().addAll(propertyManager.getPropertyValue(GRID));
-                grid.visited = false;
-            }
-            while(!gameData.lineStack.isEmpty()) {
-                gameData.lineStack.pop().setVisible(false);
-            }
-            // PROGRESS RESET
-            gameWorkspace.progress.clear();
-            gameWorkspace.progressPane.getChildren().clear();
-
+            resetProgress();
         });
     }
 

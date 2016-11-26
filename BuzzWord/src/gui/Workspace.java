@@ -124,6 +124,8 @@ public class Workspace extends AppWorkspaceComponent {
         mainStagePane.setVisible(!visible);
     }
 
+    public Label getRemainingTime() { return remainingTime; }
+
     private void layoutGUI() {
         PropertyManager propertyManager = PropertyManager.getManager();
 
@@ -234,8 +236,7 @@ public class Workspace extends AppWorkspaceComponent {
                     @Override
                     public void handle(MouseEvent event) {
                         // TODO Confirm again before terminating the game
-                        if (confirmBeforeExit())
-                            System.exit(0);
+                        gui.getFileController().handleQuitRequest();
                     }
                 });
         closeButtonPane.getChildren().add(closeButton);
@@ -566,7 +567,7 @@ public class Workspace extends AppWorkspaceComponent {
 //        totalPointLabel.setText(Integer.toString(total_score));
     }
 
-    private boolean confirmBeforeExit() {
+    public boolean confirmBeforeExit() {
         PropertyManager propertyManager = PropertyManager.getManager();
         YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
 

@@ -6,8 +6,10 @@ import apptemplate.AppTemplate;
 import data.GameData;
 import data.UserData;
 import gui.Workspace;
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
+import javafx.animation.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Duration;
 import propertymanager.PropertyManager;
 import ui.YesNoCancelDialogSingleton;
 
@@ -18,11 +20,12 @@ import java.nio.file.Path;
  * @author Jason Kang
  */
 public class BuzzWordController implements FileController {
-
+    static final int STARTTIME = 60;
     AppTemplate appTemplate;
     Workspace gameWorkspace;
     UserData userData;
     GameData gameData;
+    AnimationTimer timer;
 
     public BuzzWordController(AppTemplate appTemplate) {
         this.appTemplate = appTemplate;
@@ -31,17 +34,43 @@ public class BuzzWordController implements FileController {
         GameState.currentState = GameState.UNLOGIN;
         GameState.currentMode = GameState.ENGLISH_DICTIONARY;
     }
-//
-//
-//    private void play()
-//    {
-//        AnimationTimer timer = new AnimationTimer() {
-//            @Override
-//            public void handle(long now) {
-//
-//            }
-//        }
-//    }
+
+
+    private void play()
+    {
+        IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
+        gameWorkspace.getRemainingTime().textProperty().bind(timeSeconds.asString());
+        timer = new AnimationTimer() {
+            Timeline timeline = null;
+            @Override
+            public void handle(long now) {
+
+            }
+            @Override
+            public void start() {
+                if(timeline == null) {
+                    timeSeconds.set(STARTTIME);
+                    timeline = new Timeline();
+                    timeline.getKeyFrames().add(
+                            new KeyFrame(Duration.seconds(STARTTIME + 1),
+                                    new KeyValue(timeSeconds, 0)));
+                    timeline.playFromStart();
+                }
+                else
+                    timeline.playFromStart();
+            }
+            @Override
+            public void stop() {
+                if(timeline != null && timeSeconds.get() == 0) {
+                    // TODO END GAME
+                    super.stop();
+                }
+                else if(timeline != null)
+                    timeline.stop();
+            }
+        };
+        timer.start();
+    }
 
 
     @Override
@@ -121,6 +150,7 @@ public class BuzzWordController implements FileController {
         GameState.currentState = GameState.PLAY;
         GameState.currentLevel = level;
         gameWorkspace.setGamePlayScreen(level);
+        play();
     }
 
     @Override
@@ -132,6 +162,7 @@ public class BuzzWordController implements FileController {
     public void handlePauseRequest() {
         GameState.currentState = GameState.PAUSE;
         // TODO STOP TIMER
+        timer.stop();
         // ###############
         gameWorkspace.setPausePane(true);
     }
@@ -140,6 +171,7 @@ public class BuzzWordController implements FileController {
     public void handleResumeRequest() {
         GameState.currentState = GameState.PLAY;
         // TODO START TIMER AGAIN
+        timer.start();
         // ######################
         gameWorkspace.setPausePane(false);
 
@@ -147,7 +179,10 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleQuitRequest() {
-
+        timer.stop();
+        if (gameWorkspace.confirmBeforeExit())
+            System.exit(0);
+        timer.start();
     }
 
     @Override

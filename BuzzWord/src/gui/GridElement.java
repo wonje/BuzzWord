@@ -95,7 +95,6 @@ public class GridElement extends Button{
         // DRAG
         this.setOnMouseDragEntered(mouseDragEvent -> {
             // SKIP IF THE NODE IS NOT ADJACENT NODE FROM LAST NODE
-            System.out.println(this.pos.toString());
             if((!gameData.gridStack.isEmpty()) && (Math.abs(gameData.gridStack.peek().pos.getX() - this.pos.getX()) > 2 ||
                     Math.abs(gameData.gridStack.peek().pos.getY() - this.pos.getY()) > 2))
                 return;

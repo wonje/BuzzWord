@@ -17,6 +17,10 @@ public enum GameState {
     END_FAIL,
     END_SUCCESS,
 
+    // GAME PLAY WAY
+    MOUSE,
+    KEYBOARD,
+
     // GAME MODE OPTIONS
     ENGLISH_DICTIONARY,
     BACTERIA,
@@ -25,6 +29,7 @@ public enum GameState {
 
     public static GameState currentState;
     public static GameState currentMode;
+    public static GameState currentPlay;
     public static int       currentLevel;
     public static void loadRecentMode(String mode)
     {

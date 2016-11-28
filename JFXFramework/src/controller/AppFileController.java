@@ -109,8 +109,8 @@ public class AppFileController implements FileController {
      * @throws IOException
      */
     private void saveWork(File selectedFile) throws IOException {
-        appTemplate.getFileComponent()
-                   .saveData(appTemplate.getDataComponent(), Paths.get(selectedFile.getAbsolutePath()));
+//        appTemplate.getFileComponent()
+//                   .updateProfileData(appTemplate.getDataComponent(), Paths.get(selectedFile.getAbsolutePath()));
 
         currentWorkFile = selectedFile;
         saved.set(true);

@@ -71,7 +71,21 @@ public class UserData implements AppDataComponent{
         return -1;
     }
 
-    public boolean checkBestPoint(GameState mode, int level, int point)
+    public HashMap<Integer, Integer> getCurrentModeScores() {
+        switch (GameState.currentMode) {
+            case ENGLISH_DICTIONARY:
+                return dicBestScores;
+            case BACTERIA:
+                return bacteriaBestScores;
+            case BIOLOGY:
+                return biologyBestScores;
+            case FUNGI:
+                return fungiBestScores;
+        }
+        return null;
+    }
+
+    public boolean checkAndSaveBestPoint(GameState mode, int level, int point)
     {
         switch (mode)
         {

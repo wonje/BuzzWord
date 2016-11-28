@@ -7,14 +7,16 @@ import data.GameData;
 import data.UserData;
 import gui.Workspace;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Duration;
+import javafx.scene.input.KeyEvent;
 import propertymanager.PropertyManager;
+import ui.AppMessageDialogSingleton;
 import ui.YesNoCancelDialogSingleton;
 
-import java.nio.file.Path;
-
+import java.io.IOException;
 
 /**
  * @author Jason Kang
@@ -38,13 +40,36 @@ public class BuzzWordController implements FileController {
 
     private void play()
     {
+        YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
         IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
         gameWorkspace.getRemainingTime().textProperty().bind(timeSeconds.asString());
         timer = new AnimationTimer() {
             Timeline timeline = null;
             @Override
             public void handle(long now) {
+                // CHECK GAME SUCCESS END
+                if(gameWorkspace.checkEndSuccess()) {
+                    GameState.currentState = GameState.END_SUCCESS;
+                    timer.stop();
+                }
 
+
+
+                // GET KEY TYPE
+                appTemplate.getGUI().getPrimaryScene().setOnKeyTyped((KeyEvent event) -> {
+                    char guess = event.getCharacter().charAt(0);
+                    // TODO Handling illegal keys
+                    if(Character.toString(guess).matches("[a-z]+"))
+                        guess = Character.toUpperCase(guess);
+                    else if (!Character.toString(guess).matches("[A-Z]+"))
+                        return;
+                    // KEY TYPE MODE START
+                    GameState.currentPlay = GameState.KEYBOARD;
+
+
+
+
+                });
             }
             @Override
             public void start() {
@@ -55,21 +80,130 @@ public class BuzzWordController implements FileController {
                             new KeyFrame(Duration.seconds(STARTTIME + 1),
                                     new KeyValue(timeSeconds, 0)));
                     timeline.playFromStart();
+                    super.start();
                 }
-                else
+                else {
                     timeline.playFromStart();
+                    super.start();
+                }
             }
             @Override
             public void stop() {
-                if(timeline != null && timeSeconds.get() == 0) {
-                    // TODO END GAME
-                    super.stop();
+                if(timeline == null)
+                    return;
+                // STOP TIMER
+                timeline.stop();
+                super.stop();
+
+                // GAMESTATE IS END_SUCCESS
+                if(GameState.currentState.equals(GameState.END_SUCCESS)) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            // TODO CHECK "PERSONAL BEST" AND UPDATE
+                            try {
+                                gameData.totalPoints = Integer.parseInt(gameWorkspace.getTotalPointLabel().getText());
+                                checkPersonalBest();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            // POPUP GAME END SCREEN
+                            if(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) != 8) {
+                                // STOP GAME
+                                yesNoCancelDialogSingleton.show("", "Level " + gameWorkspace.getLevelLabel().getText() +
+                                        " is clear! \nDo you want to start Level " +
+                                        Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
+                                try {
+                                    updateGameLevel();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            else {
+                                yesNoCancelDialogSingleton.show("", "Level " + gameWorkspace.getLevelLabel().getText() +
+                                        " is clear! \nYour last stage is done!");
+                            }
+                            // TIMER RESET
+                            timeline = null;
+                        }
+                    });
                 }
-                else if(timeline != null)
-                    timeline.stop();
             }
         };
         timer.start();
+    }
+
+    private void checkPersonalBest() throws IOException {
+        // CHECK IT SHOULD UPDATE MAX LEVEL OR NOT
+//        boolean updateLevel;
+//        int maxLevel = 0;
+//        switch (GameState.currentMode){
+//            case ENGLISH_DICTIONARY:
+//            {
+//                maxLevel = gameData.maxEngDicLevel;
+//                break;
+//            }
+//            case BACTERIA:
+//            {
+//                maxLevel = gameData.maxBacteriaLevel;
+//                break;
+//            }
+//            case BIOLOGY:
+//            {
+//                maxLevel = gameData.maxBiologyLevel;
+//                break;
+//            }
+//            case FUNGI:
+//            {
+//                maxLevel = gameData.maxFungiLevel;
+//                break;
+//            }
+//        }
+//        if(GameState.currentLevel == maxLevel && GameState.currentState.equals(GameState.END_SUCCESS))
+//            updateLevel = true;
+//        else
+//            updateLevel = false;
+
+        // LOAD BEST SCORE YOU DID BEFORE AND SAVE NEW BEST SCORE
+        if (userData.checkAndSaveBestPoint(GameState.currentMode, Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]),
+                gameData.totalPoints)) {
+            AppMessageDialogSingleton appMessageDialogSingleton = AppMessageDialogSingleton.getSingleton();
+            appMessageDialogSingleton.show("", "You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
+            // UPDATE PROFILE DATA
+            appTemplate.getFileComponent().updateProfileData(appTemplate);
+        }
+    }
+
+    private void updateGameLevel() throws IOException {
+        switch (GameState.currentMode)
+        {
+            case ENGLISH_DICTIONARY:
+            {
+                gameData.maxEngDicLevel++;
+                userData.getCurrentModeScores().put(gameData.maxEngDicLevel, 0);
+                break;
+            }
+            case BACTERIA:
+            {
+                gameData.maxBacteriaLevel++;
+                userData.getCurrentModeScores().put(gameData.maxBacteriaLevel, 0);
+                break;
+            }
+            case BIOLOGY:
+            {
+                gameData.maxBiologyLevel++;
+                userData.getCurrentModeScores().put(gameData.maxBiologyLevel, 0);
+                break;
+            }
+            case FUNGI:
+            {
+                gameData.maxFungiLevel++;
+                userData.getCurrentModeScores().put(gameData.maxFungiLevel, 0);
+                break;
+            }
+        }
+        // TODO SAVE UPDATED LEVEL
+        appTemplate.getFileComponent().updateProfileData(appTemplate);
     }
 
 

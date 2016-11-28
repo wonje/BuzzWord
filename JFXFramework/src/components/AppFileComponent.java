@@ -15,7 +15,8 @@ import java.nio.file.Path;
  */
 public interface AppFileComponent {
 
-    void saveData(AppDataComponent data, Path filePath) throws IOException;
+    void updateProfileData(AppTemplate appTemplate) throws IOException;
+
 
     void createProfile(AppTemplate appTemplate, Path filePath) throws IOException;
 

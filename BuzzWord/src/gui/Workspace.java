@@ -119,6 +119,16 @@ public class Workspace extends AppWorkspaceComponent {
         return modeLabel;
     }
 
+    public Label getTotalPointLabel() { return totalPointLabel; }
+
+    public Label getLevelLabel() { return levelLabel; }
+
+    public boolean checkEndSuccess() {
+        if(Integer.parseInt(totalPointLabel.getText()) >= Integer.parseInt(targetPoint.getText()))
+            return true;
+        return false;
+    }
+
     public void setPausePane(boolean visible) {
         pausePane.setVisible(visible);
         mainStagePane.setVisible(!visible);

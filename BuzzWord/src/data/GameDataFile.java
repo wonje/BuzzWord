@@ -1,17 +1,23 @@
 package data;
 
-import apptemplate.AppTemplate;
-import com.fasterxml.jackson.core.*;
-import components.AppDataComponent;
-import components.AppFileComponent;
-import controller.GameState;
-import controller.LoginController;
-import ui.AppMessageDialogSingleton;
+import static settings.AppPropertyType.APP_TITLE;
+import static settings.AppPropertyType.WORK_FILE_EXT;
+import static settings.InitializationParameters.APP_WORKDIR_PATH;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.fasterxml.jackson.core.*;
+
+import apptemplate.AppTemplate;
+import components.AppDataComponent;
+import components.AppFileComponent;
+import controller.GameState;
+import controller.LoginController;
+import propertymanager.PropertyManager;
 
 /**
  * @author Jason Kang
@@ -28,8 +34,69 @@ public class GameDataFile implements AppFileComponent {
 
 
     @Override
-    public void saveData(AppDataComponent data, Path filePath) throws IOException {
+    public void updateProfileData(AppTemplate appTemplate) throws IOException {
+        GameData        gameData    = (GameData) appTemplate.getDataComponent();
+        UserData        userData    = (UserData) appTemplate.getUserComponent();
+        PropertyManager propertyManager = PropertyManager.getManager();
+        Path            appDirPath  = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
+        Path            targetPath  = appDirPath.resolve(APP_WORKDIR_PATH.getParameter());
+        Path            to          = Paths.get(targetPath.toString() + "\\" + userData.userID + "." + propertyManager.getPropertyValue(WORK_FILE_EXT));
 
+        JsonFactory jsonFactory = new JsonFactory();
+
+        try(OutputStream out = Files.newOutputStream(to)) {
+
+            JsonGenerator generator = jsonFactory.createGenerator(out, JsonEncoding.UTF8);
+
+            generator.writeStartObject();
+
+            generator.writeStringField(USER_ID, LoginController.getSingleton(appTemplate).getID());
+
+            generator.writeStringField(USER_PW, LoginController.getSingleton(appTemplate).getPW());
+
+            generator.writeStringField(RECENT_MODE, GameState.currentMode.toString());
+
+            // UPDATE PERSONAL BEST POINTS
+            generator.writeFieldName(DICTIONARY_SCORES);
+            generator.writeStartArray(userData.dicBestScores.size() * 2);
+            for (int i = 0; i < userData.dicBestScores.size(); i++) {
+                generator.writeNumber(i + 1);
+                generator.writeNumber(userData.dicBestScores.get(i + 1));
+            }
+            generator.writeEndArray();
+
+            generator.writeFieldName(BACTERIA_SCORES);
+            generator.writeStartArray(userData.bacteriaBestScores.size() * 2);
+            for (int i = 0; i < userData.bacteriaBestScores.size(); i++) {
+                generator.writeNumber(i + 1);
+                generator.writeNumber(userData.bacteriaBestScores.get(i + 1));
+            }
+            generator.writeEndArray();
+
+            generator.writeFieldName(BIOLOGY_SCORES);
+            generator.writeStartArray(userData.biologyBestScores.size() * 2);
+            for (int i = 0; i < userData.biologyBestScores.size(); i++) {
+                generator.writeNumber(i + 1);
+                generator.writeNumber(userData.biologyBestScores.get(i + 1));
+            }
+            generator.writeEndArray();
+
+            generator.writeFieldName(FUNGI_SCORES);
+            generator.writeStartArray(userData.fungiBestScores.size() * 2);
+            for (int i = 0; i < userData.fungiBestScores.size(); i++) {
+                generator.writeNumber(i + 1);
+                generator.writeNumber(userData.fungiBestScores.get(i + 1));
+            }
+            generator.writeEndArray();
+
+            generator.writeEndObject();
+
+            generator.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     @Override

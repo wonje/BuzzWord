@@ -30,6 +30,7 @@ public class GameData implements AppDataComponent {
     public int maxBacteriaLevel;
     public int maxBiologyLevel;
     public int maxFungiLevel;
+    public int totalPoints;
 
     private NavigableSet<String> wordFile;
     private char[][] board = new char[4][4];
@@ -67,10 +68,6 @@ public class GameData implements AppDataComponent {
         maxBiologyLevel--;
         for (maxFungiLevel = 1; userData.fungiBestScores.containsKey(maxFungiLevel); maxFungiLevel++) ;
         maxFungiLevel--;
-    }
-
-    public void searchNeighbors(GridElement grid) {
-
     }
 
     public void loadWordFile(GameState mode) {
@@ -150,20 +147,6 @@ public class GameData implements AppDataComponent {
                 if(pos.contains(new Point(col1, row1)))
                     continue;
 
-//
-//                boolean visited = false;
-//                if(!pos.isEmpty()) {
-//                    for(int i = 0; i < pos.size(); i++) {
-//                        if(row1 == pos.get(i).getY() && col1 == pos.get(i).getX()) {
-//                            visited = true;
-//                            break;
-//                        }
-//                    }
-//                }
-//                // SKIP VISITED GRID
-//                if (visited)
-//                    continue;
-
                 // ARRAYLIST COPY
                 ArrayList<Point> new_pos = new ArrayList<Point>(pos);
                 // SAVE VISITED GRID INFO
@@ -186,29 +169,3 @@ public class GameData implements AppDataComponent {
         }
     }
 }
-//    }private void solve(int row, int col, String prefix, ArrayList<String> validWords, int followedRow, int followedCol){
-//        for (int row1 = Math.max(0, row - 1); row1 < Math.min(board.length, row + 2); row1++) {
-//            for (int col1 = Math.max(0, col - 1); col1 < Math.min(board.length, col + 2); col1++){
-//                // Skip the grid (row, col) itself
-//                if (row1 == row && col1 == col) continue;
-//
-//                // Skip the followed grid
-//                if (row1 == followedRow && col1 == followedCol) continue;
-//
-//                 //Skip the diagonal (row, col) value
-////                if ((row1 == row - 1 && col1 == col - 1) || (row1 == row - 1 && col1 == col + 1) ||
-////                        (row1 == row + 1 && col1 == col - 1) || (col1 == col + 1 && row1 == row + 1))
-////                    continue;
-//
-//                String word = prefix + board[row1][col1];
-//
-//                if(!wordFile.subSet(word, word + Character.MAX_VALUE).isEmpty()) {
-//                    if(wordFile.contains(word) && !validWords.contains(word) && word.length() > 2){
-//                        validWords.add(word);
-//                    }
-//                    solve(row1, col1, word, validWords, row, col);
-//                }
-//            }
-//        }
-//    }
-

@@ -4,13 +4,6 @@
     <list default="true" id="3fafb944-5399-44bb-80f3-ebf5980d57dd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" afterPath="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/controller/GameState.java" afterPath="$PROJECT_DIR$/BuzzWord/src/controller/GameState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/data/GameData.java" afterPath="$PROJECT_DIR$/BuzzWord/src/data/GameData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java" afterPath="$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/data/UserData.java" afterPath="$PROJECT_DIR$/BuzzWord/src/data/UserData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java" afterPath="$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java" afterPath="$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JFXFramework/src/controller/AppFileController.java" afterPath="$PROJECT_DIR$/JFXFramework/src/controller/AppFileController.java" />
     </list>
     <ignored path="TheBuzzwordGame.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,34 +25,63 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Workspace.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BuzzWord/src/gui/Workspace.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1968">
-              <caret line="151" column="86" selection-start-line="151" selection-start-column="86" selection-end-line="151" selection-end-column="86" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BuzzWordController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BuzzWordController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2032">
-              <caret line="127" column="25" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
+            <state relative-caret-position="376">
+              <caret line="119" column="38" selection-start-line="119" selection-start-column="38" selection-end-line="119" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3401#5140#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppFileController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JFXFramework/src/controller/AppFileController.java">
+      <file leaf-file-name="Window.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/stage/Window.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1584">
-              <caret line="114" column="39" selection-start-line="114" selection-start-column="39" selection-end-line="114" selection-end-column="39" />
+            <state relative-caret-position="12560">
+              <caret line="923" column="25" selection-start-line="923" selection-start-column="25" selection-end-line="923" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AnimationTimer.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/animation/AnimationTimer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1328">
+              <caret line="115" column="27" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1568">
+              <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Runnable.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/src.zip!/java/lang/Runnable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="512">
+              <caret line="55" column="17" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AppMessageDialogSingleton.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JFXFramework/src/ui/AppMessageDialogSingleton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1264">
+              <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -68,58 +90,41 @@
       <file leaf-file-name="YesNoCancelDialogSingleton.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JFXFramework/src/ui/YesNoCancelDialogSingleton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1904">
-              <caret line="132" column="58" selection-start-line="132" selection-start-column="58" selection-end-line="132" selection-end-column="58" />
+            <state relative-caret-position="2112">
+              <caret line="145" column="5" selection-start-line="145" selection-start-column="5" selection-end-line="145" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameState.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/GameState.java">
+      <file leaf-file-name="Stage.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/stage/Stage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
+            <state relative-caret-position="16928">
+              <caret line="1212" column="27" selection-start-line="1212" selection-start-column="27" selection-end-line="1212" selection-end-column="27" />
+              <folding>
+                <element signature="e#8302#8303#0" expanded="true" />
+                <element signature="e#8330#8331#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TKStage.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/com/sun/javafx/tk/TKStage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1584">
+              <caret line="125" column="16" selection-start-line="125" selection-start-column="16" selection-end-line="125" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameDataFile.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameDataFile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AppFileComponent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserData.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/UserData.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="768">
-              <caret line="55" column="5" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameData.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameData.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="928">
+              <caret line="75" column="53" selection-start-line="75" selection-start-column="53" selection-end-line="75" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -159,10 +164,8 @@
         <option value="$PROJECT_DIR$/BuzzWord/resources/css/buzzword_style.css" />
         <option value="$PROJECT_DIR$/JFXFramework/src/components/AppComponentsBuilder.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/apptemplate/AppTemplate.java" />
-        <option value="$PROJECT_DIR$/JFXFramework/src/ui/AppMessageDialogSingleton.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/settings/InitializationParameters.java" />
         <option value="$PROJECT_DIR$/BuzzWord/src/buzzword/BuzzWord.java" />
-        <option value="$PROJECT_DIR$/JFXFramework/src/ui/YesNoCancelDialogSingleton.java" />
         <option value="$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java" />
         <option value="$PROJECT_DIR$/BuzzWord/resources/words/fungi" />
         <option value="$PROJECT_DIR$/JFXFramework/src/ui/AppGUI.java" />
@@ -175,9 +178,11 @@
         <option value="$PROJECT_DIR$/BuzzWord/src/data/UserData.java" />
         <option value="$PROJECT_DIR$/BuzzWord/src/data/GameData.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/components/AppFileComponent.java" />
-        <option value="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" />
         <option value="$PROJECT_DIR$/JFXFramework/src/controller/AppFileController.java" />
         <option value="$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java" />
+        <option value="$PROJECT_DIR$/JFXFramework/src/ui/YesNoCancelDialogSingleton.java" />
+        <option value="$PROJECT_DIR$/JFXFramework/src/ui/AppMessageDialogSingleton.java" />
+        <option value="$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java" />
       </list>
     </option>
   </component>
@@ -306,7 +311,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -611,12 +617,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -1127,7 +1132,9 @@
       <workItem from="1480310556560" duration="617000" />
       <workItem from="1480355545636" duration="5092000" />
       <workItem from="1480367515777" duration="4531000" />
-      <workItem from="1480372066518" duration="9000" />
+      <workItem from="1480372066518" duration="46000" />
+      <workItem from="1480378176983" duration="7260000" />
+      <workItem from="1480387366312" duration="11000" />
     </task>
     <task id="LOCAL-00001" summary="Git Initialization">
       <created>1478574478338</created>
@@ -1290,11 +1297,18 @@
       <option name="project" value="LOCAL" />
       <updated>1480143730017</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="The BuzzWord Game HW6 ver 2.0 - Update Profile data">
+      <created>1480372099074</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1480372099075</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="353038000" />
+    <option name="totallyTimeSpent" value="360346000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1316,7 +1330,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25707814" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25678733" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1375,7 +1389,8 @@
     <MESSAGE value="The BuzzWord Game HW5 ver 4.0 - Mouse Drag" />
     <MESSAGE value="The BuzzWord Game HW5 ver 5.0 - Word Generation modified" />
     <MESSAGE value="The BuzzWord Game HW6 ver 1.0 - Timer" />
-    <option name="LAST_COMMIT_MESSAGE" value="The BuzzWord Game HW6 ver 1.0 - Timer" />
+    <MESSAGE value="The BuzzWord Game HW6 ver 2.0 - Update Profile data" />
+    <option name="LAST_COMMIT_MESSAGE" value="The BuzzWord Game HW6 ver 2.0 - Update Profile data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1388,27 +1403,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/BuzzWord/resources/css/buzzword_style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/BuzzWord.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JFXFramework/src/components/AppStyleArbiter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/JFXFramework/src/propertymanager/PropertyManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
@@ -1495,13 +1489,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="16">
           <caret line="347" column="35" selection-start-line="347" selection-start-column="35" selection-end-line="347" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/stage/Window.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="91" column="29" selection-start-line="91" selection-start-column="29" selection-end-line="91" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -1648,13 +1635,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JFXFramework/src/ui/AppMessageDialogSingleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="67" column="45" selection-start-line="67" selection-start-column="45" selection-end-line="67" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/scene/control/Labeled.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="211">
@@ -1666,21 +1646,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
           <caret line="256" column="28" selection-start-line="256" selection-start-column="28" selection-end-line="256" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/stage/Stage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="466" column="73" selection-start-line="466" selection-start-column="73" selection-end-line="466" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="212" column="102" selection-start-line="211" selection-start-column="8" selection-end-line="212" selection-end-column="102" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1696,14 +1661,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="464">
           <caret line="29" column="41" selection-start-line="29" selection-start-column="41" selection-end-line="29" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JFXFramework/src/ui/YesNoCancelDialogSingleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1904">
-          <caret line="132" column="58" selection-start-line="132" selection-start-column="58" selection-end-line="132" selection-end-column="58" />
           <folding />
         </state>
       </provider>
@@ -1728,18 +1685,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="224">
           <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2032">
-          <caret line="127" column="25" selection-start-line="127" selection-start-column="25" selection-end-line="127" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3401#5140#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1753,9 +1698,86 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BuzzWord/src/data/GameDataFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="42" column="35" selection-start-line="42" selection-start-column="35" selection-end-line="42" selection-end-column="35" />
+        <state relative-caret-position="928">
+          <caret line="75" column="53" selection-start-line="75" selection-start-column="53" selection-end-line="75" selection-end-column="53" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/src.zip!/java/lang/Runnable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="55" column="17" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JFXFramework/src/ui/YesNoCancelDialogSingleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2112">
+          <caret line="145" column="5" selection-start-line="145" selection-start-column="5" selection-end-line="145" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JFXFramework/src/ui/AppMessageDialogSingleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1264">
+          <caret line="90" column="5" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/LoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1568">
+          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/animation/AnimationTimer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1328">
+          <caret line="115" column="27" selection-start-line="115" selection-start-column="27" selection-end-line="115" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/com/sun/javafx/tk/TKStage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1584">
+          <caret line="125" column="16" selection-start-line="125" selection-start-column="16" selection-end-line="125" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/stage/Stage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16928">
+          <caret line="1212" column="27" selection-start-line="1212" selection-start-column="27" selection-end-line="1212" selection-end-column="27" />
+          <folding>
+            <element signature="e#8302#8303#0" expanded="true" />
+            <element signature="e#8330#8331#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/javafx-src.zip!/javafx/stage/Window.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12560">
+          <caret line="923" column="25" selection-start-line="923" selection-start-column="25" selection-end-line="923" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BuzzWord/src/controller/BuzzWordController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="119" column="38" selection-start-line="119" selection-start-column="38" selection-end-line="119" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

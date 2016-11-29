@@ -97,19 +97,21 @@ public class BuzzWordController implements FileController {
 
                 // GAMESTATE IS END_SUCCESS
                 if(GameState.currentState.equals(GameState.END_SUCCESS)) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            // TODO CHECK "PERSONAL BEST" AND UPDATE
-                            try {
-                                gameData.totalPoints = Integer.parseInt(gameWorkspace.getTotalPointLabel().getText());
-                                checkPersonalBest();
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                    Platform.runLater(() -> {
+                        // TODO CHECK "PERSONAL BEST" AND UPDATE
+                        try {
+                            gameData.totalPoints = Integer.parseInt(gameWorkspace.getTotalPointLabel().getText());
+                            checkPersonalBest();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        // POPUP GAME END SCREEN
+                        if(GameState.currentLevel != 8) {
+                            // STOP GAME
+                            if(yesNoCancelDialogSingleton.isShowing()) {
+                                yesNoCancelDialogSingleton.toFront();
                             }
-                            // POPUP GAME END SCREEN
-                            if(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) != 8) {
-                                // STOP GAME
+                            else {
                                 yesNoCancelDialogSingleton.show("", "Level " + gameWorkspace.getLevelLabel().getText() +
                                         " is clear! \nDo you want to start Level " +
                                         Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
@@ -119,13 +121,19 @@ public class BuzzWordController implements FileController {
                                     e.printStackTrace();
                                 }
                             }
+                        }
+                        else {
+                            if(yesNoCancelDialogSingleton.isShowing()){
+                                yesNoCancelDialogSingleton.toFront();
+                            }
                             else {
                                 yesNoCancelDialogSingleton.show("", "Level " + gameWorkspace.getLevelLabel().getText() +
                                         " is clear! \nYour last stage is done!");
                             }
-                            // TIMER RESET
-                            timeline = null;
                         }
+                        // TIMER RESET
+                        timeline = null;
+                        
                     });
                 }
             }

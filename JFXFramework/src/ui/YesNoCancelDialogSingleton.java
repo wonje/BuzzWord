@@ -33,6 +33,10 @@ public class YesNoCancelDialogSingleton extends Stage {
     public static final String YES    = "Yes";
     public static final String NO     = "No";
     public static final String CANCEL = "Cancel";
+    
+    public void setMessage(String message) {
+        messageLabel.setText(message);
+    }
 
     /**
      * Note that the constructor is private since it follows

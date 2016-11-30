@@ -233,11 +233,6 @@ public class AppFileController implements FileController {
     }
 
     @Override
-    public void handleRestartRequest() {
-
-    }
-
-    @Override
     public void handleModeRequest() {
 
     }

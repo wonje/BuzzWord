@@ -19,6 +19,7 @@ public enum BuzzWordProperties {
     CLOSE_BUTTON_IMAGE,
     PAUSE_BUTTON_IMAGE,
     PLAY_BUTTON_IMAGE,
+    HELP_BUTTON_IMAGE,
 
     // GRID BUTTON CSS
     GRID,

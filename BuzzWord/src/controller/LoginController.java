@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static settings.AppPropertyType.*;
 import static settings.InitializationParameters.APP_WORKDIR_PATH;
@@ -136,8 +138,12 @@ public class LoginController extends Stage {
 
                         if (yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
                             this.id = idField.getText();
-                            this.pw = pwField.getText();
-
+                            try {
+                                this.pw = convertToMD5(pwField.getText());
+                            } catch (NoSuchAlgorithmException e1) {
+                                e1.printStackTrace();
+                            }
+    
                             // TODO SAVE PROFILE DATA WITH JSON FILE
                             try {
                                 createNewProfile();
@@ -163,7 +169,7 @@ public class LoginController extends Stage {
                         isExistedID(idField.getText());
                         if(loadProfile(idField.getText())) {
                             id = idField.getText();
-                            pw = pwField.getText();
+                            pw = convertToMD5(pwField.getText());
                             GameState.currentState = GameState.LOGIN;
                             singleton.hide();
                         }
@@ -175,6 +181,8 @@ public class LoginController extends Stage {
                     } catch (IOException e) {
                         appMessageDialogSingleton.setMessageLabel("'" + idField.getText() + "' is not existed ID!");
                         appMessageDialogSingleton.show();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
                     }
                 }
                 else
@@ -207,13 +215,13 @@ public class LoginController extends Stage {
         appTemplate.getFileComponent().createProfile(appTemplate, target);
     }
 
-    private boolean loadProfile(String userID) throws IOException {
+    private boolean loadProfile(String userID) throws IOException, NoSuchAlgorithmException {
         PropertyManager propertyManager         = PropertyManager.getManager();
         Path appDirPath                         = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
         Path targetPath                         = appDirPath.resolve(APP_WORKDIR_PATH.getParameter());
         Path target                             = Paths.get(targetPath.toString() + "\\" + userID + "." + propertyManager.getPropertyValue(WORK_FILE_EXT));
 
-        return appTemplate.getFileComponent().loadProfile(appTemplate, pwField.getText(), target);
+        return appTemplate.getFileComponent().loadProfile(appTemplate, convertToMD5(pwField.getText()), target);
     }
 
     private void isExistedID(String testID) throws IOException {
@@ -224,6 +232,17 @@ public class LoginController extends Stage {
 
         JsonFactory jsonFactory = new JsonFactory();
         JsonParser  jsonParser  = new JsonFactory().createParser(Files.newInputStream(idCheckerPath));
+    }
+    
+    private String convertToMD5(String original) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(original.getBytes());
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for (byte b : digest)
+            sb.append(String.format("%02x", b & 0xff));
+        
+        return sb.toString();
     }
 
     private void reset()

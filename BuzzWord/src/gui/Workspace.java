@@ -50,7 +50,6 @@ public class Workspace extends AppWorkspaceComponent {
     BorderPane centerPane;
     StackPane mainFramePane;      // container to stack grid elements and lines on the basePane
 
-    ScrollPane helpPane;           // container to display help screen
     VBox topPane;            // container to display labels at top
     VBox bottomPane;         // container to display labels at bottom
     VBox rightPane;          // container to display status at right
@@ -71,8 +70,10 @@ public class Workspace extends AppWorkspaceComponent {
     ArrayList<Label> matchedPoints;      // labels to display points of matched words
 
     Button pauseAndPlayButton;
-
+    Button helpButton;
     Button closeButton;        // close button
+    
+    StackPane helpButtonPane;
     StackPane closeButtonPane;
     StackPane pauseAndPlayButtonPane;
     GridPane remainingTimePane;
@@ -87,11 +88,6 @@ public class Workspace extends AppWorkspaceComponent {
     VBox targetPointPane;
 
     LineElement[] lineElements;
-
-    Line[] vLines;
-    Line[] hLines;
-    Line[] lrLines;
-    Line[] rlLines;
 
     ArrayList<String> solutions;
 
@@ -232,14 +228,14 @@ public class Workspace extends AppWorkspaceComponent {
         rightStatusPane.setSpacing(20);
         rightStatusPane.setVisible(false);
 
-        BorderPane closeButtonContainerPane = new BorderPane();
+        FlowPane buttonsContainerPane = new FlowPane();
         closeButtonPane = new StackPane();
         closeButtonPane.setPrefHeight(30);
         closeButtonPane.setPrefWidth(30);
         closeButtonPane.setId(propertyManager.getPropertyValue(CLOSE_BUTTON_IMAGE));
         closeButton = new Button();
-        closeButton.setPrefWidth(40);
-        closeButton.setPrefHeight(40);
+        closeButton.setPrefWidth(30);
+        closeButton.setPrefHeight(30);
         closeButton.setStyle("-fx-background-color: transparent");
         closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
@@ -250,8 +246,27 @@ public class Workspace extends AppWorkspaceComponent {
                     }
                 });
         closeButtonPane.getChildren().add(closeButton);
-        closeButtonPane.setAlignment(Pos.TOP_RIGHT);
-        closeButtonContainerPane.setRight(closeButtonPane);
+    
+        helpButtonPane = new StackPane();
+        helpButtonPane.setPrefHeight(30);
+        helpButtonPane.setPrefWidth(30);
+        helpButtonPane.setId(propertyManager.getPropertyValue(HELP_BUTTON_IMAGE));
+        helpButton = new Button();
+        helpButton.setPrefWidth(30);
+        helpButton.setPrefHeight(30);
+        helpButton.setStyle("-fx-background-color: transparent");
+        helpButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        // TODO Confirm again before terminating the game
+                        gui.getFileController().handleHelpRequest();
+                    }
+                });
+        helpButtonPane.getChildren().add(helpButton);
+        buttonsContainerPane.getChildren().addAll(helpButtonPane, closeButtonPane);
+        buttonsContainerPane.setAlignment(Pos.TOP_RIGHT);
+        
 
         remainingTimePane = new GridPane();
         remainingTimePane.setVgap(10);
@@ -330,8 +345,7 @@ public class Workspace extends AppWorkspaceComponent {
         targetPointPane.getChildren().addAll(targetDisplay, targetPoint);
 
         rightStatusPane.getChildren().addAll(initProgressPane(), matchedContainerPane);
-        rightPane.getChildren().addAll(closeButtonContainerPane, emptyPane, remainingTimePane, rightStatusPane, targetPointPane);
-
+        rightPane.getChildren().addAll(buttonsContainerPane, emptyPane, remainingTimePane, rightStatusPane, targetPointPane);
         basePane.setRight(rightPane);
     }
 

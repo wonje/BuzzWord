@@ -30,11 +30,11 @@ public class BuzzWordController implements FileController {
     AnimationTimer timer;
 
     public BuzzWordController(AppTemplate appTemplate) {
-        this.appTemplate = appTemplate;
-        userData = (UserData) appTemplate.getUserComponent();
-        gameData = (GameData) appTemplate.getDataComponent();
-        GameState.currentState = GameState.UNLOGIN;
-        GameState.currentMode = GameState.ENGLISH_DICTIONARY;
+        this.appTemplate        = appTemplate;
+        userData                = (UserData) appTemplate.getUserComponent();
+        gameData                = (GameData) appTemplate.getDataComponent();
+        GameState.currentState  = GameState.UNLOGIN;
+        GameState.currentMode   = GameState.ENGLISH_DICTIONARY;
     }
 
 
@@ -109,6 +109,9 @@ public class BuzzWordController implements FileController {
                         if(GameState.currentLevel != 8) {
                             // STOP GAME
                             if(yesNoCancelDialogSingleton.isShowing()) {
+                                yesNoCancelDialogSingleton.setMessage("Level " + gameWorkspace.getLevelLabel().getText() +
+                                        " is clear! \nDo you want to start Level " +
+                                        Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
                                 yesNoCancelDialogSingleton.toFront();
                             }
                             else {
@@ -121,9 +124,15 @@ public class BuzzWordController implements FileController {
                                     e.printStackTrace();
                                 }
                             }
+                            // CHECK IF USER SELECT PLAY NEXT LEVEL
+                            if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)){
+                                handlePlayRequest(++GameState.currentLevel);
+                            }
                         }
                         else {
                             if(yesNoCancelDialogSingleton.isShowing()){
+                                yesNoCancelDialogSingleton.setMessage("Level " + gameWorkspace.getLevelLabel().getText() +
+                                        " is clear! \nYour last stage is done!");
                                 yesNoCancelDialogSingleton.toFront();
                             }
                             else {
@@ -142,36 +151,6 @@ public class BuzzWordController implements FileController {
     }
 
     private void checkPersonalBest() throws IOException {
-        // CHECK IT SHOULD UPDATE MAX LEVEL OR NOT
-//        boolean updateLevel;
-//        int maxLevel = 0;
-//        switch (GameState.currentMode){
-//            case ENGLISH_DICTIONARY:
-//            {
-//                maxLevel = gameData.maxEngDicLevel;
-//                break;
-//            }
-//            case BACTERIA:
-//            {
-//                maxLevel = gameData.maxBacteriaLevel;
-//                break;
-//            }
-//            case BIOLOGY:
-//            {
-//                maxLevel = gameData.maxBiologyLevel;
-//                break;
-//            }
-//            case FUNGI:
-//            {
-//                maxLevel = gameData.maxFungiLevel;
-//                break;
-//            }
-//        }
-//        if(GameState.currentLevel == maxLevel && GameState.currentState.equals(GameState.END_SUCCESS))
-//            updateLevel = true;
-//        else
-//            updateLevel = false;
-
         // LOAD BEST SCORE YOU DID BEFORE AND SAVE NEW BEST SCORE
         if (userData.checkAndSaveBestPoint(GameState.currentMode, Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]),
                 gameData.totalPoints)) {
@@ -297,7 +276,10 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleHelpRequest() {
-
+        if(GameState.currentState.equals(GameState.UNLOGIN))
+            gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
+        
+        
     }
 
     @Override
@@ -321,15 +303,14 @@ public class BuzzWordController implements FileController {
 
     @Override
     public void handleQuitRequest() {
-        timer.stop();
+        if(GameState.currentState.equals(GameState.UNLOGIN))
+            gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
+        if(GameState.currentState.equals(GameState.PLAY))
+            timer.stop();
         if (gameWorkspace.confirmBeforeExit())
             System.exit(0);
-        timer.start();
-    }
-
-    @Override
-    public void handleRestartRequest() {
-
+        if(GameState.currentState.equals(GameState.PLAY))
+            timer.start();
     }
 
     @Override

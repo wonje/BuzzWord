@@ -27,8 +27,6 @@ public interface FileController {
 
     void handleQuitRequest();
 
-    void handleRestartRequest();
-
     void handleModeRequest();
 
     void handleModeCancelRequest();

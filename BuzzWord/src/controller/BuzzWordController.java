@@ -128,6 +128,9 @@ public class BuzzWordController implements FileController {
                             if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)){
                                 handlePlayRequest(++GameState.currentLevel);
                             }
+                            else {
+                                handleGoHomeRequest();
+                            }
                         }
                         else {
                             if(yesNoCancelDialogSingleton.isShowing()){
@@ -139,6 +142,7 @@ public class BuzzWordController implements FileController {
                                 yesNoCancelDialogSingleton.show("", "Level " + gameWorkspace.getLevelLabel().getText() +
                                         " is clear! \nYour last stage is done!");
                             }
+                            handleGoHomeRequest();
                         }
                         // TIMER RESET
                         timeline = null;

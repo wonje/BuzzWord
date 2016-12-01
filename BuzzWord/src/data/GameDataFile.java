@@ -193,7 +193,7 @@ public class GameDataFile implements AppFileComponent {
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY){
                             tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
                             jsonParser.nextToken();
-                            userData.dicBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            userData.dicBestScores.put(tempKey, Integer.parseInt(jsonParser.getText()));
                         }
                         break;
                     case BACTERIA_SCORES:
@@ -201,7 +201,7 @@ public class GameDataFile implements AppFileComponent {
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY){
                             tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
                             jsonParser.nextToken();
-                            userData.bacteriaBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            userData.bacteriaBestScores.put(tempKey, Integer.parseInt(jsonParser.getText()));
                         }
                         break;
                     case BIOLOGY_SCORES:
@@ -209,7 +209,7 @@ public class GameDataFile implements AppFileComponent {
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY){
                             tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
                             jsonParser.nextToken();
-                            userData.biologyBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            userData.biologyBestScores.put(tempKey, Integer.parseInt(jsonParser.getText()));
                         }
                         break;
                     case FUNGI_SCORES:
@@ -217,7 +217,7 @@ public class GameDataFile implements AppFileComponent {
                         while (jsonParser.nextToken() != JsonToken.END_ARRAY){
                             tempKey = Character.getNumericValue(jsonParser.getText().charAt(0));
                             jsonParser.nextToken();
-                            userData.fungiBestScores.put(tempKey, Character.getNumericValue(jsonParser.getText().charAt(0)));
+                            userData.fungiBestScores.put(tempKey, Integer.parseInt(jsonParser.getText()));
                         }
                         break;
                     default:

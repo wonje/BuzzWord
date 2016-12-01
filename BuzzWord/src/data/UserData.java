@@ -90,7 +90,7 @@ public class UserData implements AppDataComponent{
         switch (mode)
         {
             case ENGLISH_DICTIONARY:
-                if(point >= dicBestScores.get(level))
+                if(point > dicBestScores.get(level))
                 {
                     dicBestScores.put(level, point);
                     return true;
@@ -98,7 +98,7 @@ public class UserData implements AppDataComponent{
                 else
                     return false;
             case BACTERIA:
-                if(point >= bacteriaBestScores.get(level))
+                if(point > bacteriaBestScores.get(level))
                 {
                     bacteriaBestScores.put(level, point);
                     return true;
@@ -106,7 +106,7 @@ public class UserData implements AppDataComponent{
                 else
                     return false;
             case BIOLOGY:
-                if(point >= biologyBestScores.get(level))
+                if(point > biologyBestScores.get(level))
                 {
                     biologyBestScores.put(level, point);
                     return true;
@@ -114,7 +114,7 @@ public class UserData implements AppDataComponent{
                 else
                     return false;
             case FUNGI:
-                if(point >= fungiBestScores.get(level))
+                if(point > fungiBestScores.get(level))
                 {
                     fungiBestScores.put(level, point);
                     return true;

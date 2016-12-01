@@ -23,7 +23,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import propertymanager.PropertyManager;
 import ui.AppGUI;
 import ui.YesNoCancelDialogSingleton;
@@ -458,7 +457,7 @@ public class Workspace extends AppWorkspaceComponent {
         totalPointLabel.setText("0");
     }
 
-    // SET LEVEL SELETION SCREEN
+    // SET LEVEL SELECTION SCREEN
     public void setLevelSelectionScreen()
     {
         modeLabel.setVisible(true);
@@ -589,6 +588,36 @@ public class Workspace extends AppWorkspaceComponent {
         matchedWordPane.getChildren().addAll(matches);
         matchedPointPane.getChildren().addAll(matchedPoints);
 //        totalPointLabel.setText(Integer.toString(total_score));
+    }
+    
+    public void displayAllSolutions() {
+        boolean contains;
+        Label word;
+        Label length;
+        System.out.println("DISPLAY ALL SOLUTIONS");
+        for (String solution : solutions) {
+            contains = false;
+            for(Label match : matches) {
+                if(match.getText().equals(solution)) {
+                    contains = true;
+                    break;
+                }
+            }
+            if(!contains) {
+                System.out.println(solution);
+                word = new Label(solution);
+                word.setStyle("-fx-text-fill: red");
+                matches.add(word);
+                length = new Label(Integer.toString(word.getText().length() * 10));
+                length.setStyle("-fx-text-fill : red");
+                matchedPoints.add(length);
+                }
+            }
+        
+        matchedWordPane.getChildren().clear();
+        matchedPointPane.getChildren().clear();
+        matchedWordPane.getChildren().addAll(matches);
+        matchedPointPane.getChildren().addAll(matchedPoints);
     }
 
     public boolean confirmBeforeExit() {

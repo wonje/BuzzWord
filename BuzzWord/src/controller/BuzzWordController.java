@@ -40,7 +40,8 @@ public class BuzzWordController implements FileController {
 
     private void play()
     {
-        YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
+        YesNoCancelDialogSingleton  yesNoCancelDialogSingleton   = YesNoCancelDialogSingleton.getSingleton();
+        AppMessageDialogSingleton   appMessageDialogSingleton    = AppMessageDialogSingleton.getSingleton();
         IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
         gameWorkspace.getRemainingTime().textProperty().bind(timeSeconds.asString());
         timer = new AnimationTimer() {
@@ -97,6 +98,7 @@ public class BuzzWordController implements FileController {
 
                 // GAMESTATE IS END_SUCCESS
                 if(GameState.currentState.equals(GameState.END_SUCCESS)) {
+                    gameWorkspace.displayAllSolutions();
                     Platform.runLater(() -> {
                         // TODO CHECK "PERSONAL BEST" AND UPDATE
                         try {
@@ -118,14 +120,18 @@ public class BuzzWordController implements FileController {
                                 yesNoCancelDialogSingleton.show("", "Level " + gameWorkspace.getLevelLabel().getText() +
                                         " is clear! \nDo you want to start Level " +
                                         Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
-                                try {
-                                    updateGameLevel();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                            }
+                            // UPDATE DATA
+                            try {
+                                updateGameLevel();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                             // CHECK IF USER SELECT PLAY NEXT LEVEL
                             if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)){
+                                // RESET GAME DATA
+                                gameData.matchedStr.clear();
+                                gameWorkspace.getTotalPointLabel().setText("0");
                                 handlePlayRequest(++GameState.currentLevel);
                             }
                             else {
@@ -133,13 +139,13 @@ public class BuzzWordController implements FileController {
                             }
                         }
                         else {
-                            if(yesNoCancelDialogSingleton.isShowing()){
-                                yesNoCancelDialogSingleton.setMessage("Level " + gameWorkspace.getLevelLabel().getText() +
+                            if(appMessageDialogSingleton.isShowing()){
+                                appMessageDialogSingleton.setMessageLabel("Level " + gameWorkspace.getLevelLabel().getText() +
                                         " is clear! \nYour last stage is done!");
-                                yesNoCancelDialogSingleton.toFront();
+                                appMessageDialogSingleton.toFront();
                             }
                             else {
-                                yesNoCancelDialogSingleton.show("", "Level " + gameWorkspace.getLevelLabel().getText() +
+                                appMessageDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
                                         " is clear! \nYour last stage is done!");
                             }
                             handleGoHomeRequest();
@@ -157,7 +163,7 @@ public class BuzzWordController implements FileController {
     private void checkPersonalBest() throws IOException {
         // LOAD BEST SCORE YOU DID BEFORE AND SAVE NEW BEST SCORE
         if (userData.checkAndSaveBestPoint(GameState.currentMode, Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]),
-                gameData.totalPoints)) {
+                Integer.parseInt(gameWorkspace.getTotalPointLabel().getText()))) {
             AppMessageDialogSingleton appMessageDialogSingleton = AppMessageDialogSingleton.getSingleton();
             appMessageDialogSingleton.show("", "You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
             // UPDATE PROFILE DATA
@@ -170,24 +176,32 @@ public class BuzzWordController implements FileController {
         {
             case ENGLISH_DICTIONARY:
             {
+                if(GameState.currentLevel != gameData.maxEngDicLevel)
+                    return;
                 gameData.maxEngDicLevel++;
                 userData.getCurrentModeScores().put(gameData.maxEngDicLevel, 0);
                 break;
             }
             case BACTERIA:
             {
+                if(GameState.currentLevel != gameData.maxBacteriaLevel)
+                    return;
                 gameData.maxBacteriaLevel++;
                 userData.getCurrentModeScores().put(gameData.maxBacteriaLevel, 0);
                 break;
             }
             case BIOLOGY:
             {
+                if(GameState.currentLevel != gameData.maxBiologyLevel)
+                    return;
                 gameData.maxBiologyLevel++;
                 userData.getCurrentModeScores().put(gameData.maxBiologyLevel, 0);
                 break;
             }
             case FUNGI:
             {
+                if(GameState.currentLevel != gameData.maxFungiLevel)
+                    return;
                 gameData.maxFungiLevel++;
                 userData.getCurrentModeScores().put(gameData.maxFungiLevel, 0);
                 break;
@@ -261,6 +275,7 @@ public class BuzzWordController implements FileController {
     @Override
     public void handleLevelSelectRequest() {
         GameState.currentState = GameState.LEVEL_SELECTION;
+        gameWorkspace.getModeLabel().setText(PropertyManager.getManager().getPropertyValue(GameState.currentMode));
         appTemplate.getGUI().setTooltipPlaytoHome(true);
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         setVisibleMenu(false, true, true, false);

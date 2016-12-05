@@ -7,6 +7,7 @@ import static buzzword.BuzzWordProperties.GRID_SELECTED;
 import java.awt.*;
 
 import apptemplate.AppTemplate;
+import controller.GameState;
 import data.GameData;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -42,6 +43,10 @@ public class GridElement extends Button{
         this(pos, gameWorkspace, appTemplate);
         this.word = word.charAt(0);
     }
+    
+    public boolean getVisited() { return visited; }
+    
+    public void setVisited(boolean visit) { visited = visit; }
 
     public Point getPoint() {
         return pos;
@@ -71,9 +76,6 @@ public class GridElement extends Button{
             grid.getStyleClass().addAll(propertyManager.getPropertyValue(GRID));
             grid.visited = false;
         }
-        while(!gameData.lineStack.isEmpty()) {
-            gameData.lineStack.pop().setVisible(false);
-        }
         // POP FROM LINE STACK, ERASE LINES
         while(!gameData.lineStack.isEmpty()) {
             gameData.lineStack.pop().setVisible(false);
@@ -83,17 +85,54 @@ public class GridElement extends Button{
         gameWorkspace.progress.clear();
         gameWorkspace.progressPane.getChildren().clear();
     }
+    
+    public void drawProgress() {
+        gameWorkspace.progress.add(progressLabel(Character.toString(word)));
+        gameWorkspace.progressPane.add(gameWorkspace.progress.get(gameWorkspace.progress.size() - 1),
+                (gameWorkspace.progress.size() - 1) % 8, (gameWorkspace.progress.size() - 1) / 8);
+    }
 
     // MOUSE EVENT HANDLING
     public void setOnEventHandler() {
         PropertyManager propertyManager = PropertyManager.getManager();
+        // RETURN IF ANOTHER MODE
         // START DRAG
         this.setOnDragDetected(mouseEvent -> {
+            if(!GameState.currentState.equals(GameState.PLAY))
+                return;
+            if(GameState.currentPlay.equals(GameState.KEYBOARD)) {
+                if(gameWorkspace.solutions.contains(gameData.keySequence.toLowerCase()) &&
+                        !gameData.matchedStr.contains(gameData.keySequence.toLowerCase())) {
+                    gameWorkspace.matches.add(new Label(gameData.keySequence.toLowerCase()));
+                    gameData.matchedStr.add(gameData.keySequence.toLowerCase());
+                    gameWorkspace.matchedPoints.add(new Label(Integer.toString(gameData.keySequence.toLowerCase().length() * 10)));
+                    gameWorkspace.matchedWordPane.getChildren().clear();
+                    gameWorkspace.matchedWordPane.getChildren().addAll(gameWorkspace.matches);
+                    gameWorkspace.matchedPointPane.getChildren().clear();
+                    gameWorkspace.matchedPointPane.getChildren().addAll(gameWorkspace.matchedPoints);
+                    gameWorkspace.getTotalPointLabel().setText(Integer.toString(gameData.keySequence.toLowerCase().length() * 10 +
+                            Integer.parseInt(gameWorkspace.getTotalPointLabel().getText())));
+                }
+    
+                // TODO CLEAR
+                gameData.keySequence = "";
+                gameWorkspace.progress.clear();
+                gameWorkspace.progressPane.getChildren().clear();
+                for(GridElement grid : gameWorkspace.getGridElements()) {
+                    grid.setVisited(false);
+                    grid.getStyleClass().clear();
+                    grid.getStyleClass().addAll(propertyManager.getPropertyValue(GRID));
+                }
+                for(LineElement line : gameWorkspace.getLineElements())
+                    line.setVisible(false);
+            }
+            GameState.currentPlay = GameState.MOUSE;
             this.startFullDrag();
         });
 
         // DRAG
         this.setOnMouseDragEntered(mouseDragEvent -> {
+            GameState.currentPlay = GameState.MOUSE;
             // SKIP IF THE NODE IS NOT ADJACENT NODE FROM LAST NODE
             if((!gameData.gridStack.isEmpty()) && (Math.abs(gameData.gridStack.peek().pos.getX() - this.pos.getX()) > 2 ||
                     Math.abs(gameData.gridStack.peek().pos.getY() - this.pos.getY()) > 2))
@@ -103,9 +142,7 @@ public class GridElement extends Button{
                 return;
             this.visited = true;
             // MAKE PROGRESS AND CHANGE GRID CSS
-            gameWorkspace.progress.add(progressLabel(Character.toString(word)));
-            gameWorkspace.progressPane.add(gameWorkspace.progress.get(gameWorkspace.progress.size() - 1),
-                    (gameWorkspace.progress.size() - 1) % 8, (gameWorkspace.progress.size() - 1) / 8);
+            drawProgress();
             this.getStyleClass().clear();
             this.getStyleClass().addAll(propertyManager.getPropertyValue(GRID_SELECTED));
             // DRAW LINE
@@ -116,8 +153,8 @@ public class GridElement extends Button{
                 for (int i = 0; i < gameWorkspace.lineElements.length; i++) {
                     if (gameWorkspace.lineElements[i].pos.equals(temp.pos)) {
                         // CHECK DIAGONAL RIGHT TO LEFT
-                        if((gameData.gridStack.peek().pos.getY() > pos.getY() && gameData.gridStack.peek().pos.getX() < pos.getX() ||
-                                (gameData.gridStack.peek().pos.getY() < pos.getY() && gameData.gridStack.peek().pos.getX() > pos.getX()))){
+                        if((gameData.gridStack.peek().pos.getY() > pos.getY() && gameData.gridStack.peek().pos.getX() < pos.getX()) ||
+                                (gameData.gridStack.peek().pos.getY() < pos.getY() && gameData.gridStack.peek().pos.getX() > pos.getX())){
                             gameWorkspace.lineElements[++i].setVisible(true);
                         }
                         else {

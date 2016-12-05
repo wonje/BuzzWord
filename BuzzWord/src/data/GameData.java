@@ -33,11 +33,12 @@ public class GameData implements AppDataComponent {
     public int totalPoints;
 
     private NavigableSet<String> wordFile;
-    private char[][] board = new char[4][4];
+    public char[][] board = new char[4][4];
 
     public Stack<GridElement> gridStack;
     public Stack<Line> lineStack;
     public ArrayList<String> matchedStr;
+    public String keySequence;
 
     public GameData(AppTemplate appTemplate) {
         this.appTemplate = appTemplate;
@@ -48,6 +49,7 @@ public class GameData implements AppDataComponent {
         gridStack = new Stack<GridElement>();
         lineStack = new Stack<Line>();
         matchedStr = new ArrayList<String>();
+        keySequence = "";
     }
 
     @Override

@@ -98,31 +98,6 @@
     -fx-text-fill: #d6d6d6;
 }
 
-.help-screen {
-    -fx-background-color: transparent;
-    -fx-background : dimgray;
-}
-
-.help-screen .increment-button, matched-status .decrement-button {
-    -fx-background-color: transparent;
-    -fx-background : 2em;
-}
-
-.help-screen .scroll-bar:vertical .track {
-    -fx-background-color: transparent;
-    -fx-background : derive(gray, 80%);
-
-    -fx-background-radius: 2em;
-    -fx-border-radius: 2em;
-}
-
-.help-screen .scroll-bar:vertical .thumb {
-    -fx-background-color: derive(black, 90%);
-    -fx-background-insets: 2, 0, 0;
-    -fx-background-radius: 2em;
-}
-
-
 .matched-status {
     -fx-background-color: transparent;
     -fx-background : dimgray;
@@ -142,6 +117,30 @@
 }
 
 .matched-status .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+.solutions-screen {
+    -fx-background-color: transparent;
+    -fx-background : dimgray;
+}
+
+.solutions-screen .increment-button, solutions-screen .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background : 2em;
+}
+
+.solutions-screen .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-background : derive(gray, 80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+.solutions-screen .scroll-bar:vertical .thumb {
     -fx-background-color: derive(black, 90%);
     -fx-background-insets: 2, 0, 0;
     -fx-background-radius: 2em;

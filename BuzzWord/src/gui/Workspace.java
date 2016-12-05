@@ -43,8 +43,6 @@ public class Workspace extends AppWorkspaceComponent {
     BuzzWordController controller;
     LoginController loginController;
 
-    GridElement[] gridElements;
-
     BorderPane basePane;           // main container to divide sections
     BorderPane centerPane;
     StackPane mainFramePane;      // container to stack grid elements and lines on the basePane
@@ -55,7 +53,6 @@ public class Workspace extends AppWorkspaceComponent {
     VBox rightStatusPane;
     BorderPane pausePane;
     GridPane mainStagePane;      // container to display all of grid elements
-    GridPane progressPane;
 
     Label titleLabel;         // label to display title
     Label modeLabel;          // label to display mode
@@ -63,10 +60,6 @@ public class Workspace extends AppWorkspaceComponent {
     Label levelLabel;         // label to display level
     Label targetPoint;        // label to display target point
     Label totalPointLabel;
-
-    ArrayList<Label> progress;           // labels to display progressed words
-    ArrayList<Label> matches;            // labels to display matched words
-    ArrayList<Label> matchedPoints;      // labels to display points of matched words
 
     Button pauseAndPlayButton;
     Button helpButton;
@@ -81,14 +74,20 @@ public class Workspace extends AppWorkspaceComponent {
     ScrollPane matchedScrollPane;
     HBox totalPointPane;
     HBox matchedPane;
-    VBox matchedWordPane;
-    VBox matchedPointPane;
 
     VBox targetPointPane;
-
+    
+    GridElement[] gridElements;
     LineElement[] lineElements;
 
-    ArrayList<String> solutions;
+    public ArrayList<String> solutions;
+    public ArrayList<Label> progress;           // labels to display progressed words
+    public ArrayList<Label> matches;            // labels to display matched words
+    public ArrayList<Label> matchedPoints;      // labels to display points of matched words
+    
+    public VBox matchedWordPane;
+    public VBox matchedPointPane;
+    public GridPane progressPane;
 
     int time;
 
@@ -109,6 +108,10 @@ public class Workspace extends AppWorkspaceComponent {
         loginController = LoginController.getSingleton(app);
         layoutGUI();     // initialize all the workspace (GUI) components including the containers and their layout
     }
+    
+    public GridElement[] getGridElements() { return gridElements; }
+    
+    public LineElement[] getLineElements() { return lineElements; }
 
     public Label getModeLabel() {
         return modeLabel;
@@ -117,7 +120,13 @@ public class Workspace extends AppWorkspaceComponent {
     public Label getTotalPointLabel() { return totalPointLabel; }
 
     public Label getLevelLabel() { return levelLabel; }
-
+    
+    public boolean checkEndFail() {
+        if(Integer.parseInt(remainingTime.getText()) == 0)
+            return true;
+        return false;
+    }
+    
     public boolean checkEndSuccess() {
         if(Integer.parseInt(totalPointLabel.getText()) >= Integer.parseInt(targetPoint.getText()))
             return true;
@@ -455,6 +464,15 @@ public class Workspace extends AppWorkspaceComponent {
         // RESET GAME DATA
         gameData.matchedStr.clear();
         totalPointLabel.setText("0");
+        
+        // LINE ELEMENT CLEAR
+        for(LineElement lineElement : lineElements)
+            lineElement.setVisible(false);
+        
+        // RESET PROGRESS PANE
+        progress.clear();
+        progressPane.getChildren().clear();
+        gameData.keySequence = "";
     }
 
     // SET LEVEL SELECTION SCREEN
@@ -590,16 +608,19 @@ public class Workspace extends AppWorkspaceComponent {
 //        totalPointLabel.setText(Integer.toString(total_score));
     }
     
-    public void displayAllSolutions() {
+    public ArrayList<Label> displayAllSolutions() {
+        ArrayList<Label> solutionWords = new ArrayList<Label>();
         boolean contains;
         Label word;
         Label length;
-        System.out.println("DISPLAY ALL SOLUTIONS");
         for (String solution : solutions) {
             contains = false;
             for(Label match : matches) {
                 if(match.getText().equals(solution)) {
                     contains = true;
+                    word = new Label(solution);
+                    word.setStyle("-fx-text-fill: antiquewhite; -fx-font-family: 'Source Code Pro'; -fx-font-weight: bolder");
+                    solutionWords.add(new Label(solution));
                     break;
                 }
             }
@@ -608,16 +629,23 @@ public class Workspace extends AppWorkspaceComponent {
                 word = new Label(solution);
                 word.setStyle("-fx-text-fill: red");
                 matches.add(word);
+                word = new Label(solution);
+                word.setStyle("-fx-text-fill: red; -fx-font-family: 'Source Code Pro'; -fx-font-weight: bolder");
+                solutionWords.add(word);
                 length = new Label(Integer.toString(word.getText().length() * 10));
                 length.setStyle("-fx-text-fill : red");
                 matchedPoints.add(length);
                 }
             }
+            
+            
         
         matchedWordPane.getChildren().clear();
         matchedPointPane.getChildren().clear();
         matchedWordPane.getChildren().addAll(matches);
         matchedPointPane.getChildren().addAll(matchedPoints);
+        
+        return solutionWords;
     }
 
     public boolean confirmBeforeExit() {
@@ -649,6 +677,7 @@ public class Workspace extends AppWorkspaceComponent {
         {
             gridElements[i].setDisable(true);
             gridElements[i].setVisible(true);
+            gridElements[i].setVisited(false);
             gridElements[i].getStyleClass().clear();
             gridElements[i].getStyleClass().add(PropertyManager.getManager().getPropertyValue(GRID));
             gridElements[i].setAlignment(Pos.CENTER);
@@ -682,13 +711,14 @@ public class Workspace extends AppWorkspaceComponent {
 
         }
     }
-
-    private void resetScrollPane() {
+    
+    public void resetScrollPane() {
         // RESET MATCHED VALUES
         matches.clear();
         matchedPoints.clear();
         matchedWordPane.getChildren().clear();
         matchedPointPane.getChildren().clear();
+        totalPointLabel.setText("0");
     }
 
     @Override

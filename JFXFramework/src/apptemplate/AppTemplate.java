@@ -11,6 +11,7 @@ import propertymanager.PropertyManager;
 import settings.InitializationParameters;
 import ui.AppGUI;
 import ui.AppMessageDialogSingleton;
+import ui.SolutionDialogSingleton;
 import ui.YesNoCancelDialogSingleton;
 import xmlutils.InvalidXMLFileFormatException;
 
@@ -61,10 +62,13 @@ public abstract class AppTemplate extends Application {
         AppMessageDialogSingleton  messageDialog = AppMessageDialogSingleton.getSingleton();
         YesNoCancelDialogSingleton yesNoDialog   = YesNoCancelDialogSingleton.getSingleton();
         LoginController loginController = LoginController.getSingleton(this);
-
+        SolutionDialogSingleton solutionDialog = SolutionDialogSingleton.getSingleton();
+        
         messageDialog.init(primaryStage);
         yesNoDialog.init(primaryStage);
         loginController.init(primaryStage);
+        solutionDialog.init(primaryStage);
+        
 
         try {
             if (loadProperties(APP_PROPERTIES_XML) && loadProperties(WORKSPACE_PROPERTIES_XML)) {

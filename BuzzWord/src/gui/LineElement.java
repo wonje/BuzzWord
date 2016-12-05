@@ -39,6 +39,10 @@ public class LineElement extends Line {
         this.setOnEventHandler();
         initLine();
     }
+    
+    public Point getPoint() {
+        return pos;
+    }
 
     private void initLine() {
         // INIT LINE OPTION

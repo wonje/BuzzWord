@@ -61,7 +61,10 @@ public class AppMessageDialogSingleton extends Stage {
         Button closeButton = new Button(InitializationParameters.CLOSE_LABEL.getParameter());
         closeButton.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
-        closeButton.setOnAction(e -> this.close());
+        closeButton.setOnAction(e -> {
+            this.close();
+            this.hide();
+        });
 
         VBox messagePane = new VBox();
         messagePane.setStyle("-fx-background-color: black; -fx-border-color: wheat");

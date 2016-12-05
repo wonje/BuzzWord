@@ -235,7 +235,7 @@ public class BuzzWordController implements FileController {
                     ArrayList<Point>    pos;
                     // START SEARCH NODES
                     searched = false;
-                    System.out.println(gameData.keySequence);
+//                    System.out.println(gameData.keySequence);
                     for (GridElement grid : gameWorkspace.getGridElements()) {
                         if (grid.getWord() == gameData.keySequence.charAt(0)) {
                             tempGridStack   = new Stack<GridElement>();

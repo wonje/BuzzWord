@@ -100,6 +100,8 @@ public class GridElement extends Button{
         this.setOnDragDetected(mouseEvent -> {
             if(!GameState.currentState.equals(GameState.PLAY))
                 return;
+            if(GameState.currentPlay == null)
+                GameState.currentPlay = GameState.MOUSE;
             if(GameState.currentPlay.equals(GameState.KEYBOARD)) {
                 if(gameWorkspace.solutions.contains(gameData.keySequence.toLowerCase()) &&
                         !gameData.matchedStr.contains(gameData.keySequence.toLowerCase())) {
@@ -175,10 +177,10 @@ public class GridElement extends Button{
             for (Label progress : gameWorkspace.progress) {
                 progressStr.append(Character.toLowerCase(progress.getText().charAt(0)));
             }
-            System.out.println(progressStr.toString());
+//            System.out.println(progressStr.toString());
             // IF PROGRESS IS MATCHED WITH SOLUTION AND NOT DUPLICATED ONE
             if(gameWorkspace.solutions.contains(progressStr.toString()) &&
-                    !gameData.matchedStr.contains(progressStr.toString())) {
+                    !gameData.matchedStr.contains(progressStr.toString()) && GameState.currentPlay.equals(GameState.MOUSE)) {
                 gameWorkspace.matches.add(new Label(progressStr.toString()));
                 gameData.matchedStr.add(progressStr.toString());
                 gameWorkspace.matchedPoints.add(new Label(Integer.toString(progressStr.toString().length() * 10)));

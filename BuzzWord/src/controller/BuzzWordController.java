@@ -546,9 +546,13 @@ public class BuzzWordController implements FileController {
             if(!yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES))
                 return;
         }
+        // IF GAME IS PLAYING, TIMER SHOULD BE STOPPED
+        if(GameState.currentState.equals(GameState.PLAY))
+            timer.stop();
         if(GameState.currentState.equals(GameState.PAUSE))
             gameWorkspace.setPausePane(false);
         GameState.currentState = GameState.LOGIN;
+        gameWorkspace.helpButtonPane.setVisible(true);
         appTemplate.getGUI().setTooltipPlaytoHome(false);
         setVisibleMenu(false, true, true, true);
         gameWorkspace.setHomeScreen();
@@ -560,6 +564,7 @@ public class BuzzWordController implements FileController {
         gameWorkspace.getModeLabel().setText(PropertyManager.getManager().getPropertyValue(GameState.currentMode));
         appTemplate.getGUI().setTooltipPlaytoHome(true);
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
+        gameWorkspace.helpButtonPane.setVisible(false);
         setVisibleMenu(false, true, true, false);
         // GET MAX LEVEL
         gameData.getMaxLevels(userData);

@@ -65,7 +65,6 @@ public class Workspace extends AppWorkspaceComponent {
     Button helpButton;
     Button closeButton;        // close button
     
-    StackPane helpButtonPane;
     StackPane closeButtonPane;
     StackPane pauseAndPlayButtonPane;
     GridPane remainingTimePane;
@@ -88,6 +87,7 @@ public class Workspace extends AppWorkspaceComponent {
     public VBox matchedWordPane;
     public VBox matchedPointPane;
     public GridPane progressPane;
+    public StackPane helpButtonPane;
 
     int time;
 

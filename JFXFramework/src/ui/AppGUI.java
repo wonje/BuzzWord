@@ -71,7 +71,7 @@ public class AppGUI implements AppStyleArbiter {
     final KeyCombination keyQuitApplication         = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
     final KeyCombination keyHomeScreen              = new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN);
     final KeyCombination keyReplayLevel             = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
-    final KeyCombination keyStartNextLevel          = new KeyCodeCombination(KeyCode.PERIOD, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyStartNextLevel          = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN);
     final KeyCombination keySaveProgress            = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
     
     /**
@@ -214,8 +214,10 @@ public class AppGUI implements AppStyleArbiter {
                         // IF GAMESTATE == UNLOGIN
                         if (GameState.currentState.equals(GameState.UNLOGIN))
                             fileController.handleLoginRequest();
-                        else if (!(GameState.currentState.equals(GameState.PLAY) ||
-                                GameState.currentState.equals(GameState.PAUSE)))
+//                        else if (!(GameState.currentState.equals(GameState.PLAY) ||
+//                                GameState.currentState.equals(GameState.PAUSE)))
+                        else if(GameState.currentState.equals(GameState.LOGIN) ||
+                                GameState.currentState.equals(GameState.LOGIN_MODE))
                             fileController.handleLogoutRequest();
                     }
                 });

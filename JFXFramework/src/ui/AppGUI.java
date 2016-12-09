@@ -177,7 +177,26 @@ public class AppGUI implements AppStyleArbiter {
                     if(GameState.currentState.equals(GameState.LOGIN) || GameState.currentState.equals(GameState.LOGIN_MODE))
                         fileController.handleLevelSelectRequest();
                 }
-                
+                // USE CASE 7 : QUIT APPLICATION
+                if(keyQuitApplication.match(event)) {
+                    fileController.handleQuitRequest();
+                }
+                // USE CASE 8 : RETURN TO HOME SCREEN
+                if(keyHomeScreen.match(event)) {
+                 fileController.handleGoHomeRequest();
+                }
+                // USE CASE 12 : REPLAY LEVEL
+                if(keyReplayLevel.match(event)) {
+                    
+                }
+                // USE CASE 13 : START NEXT LEVEL
+                if(keyStartNextLevel.match(event)) {
+                    
+                }
+                // USE CASE 14 : SAVE PROGRESS
+                if(keySaveProgress.match(event)) {
+                    
+                }
                 
             }
         });

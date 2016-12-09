@@ -1,10 +1,15 @@
 package ui;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,6 +30,8 @@ import settings.InitializationParameters;
 public class AppMessageDialogSingleton extends Stage {
 
     private static AppMessageDialogSingleton singleton = null;
+    
+    final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
     
     private Label   messageLabel;
     private String  selection;
@@ -82,6 +89,13 @@ public class AppMessageDialogSingleton extends Stage {
         messagePane.setSpacing(20);
 
         Scene messageScene = new Scene(messagePane);
+        messageScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(keyEnter.match(event))
+                    AppMessageDialogSingleton.this.close();
+            }
+        });
         this.setScene(messageScene);
         this.setResizable(false);
         this.initStyle(StageStyle.UNDECORATED);

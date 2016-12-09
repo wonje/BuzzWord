@@ -7,11 +7,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.security.Key;
 
 /**
  * @author Jason Kang
@@ -130,6 +136,7 @@ public class YesNoCancelDialogSingleton extends Stage {
     public String getSelection() {
         return selection;
     }
+    
 
     /**
      * This method loads a custom message into the label

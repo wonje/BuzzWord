@@ -1,12 +1,17 @@
 package ui;
 
 import gui.Workspace;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,6 +36,8 @@ public class SolutionDialogSingleton extends Stage {
     private String  selection;
     
     public static final String CLOSE = "Close";
+    
+    final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
     
     private SolutionDialogSingleton() {}
     
@@ -92,6 +99,14 @@ public class SolutionDialogSingleton extends Stage {
         solutionViewPane.getChildren().add(closeButton);
         
         Scene helpViewScene = new Scene(solutionViewPane, 400, 400);
+        helpViewScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(keyEnter.match(event)){
+                    SolutionDialogSingleton.this.close();
+                }
+            }
+        });
         this.setScene(helpViewScene);
         this.setResizable(false);
         this.initStyle(StageStyle.UNDECORATED);

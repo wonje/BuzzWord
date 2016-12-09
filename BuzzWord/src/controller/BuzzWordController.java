@@ -28,6 +28,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import propertymanager.PropertyManager;
 import ui.AppMessageDialogSingleton;
+import ui.HelpViewDialogSingleton;
 import ui.SolutionDialogSingleton;
 import ui.YesNoCancelDialogSingleton;
 
@@ -58,6 +59,7 @@ public class BuzzWordController implements FileController {
         PropertyManager propertyManager = PropertyManager.getManager();
         ArrayList<Point> new_pos;
         Stack<GridElement> newGridStack = new Stack<GridElement>();
+        Stack<GridElement> tempStack    = new Stack<GridElement>();
         // STOP IF THE KEY SEQUENCE DONE
         if(keySequence.length() == keyCount) {
             searched = true;
@@ -66,7 +68,7 @@ public class BuzzWordController implements FileController {
                 current.setVisited(true);
                 current.getStyleClass().clear();
                 current.getStyleClass().addAll(propertyManager.getPropertyValue(GRID_SELECTED));
-                
+                tempStack.push(current);
                 //DRAW LINE
                 if(gridStack.isEmpty())
                     break;
@@ -90,6 +92,9 @@ public class BuzzWordController implements FileController {
                 }
                 
             }
+//            while(!tempStack.isEmpty())
+//                tempStack.pop().setVisited(false);
+                
             return;
         }
         
@@ -242,8 +247,6 @@ public class BuzzWordController implements FileController {
                             pos = new ArrayList<Point>();
                             if(gameData.keySequence.length() > 1) {
                                 tempGridStack.push(grid);
-//                                pos.add(new Point((int)grid.getPoint().getX()/2, (int)grid.getPoint().getY()/2));
-//                                progressing(grid, gameData.keySequence, pos, 1, tempGridStack);
                                 progressing(gameData.keySequence, pos, 1, tempGridStack);
                             }
                             else{
@@ -290,8 +293,12 @@ public class BuzzWordController implements FileController {
                     Platform.runLater(() -> {
                         // TODO DISPLAY ALL OF SOLUTIONS
                         if(solutionDialogSingleton.isShowing()) {
+//                            solutionDialogSingleton.getNewSingleton();
                             solutionDialogSingleton.setSolutions(solutionWords);
+//                            solutionDialogSingleton.show(solutionWords);
                             solutionDialogSingleton.toFront();
+                            // WAIT UNTIL CLOSE BUTTON CLICKED
+                            while(!solutionDialogSingleton.getSelection().equals(SolutionDialogSingleton.CLOSE));
                         }
                         else {
                             solutionDialogSingleton.show(solutionWords);
@@ -307,9 +314,11 @@ public class BuzzWordController implements FileController {
                         // POP UP TO ASK USER TO REPLAY CURRENT LEVEL OR NOT
                         if(yesNoCancelDialogSingleton.isShowing()) {
                             yesNoCancelDialogSingleton.setMessage(gameWorkspace.getLevelLabel().getText() +
-                                    " is fail!\nDo you want to play again?");
-                            yesNoCancelDialogSingleton.toFront();
-                        }
+                                " is fail!\nDo you want to play again?");
+                        yesNoCancelDialogSingleton.toFront();
+                        // WAIT UNTIL ANY BUTTONS CLICKED
+                        while(yesNoCancelDialogSingleton.getSelection().equals(""));
+                    }
                         else {
                             yesNoCancelDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
                                     " is fail!\nDo you want to play again?");
@@ -331,8 +340,12 @@ public class BuzzWordController implements FileController {
                     Platform.runLater(() -> {
                         // TODO DISPLAY ALL OF SOLUTIONS
                         if(solutionDialogSingleton.isShowing()) {
+//                            solutionDialogSingleton.getNewSingleton();
                             solutionDialogSingleton.setSolutions(solutionWords);
+//                            solutionDialogSingleton.show(solutionWords);
                             solutionDialogSingleton.toFront();
+                            // WAIT UNTIL CLOSE BUTTON CLICKED
+                            while(!solutionDialogSingleton.getSelection().equals(SolutionDialogSingleton.CLOSE));
                         }
                         else {
                             solutionDialogSingleton.show(solutionWords);
@@ -353,6 +366,8 @@ public class BuzzWordController implements FileController {
                                         " is clear! \nDo you want to start Level " +
                                         Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
                                 yesNoCancelDialogSingleton.toFront();
+                                // WAIT UNTIL ANY BUTTONS CLICKED
+                                while(yesNoCancelDialogSingleton.getSelection().equals(""));
                             }
                             else {
                                 yesNoCancelDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
@@ -380,6 +395,8 @@ public class BuzzWordController implements FileController {
                                 appMessageDialogSingleton.setMessageLabel(gameWorkspace.getLevelLabel().getText() +
                                         " is clear! \nYour last stage is done!");
                                 appMessageDialogSingleton.toFront();
+                                // WAIT UNTIL CLOSE BUTTON CLICKED
+                                while(!appMessageDialogSingleton.getSelection().equals(appMessageDialogSingleton.CLOSE));
                             }
                             else {
                                 appMessageDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
@@ -398,11 +415,19 @@ public class BuzzWordController implements FileController {
     }
 
     private void checkPersonalBest() throws IOException {
+        AppMessageDialogSingleton appMessageDialogSingleton = AppMessageDialogSingleton.getSingleton();
         // LOAD BEST SCORE YOU DID BEFORE AND SAVE NEW BEST SCORE
         if (userData.checkAndSaveBestPoint(GameState.currentMode, Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]),
                 Integer.parseInt(gameWorkspace.getTotalPointLabel().getText()))) {
-            AppMessageDialogSingleton appMessageDialogSingleton = AppMessageDialogSingleton.getSingleton();
-            appMessageDialogSingleton.show("", "You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
+            if(appMessageDialogSingleton.isShowing()) {
+                appMessageDialogSingleton.setMessageLabel("You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
+                appMessageDialogSingleton.toFront();
+                // WAIT UNTIL CLOSE BUTTON CLICKED
+                while(!appMessageDialogSingleton.getSelection().equals(appMessageDialogSingleton.CLOSE));
+            }
+            else {
+                appMessageDialogSingleton.show("", "You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
+            }
             // UPDATE PROFILE DATA
             appTemplate.getFileComponent().updateProfileData(appTemplate);
         }
@@ -554,8 +579,8 @@ public class BuzzWordController implements FileController {
     public void handleHelpRequest() {
         if(GameState.currentState.equals(GameState.UNLOGIN))
             gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
-        
-        
+        HelpViewDialogSingleton helpViewDialogSingleton = HelpViewDialogSingleton.getSingleton();
+        helpViewDialogSingleton.showAndWait();
     }
 
     @Override

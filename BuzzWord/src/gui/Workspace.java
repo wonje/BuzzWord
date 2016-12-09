@@ -507,7 +507,7 @@ public class Workspace extends AppWorkspaceComponent {
 
 
     }
-
+    
     private void setOpenedGrid(int maxLevel)
     {
         PropertyManager propertyManager = PropertyManager.getManager();
@@ -557,6 +557,10 @@ public class Workspace extends AppWorkspaceComponent {
             // GRID ELEMENT CLASS WORD SET
             gridElements[i].word = gridElements[i].getText().charAt(0);
         }
+        
+        // RESET LINE ELEMENTS
+        for(LineElement line : lineElements)
+            line.setVisible(false);
 
         // CREATE SOLUTION WORDS ########################
         gameData.loadWordFile(GameState.currentMode);
@@ -568,6 +572,10 @@ public class Workspace extends AppWorkspaceComponent {
             target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 200;
         else
             target_score = Integer.parseInt(levelLabel.getText().split(" ")[1]) * 50;
+        
+        // GET SOLUTION FILE
+        if(solutions != null && !solutions.isEmpty())
+            solutions.clear();
         solutions = gameData.getBuzzWordSolution(gridElements);
 
         // GET TOTAL SCORES

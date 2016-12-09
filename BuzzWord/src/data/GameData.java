@@ -122,7 +122,7 @@ public class GameData implements AppDataComponent {
                 col++;
             }
         }
-
+        
         ArrayList<Point> pos = new ArrayList<Point>();
         // TODO IF TOTAL > TARGET, REARRANGE GRID WORDS
         final ArrayList<String> validWords = new ArrayList<String>();

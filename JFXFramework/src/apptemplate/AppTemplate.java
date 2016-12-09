@@ -9,10 +9,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import propertymanager.PropertyManager;
 import settings.InitializationParameters;
-import ui.AppGUI;
-import ui.AppMessageDialogSingleton;
-import ui.SolutionDialogSingleton;
-import ui.YesNoCancelDialogSingleton;
+import ui.*;
 import xmlutils.InvalidXMLFileFormatException;
 
 import java.io.File;
@@ -32,7 +29,7 @@ public abstract class AppTemplate extends Application {
     private AppFileComponent      fileComponent; // to manage the app's file I/O
     private AppWorkspaceComponent workspaceComponent; // to manage the app's GUI workspace
     private AppGUI                gui;
-
+    
     public String getFileControllerClass() {
         return "AppFileController";
     }
@@ -56,18 +53,20 @@ public abstract class AppTemplate extends Application {
     public AppGUI getGUI() {
         return gui;
     }
-
+    
     @Override
     public void start(Stage primaryStage) {
         AppMessageDialogSingleton  messageDialog = AppMessageDialogSingleton.getSingleton();
         YesNoCancelDialogSingleton yesNoDialog   = YesNoCancelDialogSingleton.getSingleton();
         LoginController loginController = LoginController.getSingleton(this);
         SolutionDialogSingleton solutionDialog = SolutionDialogSingleton.getSingleton();
+        HelpViewDialogSingleton helpViewDialog = HelpViewDialogSingleton.getSingleton();
         
         messageDialog.init(primaryStage);
         yesNoDialog.init(primaryStage);
         loginController.init(primaryStage);
         solutionDialog.init(primaryStage);
+        helpViewDialog.init(primaryStage);
         
 
         try {
@@ -92,6 +91,10 @@ public abstract class AppTemplate extends Application {
             dialog.show(propertyManager.getPropertyValue(PROPERTIES_LOAD_ERROR_TITLE.toString()),
                         propertyManager.getPropertyValue(PROPERTIES_LOAD_ERROR_MESSAGE.toString()));
         }
+        
+        // SETUP KEY CODE COMBINATIONS
+        
+        
     }
 
     public boolean loadProperties(InitializationParameters propertyParameter) {

@@ -28,6 +28,9 @@ public class SolutionDialogSingleton extends Stage {
     private Label   messageLabel1;
     private Label   messageLabel2;
     private VBox    matchedPane;
+    private String  selection;
+    
+    public static final String CLOSE = "Close";
     
     private SolutionDialogSingleton() {}
     
@@ -38,6 +41,14 @@ public class SolutionDialogSingleton extends Stage {
         return singleton;
     }
     
+    public void getNewSingleton() {
+        this.close();
+        singleton = null;
+        singleton = new SolutionDialogSingleton();
+    }
+    
+    public String getSelection() { return selection; }
+    
     public void init(Stage owner) {
         PropertyManager propertyManager = PropertyManager.getManager();
         initModality(Modality.WINDOW_MODAL);
@@ -47,8 +58,9 @@ public class SolutionDialogSingleton extends Stage {
         closeButton.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         closeButton.setOnAction(e -> {
-            this.close();
-            this.hide();
+            SolutionDialogSingleton.this.close();
+//            this.hide();
+            this.selection = CLOSE;
         });
         
         VBox solutionViewPane = new VBox();
@@ -88,6 +100,7 @@ public class SolutionDialogSingleton extends Stage {
     public void setSolutions(ArrayList<Label> matches) {
         matchedPane.getChildren().clear();
         matchedPane.getChildren().addAll(matches);
+        selection = "";
     }
     
     public void show(ArrayList<Label> matches) {

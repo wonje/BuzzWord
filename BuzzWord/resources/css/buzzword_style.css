@@ -105,8 +105,9 @@
 
 .matched-status .increment-button, matched-status .decrement-button {
     -fx-background-color: transparent;
-    -fx-background : 2em;
+    /*-fx-background : 2em;*/
 }
+
 
 .matched-status .scroll-bar:vertical .track {
     -fx-background-color: transparent;
@@ -122,6 +123,32 @@
     -fx-background-radius: 2em;
 }
 
+.help-screen {
+    -fx-background-color: transparent;
+    -fx-background : dimgray;
+}
+
+
+.help-screen .increment-button, help-screen .decrement-button {
+    -fx-background-color: transparent;
+    /*-fx-background : 2em;*/
+}
+
+.help-screen .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-background : derive(gray, 80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+.help-screen .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+
 .solutions-screen {
     -fx-background-color: transparent;
     -fx-background : dimgray;
@@ -129,7 +156,7 @@
 
 .solutions-screen .increment-button, solutions-screen .decrement-button {
     -fx-background-color: transparent;
-    -fx-background : 2em;
+    /*-fx-background : 2em;*/
 }
 
 .solutions-screen .scroll-bar:vertical .track {

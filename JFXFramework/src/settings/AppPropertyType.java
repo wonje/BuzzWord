@@ -34,8 +34,8 @@ public enum AppPropertyType {
     MENU_MODEDISPLAY_IMAGE,
     MODE_LIST,
     
-//    // SCREEN CSS
-//    SOLUTIONS_SCREEN,
+    // SCREEN CSS
+    HELP_SCREEN,
 
     // ERROR MESSAGES
     NEW_ERROR_MESSAGE,

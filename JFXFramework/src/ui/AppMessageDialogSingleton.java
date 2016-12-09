@@ -26,9 +26,14 @@ public class AppMessageDialogSingleton extends Stage {
 
     private static AppMessageDialogSingleton singleton = null;
     
-    private Label messageLabel;
+    private Label   messageLabel;
+    private String  selection;
+    
+    public static final String CLOSE = "Close";
 
     private AppMessageDialogSingleton() { }
+    
+    public String getSelection() { return selection; }
     
     /**
      * A static accessor method for getting the singleton object.
@@ -43,6 +48,7 @@ public class AppMessageDialogSingleton extends Stage {
 
     public void setMessageLabel(String messageLabelText) {
         messageLabel.setText(messageLabelText);
+        selection = "";
     }
     
     /**
@@ -62,8 +68,8 @@ public class AppMessageDialogSingleton extends Stage {
         closeButton.setStyle("-fx-background-color: black; -fx-border-color: wheat; -fx-border-width: 3; -fx-font-family: 'Arial';" +
                 "-fx-font-weight: bolder;-fx-text-fill: wheat;-fx-font-size: 14; -fx-opacity: 1");
         closeButton.setOnAction(e -> {
-            this.close();
-            this.hide();
+            AppMessageDialogSingleton.this.close();
+            this.selection = CLOSE;
         });
 
         VBox messagePane = new VBox();

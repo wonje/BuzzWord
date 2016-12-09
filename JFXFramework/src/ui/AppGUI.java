@@ -18,13 +18,15 @@ import apptemplate.AppTemplate;
 import components.AppStyleArbiter;
 import controller.FileController;
 import controller.GameState;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -62,6 +64,16 @@ public class AppGUI implements AppStyleArbiter {
     private int appWindowWidth;  // optional parameter for window width that can be set by the application
     private int appWindowHeight; // optional parameter for window height that can be set by the application
     
+    // KEY CODE COMBINATIONS
+    final KeyCombination keyCreateProfile           = new KeyCodeCombination(KeyCode.P, KeyCombination.SHIFT_DOWN, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyLoginLogout             = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyStartPlaying            = new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyQuitApplication         = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyHomeScreen              = new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyReplayLevel             = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyStartNextLevel          = new KeyCodeCombination(KeyCode.PERIOD, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keySaveProgress            = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+    
     /**
      * This constructor initializes the file toolbar for use.
      *
@@ -82,7 +94,6 @@ public class AppGUI implements AppStyleArbiter {
         initializeMenubar();                    // initialize the left menu bar
         initializeMenubarHandlers(appTemplate); // set the menu bar button handlers
         initializeWindow();                     // start the app window (without the application-specific workspace)
-
     }
 
     public void setTooltipLogintoID(boolean choice)
@@ -142,6 +153,35 @@ public class AppGUI implements AppStyleArbiter {
         loginAndIDButton        = initializeChildButton(1, menubarPane, MENU_IMAGE.toString(), LOGIN_TOOLTIP.toString(), true, "Login");
         playAndHomeButton       = initializeChildButton(2, menubarPane, MENU_IMAGE.toString(), PLAYING_TOOLTIP.toString(), false, "Start Playing");
         modeButton              = initializeChildButton(3, menubarPane, MENU_MODE_IMAGE.toString(), SELECT_MODE_TOOLTIP.toString(), false, "Select Mode");
+    }
+    
+    private void setKeyShortcut() {
+        primaryScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                // USE CASE 1 : CREATE PROFILE
+                if(keyCreateProfile.match(event)) {
+                    if(GameState.currentState.equals(GameState.UNLOGIN))
+                        fileController.handleNewProfileRequest();
+                }
+                // USE CASE 2 : LOGIN / LOGOUT
+                if(keyLoginLogout.match(event)) {
+                    if (GameState.currentState.equals(GameState.UNLOGIN))
+                        fileController.handleLoginRequest();
+                    else if (!(GameState.currentState.equals(GameState.PLAY) ||
+                            GameState.currentState.equals(GameState.PAUSE)))
+                        fileController.handleLogoutRequest();
+                }
+                // USE CASE 3 : START PLAYING
+                if(keyStartPlaying.match(event)) {
+                    if(GameState.currentState.equals(GameState.LOGIN) || GameState.currentState.equals(GameState.LOGIN_MODE))
+                        fileController.handleLevelSelectRequest();
+                }
+                
+                
+            }
+        });
+        
     }
 
     private void initializeMenubarHandlers(AppTemplate app) throws InstantiationException {
@@ -238,7 +278,10 @@ public class AppGUI implements AppStyleArbiter {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
+        
+        // GET KEY COMBINATIONS
+        setKeyShortcut();
+        
         primaryStage.setScene(primaryScene);
         primaryStage.setResizable(false);
         primaryStage.show();

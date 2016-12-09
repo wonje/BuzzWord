@@ -36,6 +36,7 @@ public class YesNoCancelDialogSingleton extends Stage {
     
     public void setMessage(String message) {
         messageLabel.setText(message);
+        selection = "";
     }
 
     /**
@@ -84,7 +85,8 @@ public class YesNoCancelDialogSingleton extends Stage {
         // MAKE THE EVENT HANDLER FOR THESE BUTTONS
         EventHandler<ActionEvent> yesNoCancelHandler = event -> {
             YesNoCancelDialogSingleton.this.selection = ((Button) event.getSource()).getText();
-            YesNoCancelDialogSingleton.this.hide();
+//            YesNoCancelDialogSingleton.this.hide();
+            YesNoCancelDialogSingleton.this.close();
         };
 
 

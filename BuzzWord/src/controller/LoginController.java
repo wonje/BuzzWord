@@ -3,6 +3,7 @@ package controller;
 import apptemplate.AppTemplate;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -57,6 +62,9 @@ public class LoginController extends Stage {
     Button          cancel;
     String          id;
     String          pw;
+    
+    final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
+    final KeyCombination keyESC             = new KeyCodeCombination(KeyCode.ESCAPE);
 
     private LoginController(AppTemplate appTemplate) { this.appTemplate = appTemplate; }
 
@@ -64,6 +72,7 @@ public class LoginController extends Stage {
     {
         if (singleton == null)
             singleton = new LoginController(appTemplate);
+        
         return singleton;
     }
 
@@ -125,72 +134,7 @@ public class LoginController extends Stage {
         loginFrame.add(pwField, 1, 1);
 
         submit.setOnAction(event -> {
-            // CRAETE PROFILE MODE
-            if(messageLabel.getText().equals(PropertyManager.getManager().getPropertyValue(CREATE_PROFILE_MESSAGE))) {
-                try {
-                    isExistedID(idField.getText());
-                    appMessageDialogSingleton.setMessageLabel("The ID already exists!");
-                    appMessageDialogSingleton.show();
-
-                } catch (IOException e) {
-                    if (!(idField.getText().equals("") || pwField.getText().equals(""))) {
-                        yesNoCancelDialogSingleton.show("", "Do you want to make '" + idField.getText() + "'?");
-
-                        if (yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
-                            this.id = idField.getText();
-                            try {
-                                this.pw = convertToMD5(pwField.getText());
-                            } catch (NoSuchAlgorithmException e1) {
-                                e1.printStackTrace();
-                            }
-    
-                            // TODO SAVE PROFILE DATA WITH JSON FILE
-                            try {
-                                createNewProfile();
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-
-                            appMessageDialogSingleton.setMessageLabel("'" + id + "' is created!");
-                            appMessageDialogSingleton.show();
-                            singleton.hide();
-                        }
-                    } else {
-                        appMessageDialogSingleton.setMessageLabel("It is not correct type of ID & PW!");
-                        appMessageDialogSingleton.show();
-                    }
-                }
-            }
-            // LOGIN MODE
-            else
-            {
-                if(!(idField.getText().equals("") || pwField.getText().equals(""))) {
-                    try {
-                        isExistedID(idField.getText());
-                        if(loadProfile(idField.getText())) {
-                            id = idField.getText();
-                            pw = convertToMD5(pwField.getText());
-                            GameState.currentState = GameState.LOGIN;
-                            singleton.hide();
-                        }
-                        else {
-                            appMessageDialogSingleton.setMessageLabel("Invalid Password!");
-                            appMessageDialogSingleton.show();
-                        }
-
-                    } catch (IOException e) {
-                        appMessageDialogSingleton.setMessageLabel("'" + idField.getText() + "' is not existed ID!");
-                        appMessageDialogSingleton.show();
-                    } catch (NoSuchAlgorithmException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else
-                {
-                    appMessageDialogSingleton.setMessageLabel("It is not correct type of ID & PW!");
-                    appMessageDialogSingleton.show();
-                }
-            }
+            setSubmit();
         });
         cancel.setOnAction(event -> {
             singleton.hide();
@@ -198,14 +142,100 @@ public class LoginController extends Stage {
 
         buttonBox.getChildren().addAll(submit, cancel);
         mainFrame.getChildren().addAll(messageLabel, loginFrame, buttonBox);
-
+        
         // PUT IT IN THE WINDOW
         loginScene = new Scene(mainFrame,400, 300);
         this.setScene(loginScene);
         this.setResizable(false);
         this.initStyle(StageStyle.UNDECORATED);
     }
+    
+    private void setSubmit() {
+        AppMessageDialogSingleton   appMessageDialogSingleton   = AppMessageDialogSingleton.getSingleton();
+        YesNoCancelDialogSingleton  yesNoCancelDialogSingleton  = YesNoCancelDialogSingleton.getSingleton();
+        // CRAETE PROFILE MODE
+        if(messageLabel.getText().equals(PropertyManager.getManager().getPropertyValue(CREATE_PROFILE_MESSAGE))) {
+            try {
+                isExistedID(idField.getText());
+                appMessageDialogSingleton.setMessageLabel("The ID already exists!");
+                appMessageDialogSingleton.show();
+            
+            } catch (IOException e) {
+                if (!(idField.getText().equals("") || pwField.getText().equals(""))) {
+                    yesNoCancelDialogSingleton.show("", "Do you want to make '" + idField.getText() + "'?");
+                
+                    if (yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
+                        this.id = idField.getText();
+                        try {
+                            this.pw = convertToMD5(pwField.getText());
+                        } catch (NoSuchAlgorithmException e1) {
+                            e1.printStackTrace();
+                        }
+                    
+                        // TODO SAVE PROFILE DATA WITH JSON FILE
+                        try {
+                            createNewProfile();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    
+                        appMessageDialogSingleton.setMessageLabel("'" + id + "' is created!");
+                        appMessageDialogSingleton.show();
+                        singleton.hide();
+                    }
+                } else {
+                    appMessageDialogSingleton.setMessageLabel("It is not correct type of ID & PW!");
+                    appMessageDialogSingleton.show();
+                }
+            }
+        }
+        // LOGIN MODE
+        else
+        {
+            if(!(idField.getText().equals("") || pwField.getText().equals(""))) {
+                try {
+                    isExistedID(idField.getText());
+                    if(loadProfile(idField.getText())) {
+                        id = idField.getText();
+                        pw = convertToMD5(pwField.getText());
+                        GameState.currentState = GameState.LOGIN;
+                        singleton.hide();
+                    }
+                    else {
+                        appMessageDialogSingleton.setMessageLabel("Invalid Password!");
+                        appMessageDialogSingleton.show();
+                    }
+                
+                } catch (IOException e) {
+                    appMessageDialogSingleton.setMessageLabel("'" + idField.getText() + "' is not existed ID!");
+                    appMessageDialogSingleton.show();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
+            else
+            {
+                appMessageDialogSingleton.setMessageLabel("It is not correct type of ID & PW!");
+                appMessageDialogSingleton.show();
+            }
+        }
+    }
 
+    private  void setKeyShortcut() {
+        loginScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(keyEnter.match(event)) {
+                    setSubmit();
+                }
+                if(keyESC.match(event)) {
+                    singleton.hide();
+                }
+        
+            }
+        });
+    }
+    
     private void createNewProfile() throws IOException {
         PropertyManager propertyManager         = PropertyManager.getManager();
         Path appDirPath                         = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
@@ -255,6 +285,9 @@ public class LoginController extends Stage {
 
     public void show(String title, String message)
     {
+        // SET KEY SHORTCUT
+        setKeyShortcut();
+        
         // RESET VARIABLES
         reset();
 

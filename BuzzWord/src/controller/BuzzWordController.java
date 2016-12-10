@@ -186,6 +186,11 @@ public class BuzzWordController implements FileController {
         
                 // GET KEY TYPE
                 appTemplate.getGUI().getPrimaryScene().setOnKeyTyped((KeyEvent event) -> {
+                    // TODO IF GAME STATE OVER, RETURN
+                    if(GameState.currentState.equals(GameState.END_FAIL) ||
+                            GameState.currentState.equals(GameState.END_SUCCESS))
+                        return;
+                    
                     // TODO Handling enter key
                     if (event.getCharacter().equals("\r")) {
                         enterEvent();
@@ -218,8 +223,12 @@ public class BuzzWordController implements FileController {
                         if (guess == grid.getWord())
                             exist = true;
                     }
-                    if (!exist)
+                    if (!exist) {
+                        gameData.keySequence = "";
+                        gameWorkspace.progress.clear();
+                        gameWorkspace.progressPane.getChildren().clear();
                         return;
+                    }
                     // TODO SEARCH KEY INPUTS
                     // KEY SEQUENCE
                     gameData.keySequence += Character.toString(guess);
@@ -287,6 +296,16 @@ public class BuzzWordController implements FileController {
                         GameState.currentState.equals(GameState.END_SUCCESS)))
                     return;
                 
+                // GRID, LINE, AND SEQUENCE RESET
+                for(GridElement grid : gameWorkspace.getGridElements()) {
+                    grid.getStyleClass().clear();
+                    grid.getStyleClass().add(propertyManager.getPropertyValue(GRID));
+                }
+                for(LineElement line : gameWorkspace.getLineElements())
+                    line.setVisible(false);
+                gameData.keySequence = "";
+                gameWorkspace.progress.clear();
+                gameWorkspace.progressPane.getChildren().clear();
                 
                 Platform.runLater(() -> {
                     ArrayList<Label> solutionWords = gameWorkspace.displayAllSolutions();
@@ -600,6 +619,13 @@ public class BuzzWordController implements FileController {
     public void handleProfileSettingRequest() {
         ProfileSettingsDialogSingleton profileSettingsDialogSingleton = ProfileSettingsDialogSingleton.getSingleton(appTemplate);
         profileSettingsDialogSingleton.viewProfileshow();
+    }
+    
+    @Override
+    public void handleKeyPadLevelSelection(int level) {
+        if(!gameWorkspace.getGridElements()[level - 1].isDisable()) {
+            handlePlayRequest(level);
+        }
     }
     
     private void setVisibleMenu(boolean first, boolean second, boolean third, boolean fourth)

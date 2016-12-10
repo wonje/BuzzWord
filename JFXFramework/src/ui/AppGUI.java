@@ -163,6 +163,7 @@ public class AppGUI implements AppStyleArbiter {
     }
     
     private void setKeyShortcut() {
+        YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
         primaryScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -197,17 +198,29 @@ public class AppGUI implements AppStyleArbiter {
                 }
                 // USE CASE 12 : REPLAY LEVEL
                 if(keyReplayLevel.match(event)) {
-                    
+                    if(GameState.currentState.equals(GameState.PLAY) ||
+                            GameState.currentState.equals(GameState.END_FAIL) ||
+                            GameState.currentState.equals(GameState.END_SUCCESS)) {
+                        yesNoCancelDialogSingleton.show("", "Do you want to play this level again?");
+                        if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
+                            fileController.handlePlayRequest(GameState.currentLevel);
+                        }
+                    }
                 }
                 // USE CASE 13 : START NEXT LEVEL
                 if(keyStartNextLevel.match(event)) {
+                    if(GameState.currentState.equals(GameState.END_SUCCESS)) {
+                        yesNoCancelDialogSingleton.show("", "Do you want to play next level?");
+                        if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
+                            fileController.handlePlayRequest(++GameState.currentLevel);
+                        }
+                    }
                     
                 }
                 // USE CASE 14 : SAVE PROGRESS
                 if(keySaveProgress.match(event)) {
                     
                 }
-                
             }
         });
         

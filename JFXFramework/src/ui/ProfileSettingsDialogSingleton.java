@@ -37,6 +37,7 @@ public class ProfileSettingsDialogSingleton extends Stage {
     
     final KeyCombination keyESC             = new KeyCodeCombination(KeyCode.ESCAPE);
     final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
+    final KeyCombination keyQuitApplication         = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
     
     AppTemplate appTemplate;
     UserData userData;
@@ -234,6 +235,13 @@ public class ProfileSettingsDialogSingleton extends Stage {
                         // RETURN TO VIEW PROFILE
                         setViewProfilePane();
                     }
+                }
+                if(keyQuitApplication.match(event)) {
+                    yesNoCancelDialogSingleton.show("", "Are you sure to exit this application?");
+                    if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
+                        System.exit(0);
+                    }
+                    yesNoCancelDialogSingleton.close();
                 }
             }
         });

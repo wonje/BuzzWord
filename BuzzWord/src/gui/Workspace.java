@@ -366,7 +366,6 @@ public class Workspace extends AppWorkspaceComponent {
             public void handle(MouseEvent event) {
                 yesNoCancelDialogSingleton.show("", "Do you want to play this level again?");
                 if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
-                    resetScrollPane();
                     gui.getFileController().handlePlayRequest(GameState.currentLevel);
                 }
             }
@@ -383,7 +382,6 @@ public class Workspace extends AppWorkspaceComponent {
             public void handle(MouseEvent event) {
                 yesNoCancelDialogSingleton.show("", "Do you want to play next level?");
                 if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
-                    resetScrollPane();
                     gui.getFileController().handlePlayRequest(++GameState.currentLevel);
                 }
             }
@@ -576,7 +574,9 @@ public class Workspace extends AppWorkspaceComponent {
         PropertyManager propertyManager = PropertyManager.getManager();
         String alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random random = new Random();
-
+    
+        resetScrollPane();
+        
         // DISPLAY GAME FUNCTIONS
         rightStatusPane.setVisible(true);
         remainingTimePane.setVisible(true);

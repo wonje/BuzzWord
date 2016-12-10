@@ -317,8 +317,6 @@ public class BuzzWordController implements FileController {
                         if (solutionDialogSingleton.isShowing()) {
                             solutionDialogSingleton.setSolutions(solutionWords);
                             solutionDialogSingleton.toFront();
-                            // WAIT UNTIL CLOSE BUTTON CLICKED
-                            while (!solutionDialogSingleton.getSelection().equals(SolutionDialogSingleton.CLOSE)) ;
                         } else {
                             solutionDialogSingleton.show(solutionWords);
                         }
@@ -373,8 +371,6 @@ public class BuzzWordController implements FileController {
             if(appMessageDialogSingleton.isShowing()) {
                 appMessageDialogSingleton.setMessageLabel("You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
                 appMessageDialogSingleton.toFront();
-                // WAIT UNTIL CLOSE BUTTON CLICKED
-//                while(!appMessageDialogSingleton.getSelection().equals(appMessageDialogSingleton.CLOSE));
             }
             else {
                 appMessageDialogSingleton.show("", "You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());

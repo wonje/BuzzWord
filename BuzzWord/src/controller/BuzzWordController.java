@@ -283,7 +283,11 @@ public class BuzzWordController implements FileController {
                 // STOP TIMER
                 timeline.stop();
                 super.stop();
-        
+                if(!(GameState.currentState.equals(GameState.END_FAIL) ||
+                        GameState.currentState.equals(GameState.END_SUCCESS)))
+                    return;
+                
+                
                 Platform.runLater(() -> {
                     ArrayList<Label> solutionWords = gameWorkspace.displayAllSolutions();
                     // GAMESTATE IS END_FAIL

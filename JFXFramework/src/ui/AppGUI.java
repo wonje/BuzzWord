@@ -32,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import propertymanager.PropertyManager;
 
 /**
@@ -73,6 +74,23 @@ public class AppGUI implements AppStyleArbiter {
     final KeyCombination keyReplayLevel             = new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_DOWN);
     final KeyCombination keyStartNextLevel          = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN);
     final KeyCombination keySaveProgress            = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyPress1                  = new KeyCodeCombination(KeyCode.NUMPAD1);
+    final KeyCombination keyPress2                  = new KeyCodeCombination(KeyCode.NUMPAD2);
+    final KeyCombination keyPress3                  = new KeyCodeCombination(KeyCode.NUMPAD3);
+    final KeyCombination keyPress4                  = new KeyCodeCombination(KeyCode.NUMPAD4);
+    final KeyCombination keyPress5                  = new KeyCodeCombination(KeyCode.NUMPAD5);
+    final KeyCombination keyPress6                  = new KeyCodeCombination(KeyCode.NUMPAD6);
+    final KeyCombination keyPress7                  = new KeyCodeCombination(KeyCode.NUMPAD7);
+    final KeyCombination keyPress8                  = new KeyCodeCombination(KeyCode.NUMPAD8);
+    final KeyCombination keySoftPress1              = new KeyCodeCombination(KeyCode.DIGIT1);
+    final KeyCombination keySoftPress2              = new KeyCodeCombination(KeyCode.DIGIT2);
+    final KeyCombination keySoftPress3              = new KeyCodeCombination(KeyCode.DIGIT3);
+    final KeyCombination keySoftPress4              = new KeyCodeCombination(KeyCode.DIGIT4);
+    final KeyCombination keySoftPress5              = new KeyCodeCombination(KeyCode.DIGIT5);
+    final KeyCombination keySoftPress6              = new KeyCodeCombination(KeyCode.DIGIT6);
+    final KeyCombination keySoftPress7              = new KeyCodeCombination(KeyCode.DIGIT7);
+    final KeyCombination keySoftPress8              = new KeyCodeCombination(KeyCode.DIGIT8);
+    
     
     /**
      * This constructor initializes the file toolbar for use.
@@ -221,6 +239,26 @@ public class AppGUI implements AppStyleArbiter {
                 if(keySaveProgress.match(event)) {
                     
                 }
+                // LEVEL SELECTION
+                if(GameState.currentState.equals(GameState.LEVEL_SELECTION)) {
+                    if(keyPress1.match(event) || keySoftPress1.match(event))
+                        fileController.handleKeyPadLevelSelection(1);
+                    else if(keyPress2.match(event) || keySoftPress2.match(event))
+                        fileController.handleKeyPadLevelSelection(2);
+                    else if(keyPress3.match(event) || keySoftPress3.match(event))
+                        fileController.handleKeyPadLevelSelection(3);
+                    else if(keyPress4.match(event) || keySoftPress4.match(event))
+                        fileController.handleKeyPadLevelSelection(4);
+                    else if(keyPress5.match(event) || keySoftPress5.match(event))
+                        fileController.handleKeyPadLevelSelection(5);
+                    else if(keyPress6.match(event) || keySoftPress6.match(event))
+                        fileController.handleKeyPadLevelSelection(6);
+                    else if(keyPress7.match(event) || keySoftPress7.match(event))
+                        fileController.handleKeyPadLevelSelection(7);
+                    else if(keyPress8.match(event) || keySoftPress8.match(event))
+                        fileController.handleKeyPadLevelSelection(8);
+                    
+                }
             }
         });
         
@@ -332,6 +370,7 @@ public class AppGUI implements AppStyleArbiter {
         
         primaryStage.setScene(primaryScene);
         primaryStage.setResizable(false);
+//        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
 

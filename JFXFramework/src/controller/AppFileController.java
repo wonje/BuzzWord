@@ -251,4 +251,9 @@ public class AppFileController implements FileController {
     public void handleProfileSettingRequest() {
         
     }
+    
+    @Override
+    public void handleKeyPadLevelSelection(int level) {
+        
+    }
 }

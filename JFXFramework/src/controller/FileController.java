@@ -34,4 +34,6 @@ public interface FileController {
     void handleModeSetRequest(GameState mode);
     
     void handleProfileSettingRequest();
+    
+    void handleKeyPadLevelSelection(int level);
 }

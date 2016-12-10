@@ -576,6 +576,7 @@ public class Workspace extends AppWorkspaceComponent {
         Random random = new Random();
     
         resetScrollPane();
+        gameData.matchedStr.clear();
         
         // DISPLAY GAME FUNCTIONS
         rightStatusPane.setVisible(true);
@@ -625,8 +626,6 @@ public class Workspace extends AppWorkspaceComponent {
         for (String element : solutions){
             System.out.println(element);
             total_score += element.length() * 10;
-//            matches.add(new Label(element));
-//            matchedPoints.add(new Label(Integer.toString(element.length() * 10)));
         }
         System.out.println("Target Score : " + target_score);
         System.out.println("Total Score : " + total_score);

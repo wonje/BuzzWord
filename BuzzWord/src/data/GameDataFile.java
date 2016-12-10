@@ -95,6 +95,7 @@ public class GameDataFile implements AppFileComponent {
 
         } catch (IOException e) {
             e.printStackTrace();
+            
             System.exit(1);
         }
     }

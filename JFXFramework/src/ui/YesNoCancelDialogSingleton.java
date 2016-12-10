@@ -25,6 +25,9 @@ import java.security.Key;
 public class YesNoCancelDialogSingleton extends Stage {
     // HERE'S THE SINGLETON
     static YesNoCancelDialogSingleton singleton;
+    
+    final KeyCombination keyESC           = new KeyCodeCombination(KeyCode.ESCAPE);
+    final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
 
     // GUI CONTROLS FOR OUR DIALOG
     VBox   messagePane;
@@ -33,7 +36,7 @@ public class YesNoCancelDialogSingleton extends Stage {
     Button yesButton;
     Button noButton;
     Button cancelButton;
-    String selection;
+    String selection = "";
 
     // CONSTANT CHOICES
     public static final String YES    = "Yes";
@@ -123,6 +126,19 @@ public class YesNoCancelDialogSingleton extends Stage {
 
         // AND PUT IT IN THE WINDOW
         messageScene = new Scene(messagePane);
+        messageScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(keyESC.match(event)) {
+                    YesNoCancelDialogSingleton.this.selection = CANCEL;
+                    YesNoCancelDialogSingleton.this.close();
+                }
+                if(keyEnter.match(event)) {
+                    YesNoCancelDialogSingleton.this.selection = YES;
+                    YesNoCancelDialogSingleton.this.close();
+                }
+            }
+        });
         this.initStyle(StageStyle.UNDECORATED);
         this.setScene(messageScene);
     }

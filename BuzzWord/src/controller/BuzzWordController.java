@@ -27,10 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import propertymanager.PropertyManager;
-import ui.AppMessageDialogSingleton;
-import ui.HelpViewDialogSingleton;
-import ui.SolutionDialogSingleton;
-import ui.YesNoCancelDialogSingleton;
+import ui.*;
 
 /**
  * @author Jason Kang
@@ -293,15 +290,21 @@ public class BuzzWordController implements FileController {
                     Platform.runLater(() -> {
                         // TODO DISPLAY ALL OF SOLUTIONS
                         if(solutionDialogSingleton.isShowing()) {
-//                            solutionDialogSingleton.getNewSingleton();
                             solutionDialogSingleton.setSolutions(solutionWords);
-//                            solutionDialogSingleton.show(solutionWords);
                             solutionDialogSingleton.toFront();
                             // WAIT UNTIL CLOSE BUTTON CLICKED
-                            while(!solutionDialogSingleton.getSelection().equals(SolutionDialogSingleton.CLOSE));
+//                            while(!solutionDialogSingleton.getSelection().equals(SolutionDialogSingleton.CLOSE));
                         }
                         else {
                             solutionDialogSingleton.show(solutionWords);
+                        }
+                        // TODO POP UP GAME FAIL MESSAGE
+                        if(appMessageDialogSingleton.isShowing()) {
+                            appMessageDialogSingleton.setMessageLabel("GAME FAIL!");
+                            appMessageDialogSingleton.toFront();
+                        }
+                        else {
+                            appMessageDialogSingleton.show("", "GAME FAIL!");
                         }
                         // TODO CHECK "PERSONAL BEST" AND UPDATE
                         try {
@@ -311,27 +314,30 @@ public class BuzzWordController implements FileController {
                             e.printStackTrace();
                         }
                         
-                        // POP UP TO ASK USER TO REPLAY CURRENT LEVEL OR NOT
-                        if(yesNoCancelDialogSingleton.isShowing()) {
-                            yesNoCancelDialogSingleton.setMessage(gameWorkspace.getLevelLabel().getText() +
-                                " is fail!\nDo you want to play again?");
-                        yesNoCancelDialogSingleton.toFront();
-                        // WAIT UNTIL ANY BUTTONS CLICKED
-                        while(yesNoCancelDialogSingleton.getSelection().equals(""));
-                    }
-                        else {
-                            yesNoCancelDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
-                                    " is fail!\nDo you want to play again?");
-                        }
-                        // CHECK WHETHER USER SELECT REPLAY CURRENT LEVEL OR NOT
-                        if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)){
-                            // RESET GAME DATA
-                            gameWorkspace.resetScrollPane();
-                            handlePlayRequest(GameState.currentLevel);
-                        }
-                        else {
-                            handleGoHomeRequest();
-                        }
+                        // TODO GAME FAIL.
+                        
+                        
+                        // TODO POP UP TO ASK USER TO REPLAY CURRENT LEVEL OR NOT
+//                        if(yesNoCancelDialogSingleton.isShowing()) {
+//                            yesNoCancelDialogSingleton.setMessage(gameWorkspace.getLevelLabel().getText() +
+//                                " is fail!\nDo you want to play again?");
+//                        yesNoCancelDialogSingleton.toFront();
+//                        // WAIT UNTIL ANY BUTTONS CLICKED
+//                        while(yesNoCancelDialogSingleton.getSelection().equals(""));
+//                    }
+//                        else {
+//                            yesNoCancelDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
+//                                    " is fail!\nDo you want to play again?");
+//                        }
+//                        // CHECK WHETHER USER SELECT REPLAY CURRENT LEVEL OR NOT
+//                        if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)){
+//                            // RESET GAME DATA
+//                            gameWorkspace.resetScrollPane();
+//                            handlePlayRequest(GameState.currentLevel);
+//                        }
+//                        else {
+//                            handleGoHomeRequest();
+//                        }
                     });
                 }
                 // GAMESTATE IS END_SUCCESS
@@ -340,15 +346,22 @@ public class BuzzWordController implements FileController {
                     Platform.runLater(() -> {
                         // TODO DISPLAY ALL OF SOLUTIONS
                         if(solutionDialogSingleton.isShowing()) {
-//                            solutionDialogSingleton.getNewSingleton();
                             solutionDialogSingleton.setSolutions(solutionWords);
-//                            solutionDialogSingleton.show(solutionWords);
                             solutionDialogSingleton.toFront();
                             // WAIT UNTIL CLOSE BUTTON CLICKED
                             while(!solutionDialogSingleton.getSelection().equals(SolutionDialogSingleton.CLOSE));
                         }
                         else {
                             solutionDialogSingleton.show(solutionWords);
+                        }
+    
+                        // TODO POP UP GAME SUCCESS MESSAGE
+                        if(appMessageDialogSingleton.isShowing()) {
+                            appMessageDialogSingleton.setMessageLabel("GAME SUCCESS!");
+                            appMessageDialogSingleton.toFront();
+                        }
+                        else {
+                            appMessageDialogSingleton.show("", "GAME SUCCESS!");
                         }
                         
                         // TODO CHECK "PERSONAL BEST" AND UPDATE
@@ -358,52 +371,72 @@ public class BuzzWordController implements FileController {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        // POPUP GAME END SCREEN
-                        if(GameState.currentLevel != 8) {
-                            // STOP GAME
-                            if(yesNoCancelDialogSingleton.isShowing()) {
-                                yesNoCancelDialogSingleton.setMessage(gameWorkspace.getLevelLabel().getText() +
-                                        " is clear! \nDo you want to start Level " +
-                                        Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
-                                yesNoCancelDialogSingleton.toFront();
-                                // WAIT UNTIL ANY BUTTONS CLICKED
-                                while(yesNoCancelDialogSingleton.getSelection().equals(""));
-                            }
-                            else {
-                                yesNoCancelDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
-                                        " is clear! \nDo you want to start Level " +
-                                        Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
-                            }
-                            // UPDATE DATA
-                            try {
-                                updateGameLevel();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            // CHECK IF USER SELECT PLAY NEXT LEVEL
-                            if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)){
-                                // RESET GAME DATA
-                                gameWorkspace.resetScrollPane();
-                                handlePlayRequest(++GameState.currentLevel);
-                            }
-                            else {
-                                handleGoHomeRequest();
-                            }
+                        // TODO UPDATE DATA
+                        try {
+                            updateGameLevel();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        else {
-                            if(appMessageDialogSingleton.isShowing()){
-                                appMessageDialogSingleton.setMessageLabel(gameWorkspace.getLevelLabel().getText() +
-                                        " is clear! \nYour last stage is done!");
+                        
+                        // TODO GAME IS SUCCESSFULLY END
+                        if(GameState.currentLevel != 8)
+                            gameWorkspace.nextGameButton.setDisable(false);
+                        else{
+                            if(appMessageDialogSingleton.isShowing()) {
+                                appMessageDialogSingleton.setMessageLabel("Congratulation! All of level are cleared!");
                                 appMessageDialogSingleton.toFront();
-                                // WAIT UNTIL CLOSE BUTTON CLICKED
-                                while(!appMessageDialogSingleton.getSelection().equals(appMessageDialogSingleton.CLOSE));
                             }
-                            else {
-                                appMessageDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
-                                        " is clear! \nYour last stage is done!");
-                            }
-                            handleGoHomeRequest();
+                            else
+                                appMessageDialogSingleton.show("", "Congratulation! All of level are cleared!");
                         }
+                        // POPUP GAME END SCREEN
+//                        if(GameState.currentLevel != 8) {
+//                            // STOP GAME
+//                            if(yesNoCancelDialogSingleton.isShowing()) {
+//                                yesNoCancelDialogSingleton.setMessage(gameWorkspace.getLevelLabel().getText() +
+//                                        " is clear! \nDo you want to start Level " +
+//                                        Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
+//                                yesNoCancelDialogSingleton.toFront();
+//                                // WAIT UNTIL ANY BUTTONS CLICKED
+//                                while(yesNoCancelDialogSingleton.getSelection().equals(""));
+//                            }
+//                            else {
+//                                yesNoCancelDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
+//                                        " is clear! \nDo you want to start Level " +
+//                                        Integer.toString(Integer.parseInt(gameWorkspace.getLevelLabel().getText().split(" ")[1]) + 1) + "?");
+//                            }
+//                            // UPDATE DATA
+//                            try {
+//                                updateGameLevel();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                            // CHECK IF USER SELECT PLAY NEXT LEVEL
+//                            if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)){
+//                                // RESET GAME DATA
+//                                gameWorkspace.resetScrollPane();
+//                                handlePlayRequest(++GameState.currentLevel);
+//                            }
+//                            else {
+//                                handleGoHomeRequest();
+//                            }
+//                        }
+//                        else {
+//                            if(appMessageDialogSingleton.isShowing()){
+//                                appMessageDialogSingleton.setMessageLabel(gameWorkspace.getLevelLabel().getText() +
+//                                        " is clear! \nYour last stage is done!");
+//                                appMessageDialogSingleton.toFront();
+//                                // WAIT UNTIL CLOSE BUTTON CLICKED
+//                                while(!appMessageDialogSingleton.getSelection().equals(appMessageDialogSingleton.CLOSE));
+//                            }
+//                            else {
+//                                appMessageDialogSingleton.show("", gameWorkspace.getLevelLabel().getText() +
+//                                        " is clear! \nYour last stage is done!");
+//                            }
+//                            handleGoHomeRequest();
+//                        }
+                        // ######################################
+                        
                         // TIMER RESET
                         timeline = null;
                         
@@ -423,7 +456,7 @@ public class BuzzWordController implements FileController {
                 appMessageDialogSingleton.setMessageLabel("You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
                 appMessageDialogSingleton.toFront();
                 // WAIT UNTIL CLOSE BUTTON CLICKED
-                while(!appMessageDialogSingleton.getSelection().equals(appMessageDialogSingleton.CLOSE));
+//                while(!appMessageDialogSingleton.getSelection().equals(appMessageDialogSingleton.CLOSE));
             }
             else {
                 appMessageDialogSingleton.show("", "You got the highest score!\nYour score is " + gameWorkspace.getTotalPointLabel().getText());
@@ -509,11 +542,13 @@ public class BuzzWordController implements FileController {
 
         if(GameState.currentState.equals(GameState.LOGIN)) {
             appTemplate.getGUI().setTooltipLogintoID(true);
+            appTemplate.getGUI().setTooltipCreateIDtoProfileSetting(true);
             gameWorkspace = (Workspace) appTemplate.getWorkspaceComponent();
 
-            setVisibleMenu(false, true, true, true);
+            setVisibleMenu(true, true, true, true);
 
             appTemplate.getGUI().getMenuBackground(1).setId(propertyManager.getPropertyValue(MENU_ID_IMAGE));
+            appTemplate.getGUI().getCreateAndSetProfileButton().setText("Profile Setting");
             appTemplate.getGUI().getLoginAndIDButton().setText(loginController.getID());
             appTemplate.getGUI().getPlayAndHomeButton().setText("Start Playing");
         }
@@ -527,12 +562,14 @@ public class BuzzWordController implements FileController {
         if(yesNoCancelDialogSingleton.getSelection().equals(YesNoCancelDialogSingleton.YES)) {
             GameState.currentState = GameState.UNLOGIN;
             appTemplate.getGUI().setTooltipLogintoID(false);
+            appTemplate.getGUI().setTooltipCreateIDtoProfileSetting(false);
             // TODO DATA LOGOUT
             userData.reset();
             gameData.reset();
             // #################
             setVisibleMenu(true, true, false, false);
             appTemplate.getGUI().getMenuBackground(1).setId(PropertyManager.getManager().getPropertyValue(MENU_IMAGE));
+            appTemplate.getGUI().getCreateAndSetProfileButton().setText("Create New Profile");
             appTemplate.getGUI().getLoginAndIDButton().setText("Login");
             gameWorkspace.setHomeScreen();
         }
@@ -554,7 +591,7 @@ public class BuzzWordController implements FileController {
         GameState.currentState = GameState.LOGIN;
         gameWorkspace.helpButtonPane.setVisible(true);
         appTemplate.getGUI().setTooltipPlaytoHome(false);
-        setVisibleMenu(false, true, true, true);
+        setVisibleMenu(true, true, true, true);
         gameWorkspace.setHomeScreen();
     }
 
@@ -565,6 +602,8 @@ public class BuzzWordController implements FileController {
         appTemplate.getGUI().setTooltipPlaytoHome(true);
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         gameWorkspace.helpButtonPane.setVisible(false);
+        // LOAD WORDS FILE
+        gameData.loadWordFile(GameState.currentMode);
         setVisibleMenu(false, true, true, false);
         // GET MAX LEVEL
         gameData.getMaxLevels(userData);
@@ -638,7 +677,13 @@ public class BuzzWordController implements FileController {
         gameWorkspace.getModeLabel().setText(PropertyManager.getManager().getPropertyValue(mode));
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
     }
-
+    
+    @Override
+    public void handleProfileSettingRequest() {
+        ProfileSettingsDialogSingleton profileSettingsDialogSingleton = ProfileSettingsDialogSingleton.getSingleton(appTemplate);
+        profileSettingsDialogSingleton.viewProfileshow();
+    }
+    
     private void setVisibleMenu(boolean first, boolean second, boolean third, boolean fourth)
     {
         appTemplate.getGUI().getMenuBackground(0).setVisible(first);

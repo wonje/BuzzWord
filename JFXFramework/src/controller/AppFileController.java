@@ -246,4 +246,9 @@ public class AppFileController implements FileController {
     public void handleModeSetRequest(GameState mode) {
 
     }
+    
+    @Override
+    public void handleProfileSettingRequest() {
+        
+    }
 }

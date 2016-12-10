@@ -61,12 +61,15 @@ public abstract class AppTemplate extends Application {
         LoginController loginController = LoginController.getSingleton(this);
         SolutionDialogSingleton solutionDialog = SolutionDialogSingleton.getSingleton();
         HelpViewDialogSingleton helpViewDialog = HelpViewDialogSingleton.getSingleton();
+        ProfileSettingsDialogSingleton profileSettingDialog = ProfileSettingsDialogSingleton.getSingleton(this);
         
         messageDialog.init(primaryStage);
         yesNoDialog.init(primaryStage);
         loginController.init(primaryStage);
         solutionDialog.init(primaryStage);
         helpViewDialog.init(primaryStage);
+        profileSettingDialog.init(primaryStage);
+        
         
 
         try {

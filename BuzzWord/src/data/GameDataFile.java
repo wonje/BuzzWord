@@ -50,9 +50,9 @@ public class GameDataFile implements AppFileComponent {
 
             generator.writeStartObject();
 
-            generator.writeStringField(USER_ID, LoginController.getSingleton(appTemplate).getID());
+            generator.writeStringField(USER_ID, userData.getUserID());
 
-            generator.writeStringField(USER_PW, LoginController.getSingleton(appTemplate).getPW());
+            generator.writeStringField(USER_PW, userData.getUserPW());
 
             generator.writeStringField(RECENT_MODE, GameState.currentMode.toString());
 

@@ -20,6 +20,7 @@ public enum AppPropertyType {
 
     // APPLICATION TOOLTIPS FOR BUTTONS
     CREATE_ID_TOOLTIP,
+    SETTING_PROFILE_TOOLTIP,
     LOGIN_TOOLTIP,
     DISPLAY_ID_TOOLTIP,
     SELECT_MODE_TOOLTIP,
@@ -35,7 +36,8 @@ public enum AppPropertyType {
     MODE_LIST,
     
     // SCREEN CSS
-    HELP_SCREEN,
+//    HELP_SCREEN,
+    
 
     // ERROR MESSAGES
     NEW_ERROR_MESSAGE,

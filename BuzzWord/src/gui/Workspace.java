@@ -78,6 +78,9 @@ public class Workspace extends AppWorkspaceComponent {
     
     GridElement[] gridElements;
     LineElement[] lineElements;
+    
+    public Button rePlayButton;
+    public Button nextGameButton;
 
     public ArrayList<String> solutions;
     public ArrayList<Label> progress;           // labels to display progressed words
@@ -142,6 +145,7 @@ public class Workspace extends AppWorkspaceComponent {
 
     private void layoutGUI() {
         PropertyManager propertyManager = PropertyManager.getManager();
+        YesNoCancelDialogSingleton yesNoCancelDialogSingleton = YesNoCancelDialogSingleton.getSingleton();
 
         // SET BACKGROUND AND SECTIONS
         basePane = gui.getAppPane();
@@ -352,8 +356,42 @@ public class Workspace extends AppWorkspaceComponent {
 
         targetPointPane.getChildren().addAll(targetDisplay, targetPoint);
 
+        rePlayButton = new Button("REPLAY");
+        rePlayButton.setPrefWidth(170);
+        rePlayButton.setPrefHeight(30);
+        rePlayButton.setVisible(false);
+        rePlayButton.setId(propertyManager.getPropertyValue(REPLAY_NEXTPLAY));
+        rePlayButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                yesNoCancelDialogSingleton.show("", "Do you want to play this level again?");
+                if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
+                    resetScrollPane();
+                    gui.getFileController().handlePlayRequest(GameState.currentLevel);
+                }
+            }
+        });
+        
+        nextGameButton = new Button("NEXT GAME");
+        nextGameButton.setPrefWidth(170);
+        nextGameButton.setPrefHeight(30);
+        nextGameButton.setVisible(false);
+        nextGameButton.setId(propertyManager.getPropertyValue(REPLAY_NEXTPLAY));
+        nextGameButton.setDisable(true);
+        nextGameButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                yesNoCancelDialogSingleton.show("", "Do you want to play next level?");
+                if(yesNoCancelDialogSingleton.getSelection().equals(yesNoCancelDialogSingleton.YES)) {
+                    resetScrollPane();
+                    gui.getFileController().handlePlayRequest(++GameState.currentLevel);
+                }
+            }
+        });
+        
+        
         rightStatusPane.getChildren().addAll(initProgressPane(), matchedContainerPane);
-        rightPane.getChildren().addAll(buttonsContainerPane, emptyPane, remainingTimePane, rightStatusPane, targetPointPane);
+        rightPane.getChildren().addAll(buttonsContainerPane, emptyPane, remainingTimePane, rightStatusPane, targetPointPane, rePlayButton, nextGameButton);
         basePane.setRight(rightPane);
     }
 
@@ -455,6 +493,8 @@ public class Workspace extends AppWorkspaceComponent {
         modeLabel.setVisible(false);
         pauseAndPlayButtonPane.setVisible(false);
         levelLabel.setVisible(false);
+        rePlayButton.setVisible(false);
+        nextGameButton.setVisible(false);
 
         // UNDISPLAY RIGHT STATUS PANE
         rightStatusPane.setVisible(false);
@@ -543,6 +583,9 @@ public class Workspace extends AppWorkspaceComponent {
         targetPointPane.setVisible(true);
         levelLabel.setVisible(true);
         pauseAndPlayButtonPane.setVisible(true);
+        rePlayButton.setVisible(true);
+        nextGameButton.setVisible(true);
+        nextGameButton.setDisable(true);
         levelLabel.setText("Level " + Integer.toString(GameState.currentLevel));
 
         // MAKE GRID ELEMENTS RANDOMLY
@@ -563,7 +606,7 @@ public class Workspace extends AppWorkspaceComponent {
             line.setVisible(false);
 
         // CREATE SOLUTION WORDS ########################
-        gameData.loadWordFile(GameState.currentMode);
+//        gameData.loadWordFile(GameState.currentMode);
         int target_score;
         int total_score = 0;
 
@@ -739,6 +782,5 @@ public class Workspace extends AppWorkspaceComponent {
 
     @Override
     public void reloadWorkspace() {
-
     }
 }

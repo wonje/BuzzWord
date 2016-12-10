@@ -47,7 +47,7 @@ public class AppGUI implements AppStyleArbiter {
     protected Scene          primaryScene;     // the scene graph
     protected BorderPane     appPane;          // the root node in the scene graph, to organize the containers
     protected VBox           menubarPane;      // the left menubar
-    protected Button         createProfileButton;
+    protected Button         createAndSetProfileButton;
     protected Button         loginAndIDButton;
     protected Button         modeButton;
     protected Button         modeCancelButton;
@@ -94,6 +94,13 @@ public class AppGUI implements AppStyleArbiter {
         initializeMenubar();                    // initialize the left menu bar
         initializeMenubarHandlers(appTemplate); // set the menu bar button handlers
         initializeWindow();                     // start the app window (without the application-specific workspace)
+    }
+    
+    public void setTooltipCreateIDtoProfileSetting(boolean choice) {
+        if (choice)
+            createAndSetProfileButton.setTooltip(new Tooltip(PropertyManager.getManager().getPropertyValue(SETTING_PROFILE_TOOLTIP)));
+        else
+            createAndSetProfileButton.setTooltip(new Tooltip(PropertyManager.getManager().getPropertyValue(CREATE_ID_TOOLTIP)));
     }
 
     public void setTooltipLogintoID(boolean choice)
@@ -149,7 +156,7 @@ public class AppGUI implements AppStyleArbiter {
         menubarPane.setSpacing(10);
         menubarPane.setAlignment(Pos.CENTER);
         menuBackgrounds = new StackPane[4];
-        createProfileButton     = initializeChildButton(0, menubarPane, MENU_IMAGE.toString(), CREATE_ID_TOOLTIP.toString(), true, "Create New Profile");
+        createAndSetProfileButton     = initializeChildButton(0, menubarPane, MENU_IMAGE.toString(), CREATE_ID_TOOLTIP.toString(), true, "Create New Profile");
         loginAndIDButton        = initializeChildButton(1, menubarPane, MENU_IMAGE.toString(), LOGIN_TOOLTIP.toString(), true, "Login");
         playAndHomeButton       = initializeChildButton(2, menubarPane, MENU_IMAGE.toString(), PLAYING_TOOLTIP.toString(), false, "Start Playing");
         modeButton              = initializeChildButton(3, menubarPane, MENU_MODE_IMAGE.toString(), SELECT_MODE_TOOLTIP.toString(), false, "Select Mode");
@@ -159,10 +166,13 @@ public class AppGUI implements AppStyleArbiter {
         primaryScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                // USE CASE 1 : CREATE PROFILE
+                // USE CASE 1 : CREATE PROFILE && USE CASE 17 : SETTING PROFILE DATA
                 if(keyCreateProfile.match(event)) {
                     if(GameState.currentState.equals(GameState.UNLOGIN))
                         fileController.handleNewProfileRequest();
+                    else if(GameState.currentState.equals(GameState.LOGIN) ||
+                        GameState.currentState.equals(GameState.LOGIN_MODE))
+                        fileController.handleProfileSettingRequest();
                 }
                 // USE CASE 2 : LOGIN / LOGOUT
                 if(keyLoginLogout.match(event)) {
@@ -216,12 +226,16 @@ public class AppGUI implements AppStyleArbiter {
         }
 
         // TODO Get event only from MOUSE CLICK. --> IGNORE SPACE BAR INPUT
-        createProfileButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+        createAndSetProfileButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
                         // TODO Save ID data from LoginController
-                        fileController.handleNewProfileRequest();
+                        if(GameState.currentState.equals(GameState.UNLOGIN))
+                            fileController.handleNewProfileRequest();
+                        else if(GameState.currentState.equals(GameState.LOGIN) ||
+                                GameState.currentState.equals(GameState.LOGIN_MODE))
+                            fileController.handleProfileSettingRequest();
                     }
                 }
         );
@@ -445,6 +459,8 @@ public class AppGUI implements AppStyleArbiter {
     {
         return playAndHomeButton;
     }
+    
+    public Button getCreateAndSetProfileButton() { return createAndSetProfileButton; }
     
     /**
      * This function specifies the CSS style classes for the controls managed

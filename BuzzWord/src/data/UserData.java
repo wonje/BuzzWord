@@ -23,7 +23,13 @@ public class UserData implements AppDataComponent{
         this.appTemplate    = appTemplate;
         init();
     }
-
+    
+    public String getUserID() {
+        return userID;
+    }
+    
+    public String getUserPW() { return userPW; }
+    
     public void init()
     {
         userID = "";
@@ -55,20 +61,20 @@ public class UserData implements AppDataComponent{
         this.gameData = gameData;
     }
 
-    public int getBestPoint(GameState mode, int level){
+    public HashMap<Integer, Integer> getModeScores(GameState mode){
         switch (mode)
         {
             case ENGLISH_DICTIONARY:
-                return dicBestScores.get(level);
+                return dicBestScores;
             case BACTERIA:
-                return bacteriaBestScores.get(level);
+                return bacteriaBestScores;
             case BIOLOGY:
-                return biologyBestScores.get(level);
+                return biologyBestScores;
             case FUNGI:
-                return fungiBestScores.get(level);
+                return fungiBestScores;
         }
         // TODO RETURN ERROR
-        return -1;
+        return null;
     }
 
     public HashMap<Integer, Integer> getCurrentModeScores() {

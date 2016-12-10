@@ -3,6 +3,7 @@ package controller;
 import apptemplate.AppTemplate;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import data.UserData;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -66,7 +67,9 @@ public class LoginController extends Stage {
     final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
     final KeyCombination keyESC             = new KeyCodeCombination(KeyCode.ESCAPE);
 
-    private LoginController(AppTemplate appTemplate) { this.appTemplate = appTemplate; }
+    private LoginController(AppTemplate appTemplate) {
+        this.appTemplate    = appTemplate;
+    }
 
     public static LoginController getSingleton(AppTemplate appTemplate)
     {

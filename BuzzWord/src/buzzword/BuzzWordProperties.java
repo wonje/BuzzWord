@@ -20,6 +20,7 @@ public enum BuzzWordProperties {
     PAUSE_BUTTON_IMAGE,
     PLAY_BUTTON_IMAGE,
     HELP_BUTTON_IMAGE,
+    REPLAY_NEXTPLAY,
 
     // GRID BUTTON CSS
     GRID,
@@ -37,6 +38,7 @@ public enum BuzzWordProperties {
     
     // SCREEN CSS
     SOLUTIONS_SCREEN,
+    HELP_SCREEN,
 
     // GAME OPTION
     ENGLISH_DICTIONARY,

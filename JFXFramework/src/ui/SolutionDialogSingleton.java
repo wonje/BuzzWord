@@ -37,7 +37,7 @@ public class SolutionDialogSingleton extends Stage {
     
     public static final String CLOSE = "Close";
     
-    final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
+//    final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
     
     private SolutionDialogSingleton() {}
     
@@ -90,7 +90,7 @@ public class SolutionDialogSingleton extends Stage {
         solutionScrollPane.setPrefHeight(200);
         solutionScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         solutionScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        solutionScrollPane.getStyleClass().add(propertyManager.getPropertyValue(SOLUTIONS_SCREEN));
+        solutionScrollPane.getStyleClass().addAll(propertyManager.getPropertyValue(SOLUTIONS_SCREEN));
         solutionScrollPane.setContent(matchedPane);
         
         solutionViewPane.getChildren().add(messageLabel1);
@@ -99,14 +99,14 @@ public class SolutionDialogSingleton extends Stage {
         solutionViewPane.getChildren().add(closeButton);
         
         Scene helpViewScene = new Scene(solutionViewPane, 400, 400);
-        helpViewScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(keyEnter.match(event)){
-                    SolutionDialogSingleton.this.close();
-                }
-            }
-        });
+//        helpViewScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent event) {
+//                if(keyEnter.match(event)){
+//                    SolutionDialogSingleton.this.close();
+//                }
+//            }
+//        });
         this.setScene(helpViewScene);
         this.setResizable(false);
         this.initStyle(StageStyle.UNDECORATED);

@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import propertymanager.PropertyManager;
 import settings.InitializationParameters;
+
+import static buzzword.BuzzWordProperties.HELP_SCREEN;
 import static settings.AppPropertyType.*;
 
 /**
@@ -29,6 +31,7 @@ public class HelpViewDialogSingleton extends Stage {
     private static HelpViewDialogSingleton singleton = null;
     
     final KeyCombination keyQuitApplication         = new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN);
+    final KeyCombination keyEnter           = new KeyCodeCombination(KeyCode.ENTER);
     
     private HelpViewDialogSingleton() {}
     
@@ -125,6 +128,8 @@ public class HelpViewDialogSingleton extends Stage {
                     }
                     yesNoCancelDialogSingleton.close();
                 }
+                if(keyEnter.match(event))
+                    HelpViewDialogSingleton.this.close();
             
             }
         });

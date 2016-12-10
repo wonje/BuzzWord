@@ -32,4 +32,6 @@ public interface FileController {
     void handleModeCancelRequest();
 
     void handleModeSetRequest(GameState mode);
+    
+    void handleProfileSettingRequest();
 }

@@ -576,6 +576,7 @@ public class Workspace extends AppWorkspaceComponent {
         Random random = new Random();
     
         resetScrollPane();
+        resetProgressPane();
         gameData.matchedStr.clear();
         
         // DISPLAY GAME FUNCTIONS
@@ -769,6 +770,11 @@ public class Workspace extends AppWorkspaceComponent {
         matchedWordPane.getChildren().clear();
         matchedPointPane.getChildren().clear();
         totalPointLabel.setText("0");
+    }
+    
+    public void resetProgressPane() {
+        progress.clear();
+        progressPane.getChildren().clear();
     }
 
     @Override

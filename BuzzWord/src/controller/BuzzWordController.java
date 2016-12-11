@@ -318,19 +318,19 @@ public class BuzzWordController implements FileController {
                         } else {
                             solutionDialogSingleton.show(solutionWords);
                         }
-                        // TODO POP UP GAME FAIL MESSAGE
-                        if (appMessageDialogSingleton.isShowing()) {
-                            appMessageDialogSingleton.setMessageLabel("GAME FAIL!");
-                            appMessageDialogSingleton.toFront();
-                        } else {
-                            appMessageDialogSingleton.show("", "GAME FAIL!");
-                        }
                         // TODO CHECK "PERSONAL BEST" AND UPDATE
                         try {
                             gameData.totalPoints = Integer.parseInt(gameWorkspace.getTotalPointLabel().getText());
                             checkPersonalBest();
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }
+                        // TODO POP UP GAME FAIL MESSAGE
+                        if (appMessageDialogSingleton.isShowing()) {
+                            appMessageDialogSingleton.setMessageLabel("GAME FAIL!");
+                            appMessageDialogSingleton.toFront();
+                        } else {
+                            appMessageDialogSingleton.show("", "GAME FAIL!");
                         }
     
                         // TODO GAME FAIL.
@@ -343,21 +343,19 @@ public class BuzzWordController implements FileController {
                         } else {
                             solutionDialogSingleton.show(solutionWords);
                         }
-    
-                        // TODO POP UP GAME SUCCESS MESSAGE
-                        if (appMessageDialogSingleton.isShowing()) {
-                            appMessageDialogSingleton.setMessageLabel("GAME SUCCESS!");
-                            appMessageDialogSingleton.toFront();
-                        } else {
-                            appMessageDialogSingleton.show("", "GAME SUCCESS!");
-                        }
-    
                         // TODO CHECK "PERSONAL BEST" AND UPDATE
                         try {
                             gameData.totalPoints = Integer.parseInt(gameWorkspace.getTotalPointLabel().getText());
                             checkPersonalBest();
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }
+                        // TODO POP UP GAME SUCCESS MESSAGE
+                        if (appMessageDialogSingleton.isShowing()) {
+                            appMessageDialogSingleton.setMessageLabel("GAME SUCCESS!");
+                            appMessageDialogSingleton.toFront();
+                        } else {
+                            appMessageDialogSingleton.show("", "GAME SUCCESS!");
                         }
                         // TODO UPDATE DATA
                         try {

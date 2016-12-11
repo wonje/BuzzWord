@@ -25,6 +25,7 @@ public class GridElement extends Button{
     AppTemplate appTemplate;
     Workspace   gameWorkspace;
     GameData    gameData;
+    boolean     isPressed;
 
     public GridElement(Point pos) {
         this.pos        = pos;
@@ -64,6 +65,36 @@ public class GridElement extends Button{
         label.setAlignment(Pos.CENTER);
         return label;
     }
+    
+    // RESET KEYBOARD MODE DATA
+    public void resetKeyBoardData(){
+        PropertyManager propertyManager = PropertyManager.getManager();
+        if(GameState.currentPlay.equals(GameState.KEYBOARD)) {
+            if(gameWorkspace.solutions.contains(gameData.keySequence.toLowerCase()) &&
+                    !gameData.matchedStr.contains(gameData.keySequence.toLowerCase())) {
+                gameWorkspace.matches.add(new Label(gameData.keySequence.toLowerCase()));
+                gameData.matchedStr.add(gameData.keySequence.toLowerCase());
+                gameWorkspace.matchedPoints.add(new Label(Integer.toString(gameData.keySequence.toLowerCase().length() * 10)));
+                gameWorkspace.matchedWordPane.getChildren().clear();
+                gameWorkspace.matchedWordPane.getChildren().addAll(gameWorkspace.matches);
+                gameWorkspace.matchedPointPane.getChildren().clear();
+                gameWorkspace.matchedPointPane.getChildren().addAll(gameWorkspace.matchedPoints);
+                gameWorkspace.getTotalPointLabel().setText(Integer.toString(gameData.keySequence.toLowerCase().length() * 10 +
+                        Integer.parseInt(gameWorkspace.getTotalPointLabel().getText())));
+            }
+        
+            // TODO CLEAR
+            gameData.keySequence = "";
+            gameWorkspace.resetProgressPane();
+            for(GridElement grid : gameWorkspace.getGridElements()) {
+                grid.setVisited(false);
+                grid.getStyleClass().clear();
+                grid.getStyleClass().addAll(propertyManager.getPropertyValue(GRID));
+            }
+            for(LineElement line : gameWorkspace.getLineElements())
+                line.setVisible(false);
+        }
+    }
 
     // RESET PROGRESS
     private void resetProgress() {
@@ -82,8 +113,7 @@ public class GridElement extends Button{
         }
 
         // PROGRESS RESET
-        gameWorkspace.progress.clear();
-        gameWorkspace.progressPane.getChildren().clear();
+        gameWorkspace.resetProgressPane();
     }
     
     public void drawProgress() {
@@ -96,44 +126,73 @@ public class GridElement extends Button{
     public void setOnEventHandler() {
         PropertyManager propertyManager = PropertyManager.getManager();
         // RETURN IF ANOTHER MODE
-        // START DRAG
-        this.setOnDragDetected(mouseEvent -> {
+        // MOUSE PRESS
+        this.setOnMousePressed(mouseEvent -> {
+            isPressed = true;
             if(!GameState.currentState.equals(GameState.PLAY))
                 return;
             if(GameState.currentPlay == null)
                 GameState.currentPlay = GameState.MOUSE;
-            if(GameState.currentPlay.equals(GameState.KEYBOARD)) {
-                if(gameWorkspace.solutions.contains(gameData.keySequence.toLowerCase()) &&
-                        !gameData.matchedStr.contains(gameData.keySequence.toLowerCase())) {
-                    gameWorkspace.matches.add(new Label(gameData.keySequence.toLowerCase()));
-                    gameData.matchedStr.add(gameData.keySequence.toLowerCase());
-                    gameWorkspace.matchedPoints.add(new Label(Integer.toString(gameData.keySequence.toLowerCase().length() * 10)));
-                    gameWorkspace.matchedWordPane.getChildren().clear();
-                    gameWorkspace.matchedWordPane.getChildren().addAll(gameWorkspace.matches);
-                    gameWorkspace.matchedPointPane.getChildren().clear();
-                    gameWorkspace.matchedPointPane.getChildren().addAll(gameWorkspace.matchedPoints);
-                    gameWorkspace.getTotalPointLabel().setText(Integer.toString(gameData.keySequence.toLowerCase().length() * 10 +
-                            Integer.parseInt(gameWorkspace.getTotalPointLabel().getText())));
-                }
+            resetKeyBoardData();
     
-                // TODO CLEAR
-                gameData.keySequence = "";
-                gameWorkspace.progress.clear();
-                gameWorkspace.progressPane.getChildren().clear();
-                for(GridElement grid : gameWorkspace.getGridElements()) {
-                    grid.setVisited(false);
-                    grid.getStyleClass().clear();
-                    grid.getStyleClass().addAll(propertyManager.getPropertyValue(GRID));
-                }
-                for(LineElement line : gameWorkspace.getLineElements())
-                    line.setVisible(false);
-            }
+            // SKIP IF THE NODE WAS VISITED
+            if(this.visited == true)
+                return;
+            this.visited = true;
+            
+            drawProgress();
+            this.getStyleClass().clear();
+            this.getStyleClass().addAll(propertyManager.getPropertyValue(GRID_SELECTED));
+            gameData.gridStack.push(this);
+            
             GameState.currentPlay = GameState.MOUSE;
+        });
+        
+        // MOUSE PRESS OVER
+        this.setOnMouseReleased(mouseEvent -> {
+            if(!GameState.currentState.equals(GameState.PLAY))
+                return;
+            if(!GameState.currentPlay.equals(GameState.MOUSE))
+                return;
+            // MATCHING PROGRESS
+            StringBuilder progressStr = new StringBuilder();
+            for (Label progress : gameWorkspace.progress) {
+                progressStr.append(Character.toLowerCase(progress.getText().charAt(0)));
+            }
+//            System.out.println(progressStr.toString());
+            // IF PROGRESS IS MATCHED WITH SOLUTION AND NOT DUPLICATED ONE
+            if(gameWorkspace.solutions.contains(progressStr.toString()) &&
+                    !gameData.matchedStr.contains(progressStr.toString()) && GameState.currentPlay.equals(GameState.MOUSE)) {
+                gameWorkspace.matches.add(new Label(progressStr.toString()));
+                gameData.matchedStr.add(progressStr.toString());
+                gameWorkspace.matchedPoints.add(new Label(Integer.toString(progressStr.toString().length() * 10)));
+                gameWorkspace.matchedWordPane.getChildren().clear();
+                gameWorkspace.matchedWordPane.getChildren().addAll(gameWorkspace.matches);
+                gameWorkspace.matchedPointPane.getChildren().clear();
+                gameWorkspace.matchedPointPane.getChildren().addAll(gameWorkspace.matchedPoints);
+                gameWorkspace.totalPointLabel.setText(Integer.toString(progressStr.toString().length() * 10 +
+                        Integer.parseInt(gameWorkspace.totalPointLabel.getText())));
+            }
+            resetProgress();
+        });
+        
+        
+        // START DRAG
+        this.setOnDragDetected(mouseEvent -> {
+            if(!GameState.currentState.equals(GameState.PLAY))
+                return;
             this.startFullDrag();
         });
 
         // DRAG
         this.setOnMouseDragEntered(mouseDragEvent -> {
+            if(isPressed) {
+                isPressed = false;
+                return;
+            }
+            
+            resetKeyBoardData();
+            
             GameState.currentPlay = GameState.MOUSE;
             // SKIP IF THE NODE IS NOT ADJACENT NODE FROM LAST NODE
             if((!gameData.gridStack.isEmpty()) && (Math.abs(gameData.gridStack.peek().pos.getX() - this.pos.getX()) > 2 ||
@@ -172,6 +231,8 @@ public class GridElement extends Button{
 
         // FINISH DRAG
         this.setOnMouseDragReleased(mouseDragEvent -> {
+            if(!GameState.currentPlay.equals(GameState.MOUSE))
+                return;
             // MATCHING PROGRESS
             StringBuilder progressStr = new StringBuilder();
             for (Label progress : gameWorkspace.progress) {

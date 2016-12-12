@@ -140,7 +140,7 @@ public class LoginController extends Stage {
             setSubmit();
         });
         cancel.setOnAction(event -> {
-            singleton.hide();
+            singleton.close();
         });
 
         buttonBox.getChildren().addAll(submit, cancel);
@@ -159,10 +159,9 @@ public class LoginController extends Stage {
         // CRAETE PROFILE MODE
         if(messageLabel.getText().equals(PropertyManager.getManager().getPropertyValue(CREATE_PROFILE_MESSAGE))) {
             try {
-                isExistedID(idField.getText());
-                appMessageDialogSingleton.setMessageLabel("The ID already exists!");
-                appMessageDialogSingleton.show();
-            
+                    isExistedID(idField.getText());
+                    appMessageDialogSingleton.setMessageLabel("The ID already exists!");
+                    appMessageDialogSingleton.show();
             } catch (IOException e) {
                 if (!(idField.getText().equals("") || pwField.getText().equals(""))) {
                     yesNoCancelDialogSingleton.show("", "Do you want to make '" + idField.getText() + "'?");
@@ -184,7 +183,7 @@ public class LoginController extends Stage {
                     
                         appMessageDialogSingleton.setMessageLabel("'" + id + "' is created!");
                         appMessageDialogSingleton.show();
-                        singleton.hide();
+                        singleton.close();
                     }
                 } else {
                     appMessageDialogSingleton.setMessageLabel("It is not correct type of ID & PW!");
@@ -202,18 +201,19 @@ public class LoginController extends Stage {
                         id = idField.getText();
                         pw = convertToMD5(pwField.getText());
                         GameState.currentState = GameState.LOGIN;
-                        singleton.hide();
+                        singleton.close();
                     }
                     else {
                         appMessageDialogSingleton.setMessageLabel("Invalid Password!");
                         appMessageDialogSingleton.show();
                     }
                 
-                } catch (IOException e) {
-                    appMessageDialogSingleton.setMessageLabel("'" + idField.getText() + "' is not existed ID!");
-                    appMessageDialogSingleton.show();
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
+                }
+                catch (Exception e) {
+                    appMessageDialogSingleton.setMessageLabel("'" + idField.getText() + "' is not existed ID!");
+                    appMessageDialogSingleton.show();
                 }
             }
             else
@@ -232,7 +232,7 @@ public class LoginController extends Stage {
                     setSubmit();
                 }
                 if(keyESC.match(event)) {
-                    singleton.hide();
+                    singleton.close();
                 }
         
             }
@@ -262,7 +262,7 @@ public class LoginController extends Stage {
         Path appDirPath                         = Paths.get(propertyManager.getPropertyValue(APP_TITLE)).toAbsolutePath();
         Path targetPath                         = appDirPath.resolve(APP_WORKDIR_PATH.getParameter());
         Path idCheckerPath                      = Paths.get(targetPath.toString() + "\\" + testID + "." + propertyManager.getPropertyValue(WORK_FILE_EXT));
-
+            
         JsonFactory jsonFactory = new JsonFactory();
         JsonParser  jsonParser  = new JsonFactory().createParser(Files.newInputStream(idCheckerPath));
     }
@@ -289,7 +289,7 @@ public class LoginController extends Stage {
     public void show(String title, String message)
     {
         // SET KEY SHORTCUT
-        setKeyShortcut();
+//        setKeyShortcut();
         
         // RESET VARIABLES
         reset();

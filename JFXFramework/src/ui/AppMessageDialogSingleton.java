@@ -89,13 +89,13 @@ public class AppMessageDialogSingleton extends Stage {
         messagePane.setSpacing(20);
 
         Scene messageScene = new Scene(messagePane);
-        messageScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(keyEnter.match(event))
-                    AppMessageDialogSingleton.this.close();
-            }
-        });
+//        messageScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent event) {
+//                if(keyEnter.match(event))
+//                    AppMessageDialogSingleton.this.close();
+//            }
+//        });
         this.setScene(messageScene);
         this.setResizable(false);
         this.initStyle(StageStyle.UNDECORATED);

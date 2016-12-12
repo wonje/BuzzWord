@@ -360,16 +360,16 @@ public class BuzzWordController implements FileController {
                         } else {
                             appMessageDialogSingleton.show("", "GAME SUCCESS!");
                         }
-                        // TODO UPDATE DATA
-                        try {
-                            updateGameLevel();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-    
                         // TODO GAME IS SUCCESSFULLY END
-                        if (GameState.currentLevel != 8)
+                        if (GameState.currentLevel != 8) {
                             gameWorkspace.nextGameButton.setDisable(false);
+                            // TODO UPDATE DATA
+                            try {
+                                updateGameLevel();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         else {
                             if (appMessageDialogSingleton.isShowing()) {
                                 appMessageDialogSingleton.setMessageLabel("Congratulation! All of level are cleared!");

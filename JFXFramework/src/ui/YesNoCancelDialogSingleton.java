@@ -126,19 +126,19 @@ public class YesNoCancelDialogSingleton extends Stage {
 
         // AND PUT IT IN THE WINDOW
         messageScene = new Scene(messagePane);
-        messageScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(keyESC.match(event)) {
-                    YesNoCancelDialogSingleton.this.selection = CANCEL;
-                    YesNoCancelDialogSingleton.this.close();
-                }
-                if(keyEnter.match(event)) {
-                    YesNoCancelDialogSingleton.this.selection = YES;
-                    YesNoCancelDialogSingleton.this.close();
-                }
-            }
-        });
+//        messageScene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent event) {
+//                if(keyESC.match(event)) {
+//                    YesNoCancelDialogSingleton.this.selection = CANCEL;
+//                    YesNoCancelDialogSingleton.this.close();
+//                }
+//                if(keyEnter.match(event)) {
+//                    YesNoCancelDialogSingleton.this.selection = YES;
+//                    YesNoCancelDialogSingleton.this.close();
+//                }
+//            }
+//        });
         this.initStyle(StageStyle.UNDECORATED);
         this.setScene(messageScene);
     }

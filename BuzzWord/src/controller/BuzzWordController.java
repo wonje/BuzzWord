@@ -7,6 +7,7 @@ import static settings.AppPropertyType.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 import apptemplate.AppTemplate;
@@ -99,10 +100,10 @@ public class BuzzWordController implements FileController {
         for (int y = (int)Math.max(0, gridStack.peek().getPoint().getY()/2 - 1); y < Math.min(gameData.board.length, gridStack.peek().getPoint().getY()/2 + 2); y++) {
             for (int x = (int)Math.max(0, gridStack.peek().getPoint().getX()/2 - 1); x < Math.min(gameData.board.length, gridStack.peek().getPoint().getX()/2 + 2); x++) {
                 // SKIP LAST GRID
-                if (y == gridStack.peek().getPoint().getY()/2 && x == gridStack.peek().getPoint().getX()/2) {
-                    pos.add(new Point(x, y));
-                    continue;
-                }
+//                if (y == gridStack.peek().getPoint().getY()/2 && x == gridStack.peek().getPoint().getX()/2) {
+//                    pos.add(new Point(x, y));
+//                    continue;
+//                }
                 // SKIP FOLLOWED GRIDS
                 if(pos.contains(new Point(x,y)))
                     continue;
@@ -117,6 +118,7 @@ public class BuzzWordController implements FileController {
                         if(grid.getPoint().getX()/2 == x && grid.getPoint().getY()/2 == y) {
                             newGridStack.addAll(gridStack);
                             newGridStack.push(grid);
+//                            grid.setVisited(true);
                             // RECURSION
                             progressing(keySequence, new_pos, keyCount + 1, newGridStack);
                         }
@@ -253,6 +255,7 @@ public class BuzzWordController implements FileController {
                             pos = new ArrayList<Point>();
                             if (gameData.keySequence.length() > 1) {
                                 tempGridStack.push(grid);
+                                pos.add(new Point((int)grid.getPoint().getX()/2, (int)grid.getPoint().getY()/2));
                                 progressing(gameData.keySequence, pos, 1, tempGridStack);
                             } else {
                                 grid.getStyleClass().clear();
@@ -486,6 +489,9 @@ public class BuzzWordController implements FileController {
             appTemplate.getGUI().getCreateAndSetProfileButton().setText("Profile Setting");
             appTemplate.getGUI().getLoginAndIDButton().setText(loginController.getID());
             appTemplate.getGUI().getPlayAndHomeButton().setText("Start Playing");
+    
+            // TODO LOAD ALL OF DICTIONARY WORDS
+            gameData.loadAllWordFile();
         }
     }
 
@@ -507,6 +513,8 @@ public class BuzzWordController implements FileController {
             appTemplate.getGUI().getCreateAndSetProfileButton().setText("Create New Profile");
             appTemplate.getGUI().getLoginAndIDButton().setText("Login");
             gameWorkspace.setHomeScreen();
+            // TODO RESET ALL OF DICTIONARY WORDS
+            gameData.resetAllWordFile();
         }
     }
 
@@ -538,7 +546,9 @@ public class BuzzWordController implements FileController {
         appTemplate.getGUI().getModeDisplayPane().setVisible(false);
         gameWorkspace.helpButtonPane.setVisible(false);
         // LOAD WORDS FILE
-        gameData.loadWordFile(GameState.currentMode);
+//        gameData.loadWordFile(GameState.currentMode);
+        // TODO SET APPROPRIATE DICTIONARY FILE
+        gameData.setModeWordFile(GameState.currentMode);
         setVisibleMenu(false, true, true, false);
         // GET MAX LEVEL
         gameData.getMaxLevels(userData);

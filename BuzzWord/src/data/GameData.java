@@ -31,6 +31,12 @@ public class GameData implements AppDataComponent {
     public int maxBiologyLevel;
     public int maxFungiLevel;
     public int totalPoints;
+    
+    private NavigableSet<String> engDicFile;
+    private NavigableSet<String> bacteriaFile;
+    private NavigableSet<String> biologyFile;
+    private NavigableSet<String> fungiFile;
+    
 
     private NavigableSet<String> wordFile;
     public char[][] board = new char[4][4];
@@ -72,39 +78,120 @@ public class GameData implements AppDataComponent {
         maxFungiLevel--;
     }
 
-    public void loadWordFile(GameState mode) {
-        String fileName = "";
-        switch (mode) {
+//    public void loadWordFile(GameState mode) {
+//        String fileName = "";
+//        switch (mode) {
+//            case ENGLISH_DICTIONARY:
+//                fileName = "Dictionary.txt";
+//                break;
+//            case BACTERIA:
+////                fileName = "Places.txt";
+//                fileName = "Bacteria.txt";
+//                break;
+//            case BIOLOGY:
+////                fileName = "Science.txt";
+//                fileName = "Biology.txt";
+//                break;
+//            case FUNGI:
+////                fileName = "FamousPeople.txt";
+//                fileName = "Fungi.txt";
+//                break;
+//        }
+//
+//        wordFile = new TreeSet<String>();
+//        try {
+//            URL wordResource = getClass().getClassLoader().getResource("words/" + fileName);
+//            FileReader fr = new FileReader(wordResource.toURI().toString().split(":", 2)[1]);
+//            BufferedReader br = new BufferedReader(fr);
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                wordFile.add(line.split("\n")[0]);
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error while reading word file");
+//        }
+//
+//    }
+    
+    public void setModeWordFile(GameState mode) {
+        switch (mode){
             case ENGLISH_DICTIONARY:
-                fileName = "Dictionary.txt";
+            {
+                wordFile = engDicFile;
                 break;
-            case BACTERIA:
-//                fileName = "Places.txt";
-                fileName = "Bacteria.txt";
-                break;
-            case BIOLOGY:
-//                fileName = "Science.txt";
-                fileName = "Biology.txt";
-                break;
-            case FUNGI:
-//                fileName = "FamousPeople.txt";
-                fileName = "Fungi.txt";
-                break;
-        }
-
-        wordFile = new TreeSet<String>();
-        try {
-            URL wordResource = getClass().getClassLoader().getResource("words/" + fileName);
-            FileReader fr = new FileReader(wordResource.toURI().toString().split(":", 2)[1]);
-            BufferedReader br = new BufferedReader(fr);
-            String line;
-            while ((line = br.readLine()) != null) {
-                wordFile.add(line.split("\n")[0]);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Error while reading word file");
+            case BACTERIA:
+            {
+                wordFile = bacteriaFile;
+                break;
+            }
+            case BIOLOGY:
+            {
+                wordFile = biologyFile;
+                break;
+            }
+            case FUNGI:
+            {
+                wordFile = fungiFile;
+                break;
+            }
         }
-
+    }
+    
+    public void resetAllWordFile() {
+        engDicFile      = null;
+        bacteriaFile    = null;
+        biologyFile     = null;
+        fungiFile       = null;
+    }
+    
+    public void loadAllWordFile() {
+        for(int i = 0; i < 4; i++) {
+            String fileName = "";
+            switch (i) {
+                case 0:
+                    fileName = "Dictionary.txt";
+                    break;
+                case 1:
+                    fileName = "Bacteria.txt";
+                    break;
+                case 2:
+                    fileName = "Biology.txt";
+                    break;
+                case 3:
+                    fileName = "Fungi.txt";
+                    break;
+            }
+    
+            NavigableSet<String> tempFile = new TreeSet<String>();
+    
+            try {
+                URL wordResource = getClass().getClassLoader().getResource("words/" + fileName);
+                FileReader fr = new FileReader(wordResource.toURI().toString().split(":", 2)[1]);
+                BufferedReader br = new BufferedReader(fr);
+                String line;
+                while ((line = br.readLine()) != null) {
+                    tempFile.add(line.split("\n")[0]);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Error while reading word file");
+            }
+            switch (i) {
+                case 0:
+                    engDicFile = tempFile;
+                    break;
+                case 1:
+                    bacteriaFile = tempFile;
+                    break;
+                case 2:
+                    biologyFile = tempFile;
+                    break;
+                case 3:
+                    fungiFile = tempFile;
+                    break;
+            }
+        }
+        
     }
 
     public ArrayList<String> getBuzzWordSolution(GridElement[] gridElements) {

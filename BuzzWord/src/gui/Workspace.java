@@ -27,6 +27,8 @@ import propertymanager.PropertyManager;
 import ui.AppGUI;
 import ui.YesNoCancelDialogSingleton;
 
+import javax.swing.text.TableView;
+
 /**
  * This class serves as the GUI component for the Hangman game.
  *

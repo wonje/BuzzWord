@@ -7,14 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fafb944-5399-44bb-80f3-ebf5980d57dd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$1.class" afterPath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$2.class" afterPath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$3.class" afterPath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$4.class" afterPath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$5.class" afterPath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$6.class" afterPath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace.class" afterPath="$PROJECT_DIR$/out/production/BuzzWord/gui/Workspace.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="TheBuzzwordGame.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1323,7 +1316,7 @@
       <workItem from="1492843832249" duration="838000" />
       <workItem from="1492848283587" duration="381000" />
       <workItem from="1492848860201" duration="324000" />
-      <workItem from="1492849203524" duration="825000" />
+      <workItem from="1492849203524" duration="1451000" />
     </task>
     <task id="LOCAL-00001" summary="Git Initialization">
       <created>1478574478338</created>
@@ -1623,7 +1616,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="609760000" />
+    <option name="totallyTimeSpent" value="610386000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">

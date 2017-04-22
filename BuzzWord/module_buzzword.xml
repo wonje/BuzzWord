@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_buzzword" default="compile.module.buzzword">
+  <dirname property="module.buzzword.basedir" file="${ant.file.module_buzzword}"/>
+  
+  <property name="module.jdk.home.buzzword" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.buzzword" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.buzzword" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.buzzword" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="buzzword.output.dir" value="${module.buzzword.basedir}/../out/production/BuzzWord"/>
+  <property name="buzzword.testoutput.dir" value="${module.buzzword.basedir}/../out/test/BuzzWord"/>
+  
+  <path id="buzzword.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="buzzword.module.production.classpath">
+    <path refid="${module.jdk.classpath.buzzword}"/>
+    <path refid="library.jackson-annotations-2.8.2_(2).classpath"/>
+    <pathelement location="${xmlutils.output.dir}"/>
+  </path>
+  
+  <path id="buzzword.runtime.production.module.classpath">
+    <pathelement location="${buzzword.output.dir}"/>
+    <path refid="library.jackson-annotations-2.8.2_(2).classpath"/>
+    <path refid="xmlutils.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="buzzword.module.classpath">
+    <path refid="${module.jdk.classpath.buzzword}"/>
+    <pathelement location="${buzzword.output.dir}"/>
+    <path refid="library.jackson-annotations-2.8.2_(2).classpath"/>
+    <pathelement location="${xmlutils.testoutput.dir}"/>
+    <pathelement location="${xmlutils.output.dir}"/>
+  </path>
+  
+  <path id="buzzword.runtime.module.classpath">
+    <pathelement location="${buzzword.testoutput.dir}"/>
+    <pathelement location="${buzzword.output.dir}"/>
+    <path refid="library.jackson-annotations-2.8.2_(2).classpath"/>
+    <path refid="xmlutils.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.buzzword">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  <patternset id="excluded.from.module.jfxframework">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.buzzword">
+    <patternset refid="excluded.from.module.buzzword"/>
+    <patternset refid="excluded.from.module.jfxframework"/>
+  </patternset>
+  
+  <path id="buzzword.module.sourcepath">
+    <dirset dir="${module.buzzword.basedir}">
+      <include name="src"/>
+      <include name="resources"/>
+    </dirset>
+    <dirset dir="${module.buzzword.basedir}/../JFXFramework">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.buzzword" depends="compile.module.buzzword.production,compile.module.buzzword.tests" description="Compile modules BuzzWord"/>
+  
+  <target name="compile.module.buzzword.production" depends="register.custom.compilers,compile.module.xmlutils" description="Compile modules BuzzWord; production classes">
+    <mkdir dir="${buzzword.output.dir}"/>
+    <javac2 destdir="${buzzword.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.buzzword}/javac">
+      <compilerarg line="${compiler.args.buzzword}"/>
+      <bootclasspath refid="buzzword.module.bootclasspath"/>
+      <classpath refid="buzzword.module.production.classpath"/>
+      <src refid="buzzword.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.buzzword"/>
+    </javac2>
+    
+    <copy todir="${buzzword.output.dir}">
+      <fileset dir="${module.buzzword.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.buzzword.basedir}/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.buzzword.basedir}/../JFXFramework/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.buzzword.tests" depends="register.custom.compilers,compile.module.buzzword.production" description="compile modules BuzzWord; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.buzzword" description="cleanup module">
+    <delete dir="${buzzword.output.dir}"/>
+    <delete dir="${buzzword.testoutput.dir}"/>
+  </target>
+</project>

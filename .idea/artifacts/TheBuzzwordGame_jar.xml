@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="TheBuzzwordGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TheBuzzwordGame_jar</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="buzzword.BuzzWord" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="module-output" name="BuzzWord" />
+      <element id="module-output" name="JFXFramework" />
+      <element id="module-output" name="XMLUtils" />
+      <element id="module-output" name="TheBuzzwordGame" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-annotations-2.8.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-core-2.8.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-databind-2.8.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

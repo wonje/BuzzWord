@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_thebuzzwordgame" default="compile.module.thebuzzwordgame">
+  <dirname property="module.thebuzzwordgame.basedir" file="${ant.file.module_thebuzzwordgame}"/>
+  
+  <property name="module.jdk.home.thebuzzwordgame" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.thebuzzwordgame" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.thebuzzwordgame" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.thebuzzwordgame" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="thebuzzwordgame.output.dir" value="${module.thebuzzwordgame.basedir}/out/production/TheBuzzwordGame"/>
+  <property name="thebuzzwordgame.testoutput.dir" value="${module.thebuzzwordgame.basedir}/out/test/TheBuzzwordGame"/>
+  
+  <path id="thebuzzwordgame.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="thebuzzwordgame.module.production.classpath">
+    <path refid="${module.jdk.classpath.thebuzzwordgame}"/>
+  </path>
+  
+  <path id="thebuzzwordgame.runtime.production.module.classpath">
+    <pathelement location="${thebuzzwordgame.output.dir}"/>
+  </path>
+  
+  <path id="thebuzzwordgame.module.classpath">
+    <path refid="${module.jdk.classpath.thebuzzwordgame}"/>
+    <pathelement location="${thebuzzwordgame.output.dir}"/>
+  </path>
+  
+  <path id="thebuzzwordgame.runtime.module.classpath">
+    <pathelement location="${thebuzzwordgame.testoutput.dir}"/>
+    <pathelement location="${thebuzzwordgame.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.thebuzzwordgame">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.thebuzzwordgame">
+    <patternset refid="excluded.from.module.thebuzzwordgame"/>
+  </patternset>
+  
+  
+  <target name="compile.module.thebuzzwordgame" depends="compile.module.thebuzzwordgame.production,compile.module.thebuzzwordgame.tests" description="Compile module TheBuzzwordGame"/>
+  
+  <target name="compile.module.thebuzzwordgame.production" depends="register.custom.compilers" description="Compile module TheBuzzwordGame; production classes"/>
+  
+  <target name="compile.module.thebuzzwordgame.tests" depends="register.custom.compilers,compile.module.thebuzzwordgame.production" description="compile module TheBuzzwordGame; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.thebuzzwordgame" description="cleanup module">
+    <delete dir="${thebuzzwordgame.output.dir}"/>
+    <delete dir="${thebuzzwordgame.testoutput.dir}"/>
+  </target>
+</project>

@@ -5,7 +5,7 @@ This is an individual project in Java language programming class.
 This project is written in Java with Intellij IDE.
 ## How to play "BuzzWord"?
 ```
-To execute this program, you should use Intellij IDE.
+To execute this program, you may use Intellij IDE.
 ```
 ### Step 1 : Main Screen Before Login
 ![alt text](doc/Images/1.main.PNG "Main before login")

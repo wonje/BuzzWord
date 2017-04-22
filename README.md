@@ -16,6 +16,8 @@ This is main screen what you see if you execute the program.
 ![alt text](doc/Images/2.help.PNG "Help screen")
 ```
 This is help screen to give instructions for how to play the game.
+
+Player can open the screen by clicking question mark box which is located in upper-rightmost side.
 ```
 ### Step 3 : Create ID
 ![alt text](doc/Images/3.create_ID.PNG "Create ID")
